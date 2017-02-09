@@ -11,15 +11,17 @@ public class cmd_panel  extends JFrame{
     private JFrame frame;
     private JLabel Label;
     private JPanel controlPanel;
+    private Info_Panel MyInfoPanel;
 
     public cmd_panel(){ //gui constructor
       prepareGUI();
       input_Cmd();
+      MyInfoPanel = new Info_Panel();
       }
 
     private void prepareGUI(){
       frame = new JFrame("Command pannel");
-      frame.setSize(400,100);
+      frame.setSize(200,100);
       frame.setLayout(new GridLayout(3, 1));
 
       frame.addWindowListener(new WindowAdapter() {
@@ -36,6 +38,7 @@ public class cmd_panel  extends JFrame{
       frame.add(Label);
       frame.add(controlPanel);
       frame.setVisible(true);
+
     }
 
     private void input_Cmd(){
@@ -46,6 +49,7 @@ public class cmd_panel  extends JFrame{
            public void actionPerformed(ActionEvent e) {
               String str = userText.getText();
               getMethod(str);
+              userText.setText("");
            }
         });
 
@@ -74,8 +78,12 @@ public class cmd_panel  extends JFrame{
       }
     }
     public void getMethod(String method){
-      if(method.toLowerCase().equals("move")){
-        System.out.println("working");
-      }
+        MyInfoPanel.UserInput(method);
+        if(method.equals("move")){
+          MyInfoPanel.UserInput("Moved one space forward");
+        }
+
     }
+
+
 }

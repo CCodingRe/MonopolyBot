@@ -9,7 +9,7 @@ public class DeadWood extends JFrame{
     public static void main(String [] args){
 
       cmd_panel cmd = new cmd_panel(); //conalls command panel.
-
+      
         //test code
 
       cmd_panel.player player1 = cmd.new player();  //create players
