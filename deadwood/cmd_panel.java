@@ -1,8 +1,9 @@
 package deadwood;
 import javax.swing.*;
 import java.awt.event.*;
-import java.awt.*;
-
+import java.awt.GridLayout;
+import java.awt.FlowLayout;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
@@ -12,6 +13,8 @@ public class cmd_panel  extends JFrame{
     private JLabel Label;
     private JPanel controlPanel;
     private Info_Panel MyInfoPanel;
+    private static int i = 1;
+    List<player> users = new ArrayList<player>();
 
     public cmd_panel(){ //gui constructor
       prepareGUI();
@@ -43,46 +46,64 @@ public class cmd_panel  extends JFrame{
 
     private void input_Cmd(){
 
-        JLabel  namelabel= new JLabel("Command: ", JLabel.RIGHT);
-        final JTextField userText = new JTextField(7);
-        userText.addActionListener(new ActionListener() {
-           public void actionPerformed(ActionEvent e) {
-              String str = userText.getText();
-              getMethod(str);
-              userText.setText("");
-           }
-        });
+      JLabel  namelabel= new JLabel("Command: ", JLabel.RIGHT);
+      final JTextField userText = new JTextField(7);
 
-        controlPanel.add(namelabel);
-        controlPanel.add(userText);
-        frame.setVisible(true);
-      }
+      userText.addActionListener(new ActionListener() {
+         public void actionPerformed(ActionEvent e) {
+            String str = userText.getText();
+            getMethod(str);
+            userText.setText("");
+         }
+      });
 
-    public void move(player obj){ //moves player according to roll()
-      int n = roll();
-      obj.location += n;
-    }
-    public void move(player obj, int n){ //moves player manually n spaces
-      obj.location += n;
+      controlPanel.add(namelabel);
+      controlPanel.add(userText);
+      frame.setVisible(true);
 
     }
+
     public int roll(){ //returns dice roll
       int randomNum = ThreadLocalRandom.current().nextInt(2, 12 + 1);
       return randomNum;
     }
 
     public class player{ //creates player
-      int location = 0;
+      private int location = 0;
+      private String name;
+      public void setName(String username){
+        name = username;
+      }
+      public void move(){ //moves player according to roll()
+        int n = roll();
+        location += n;
+      }
+      public void move(int n){ //moves player manually n spaces
+        location += n;
+      }
       public int getLocation(){ //returns players location
           return location;
       }
+      public String getName(){//returns players name
+        return name;
+      }
     }
+
+    public void createPlayer(){
+      users.add(new player());
+    }
+
+    public void displayUsers(){
+      for(player element : users) {
+        MyInfoPanel.UserInput(element.getName()  + " is on " + element.getLocation());
+        }
+    }
+
     public void getMethod(String method){
         MyInfoPanel.UserInput(method);
         if(method.equals("move")){
-          MyInfoPanel.UserInput("Moved one space forward");
-        }
 
+        }
     }
 
 
