@@ -22,14 +22,13 @@ public class Info_Panel
    MyPanel = new JPanel();
    MyTextArea = new JTextArea(60, 40);
    MyTextArea.setFont(new Font("Serif", Font.BOLD, 21));
-	 JScrollPane MyScrollPane = new JScrollPane(MyTextArea);
    MyTextArea.setLineWrap(true);
 	 MyTextArea.setBounds(0, 0, 500, 800);
    MyTextArea.setWrapStyleWord(true);
    MyTextArea.setEditable(false);
-	 MyTextArea.append("");
+	 //JScrollPane MyScrollPane = new JScrollPane(MyPanel);
 	 MyPanel.add(MyTextArea);
-	 MyPanel.add(MyScrollPane);
+	 //MyPanel.add(MyScrollPane);
    MyPanel.setVisible(true);
 
  }

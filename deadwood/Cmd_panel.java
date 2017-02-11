@@ -22,6 +22,7 @@ public class Cmd_panel  extends JFrame{
       prepareGUI();
       i++; // next player
       MyInfoPanel = new Info_Panel();
+      MyInfoPanel.UserInput("Type 'move' to move player one step");
       MyInfoPanel.UserInput("players " + i + " turn: ");
       input_Cmd();
       }
@@ -70,6 +71,8 @@ public class Cmd_panel  extends JFrame{
    public JPanel getCMDPanel(){
      return controlPanel;
    }
+
+   
     // not needed for sprint one
     /*public int roll(){ //returns dice roll
       int randomNum = ThreadLocalRandom.current().nextInt(2, 12 + 1);

@@ -10,7 +10,7 @@ import java.awt.*;
 
 public class DeadWood extends JFrame
 {
-  private static Info_Panel info = new Info_Panel();
+    private static Info_Panel info = new Info_Panel();
     private static Cmd_panel cmd = new Cmd_panel();
     JFrame frame = new JFrame();
 
@@ -29,14 +29,8 @@ public class DeadWood extends JFrame
     public static void main(String [] args)
     {
 
-      //Info_Panel info = new Info_Panel();
       DeadWood monopoly = new DeadWood();
-     //Board.LoadBoard();
-
-
-      /*cmd.createPlayer();  //create players
-      cmd.createPlayer();
-      cmd.createPlayer();*/
+      Board.LoadBoard();
 
     }
 }
