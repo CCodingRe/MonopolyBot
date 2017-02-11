@@ -77,16 +77,15 @@ public class Board extends Container
 	}
   }
 
-
   public static void LoadBoard()
   {
     frame.add(new Board());
     frame.setSize(frameWidth, frameHeight);
-    frame.setTitle("Monopoly");
-	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+    // frame.setTitle("Monopoly");
+		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     frame.setVisible(true);
 
-    //AddTokens(6);
+    AddTokens(6);
     //MoveTokens(0, 4);
     //MoveTokens(1, 7);
     //MoveTokens(2, 9);
@@ -173,4 +172,5 @@ public class Board extends Container
 	}
 
   }
+
  }

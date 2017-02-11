@@ -7,7 +7,7 @@ import java.awt.Font;
 
 public class Info_Panel
 {
-	private static JFrame MyFrame;
+
 	private static JPanel MyPanel;
 	private static JTextArea MyTextArea;
 
@@ -19,28 +19,22 @@ public class Info_Panel
  public static void LoadInfoPanel()
  {
 
-   MyFrame = new JFrame();
-   MyFrame.setLocation(1130,0);
-   MyFrame.setSize(800,1200);
-   MyFrame.setTitle("Latest Moves");
-
-
    MyPanel = new JPanel();
-   MyFrame.add(MyPanel);
-
-   MyTextArea = new JTextArea();
+   MyTextArea = new JTextArea(60, 40);
    MyTextArea.setFont(new Font("Serif", Font.BOLD, 21));
-
-
+	 JScrollPane MyScrollPane = new JScrollPane(MyTextArea);
    MyTextArea.setLineWrap(true);
+	 MyTextArea.setBounds(0, 0, 500, 800);
    MyTextArea.setWrapStyleWord(true);
-   MyTextArea.setEditable(true);
-   MyFrame.add(MyTextArea);
-   MyFrame.setVisible(true);
+   MyTextArea.setEditable(false);
+	 MyTextArea.append("");
+	 MyPanel.add(MyTextArea);
+	 MyPanel.add(MyScrollPane);
+   MyPanel.setVisible(true);
 
-
-   MyFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
+ }
+ public JPanel getInfoPanel(){
+	 return MyPanel;
  }
 
 
