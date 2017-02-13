@@ -33,6 +33,7 @@ public class DeadWood extends javax.swing.JFrame
       setPreferredSize(new Dimension(1080, 1020));
       getContentPane().setLayout(new GridLayout());
       getContentPane().add(mainPanel);
+      setTitle("Monopoly");
 
       mainPanel.add(topPanel);
       mainPanel.add(bottomPanel);

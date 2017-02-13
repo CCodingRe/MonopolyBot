@@ -110,11 +110,11 @@ public class Board extends JPanel
 
 		if(playerX[player]>455 && playerY[player]>450) // bottom of board
 		{
-			playerX[player] -= 55;
+			playerX[player] -= 55; // move player this many pixels on the board (55 because the corner squares are bigger)
 		}
 		else if(playerX[player]<455 && playerX[player]>111 && playerY[player]>450)
 		{
-			playerX[player] -= 43;
+			playerX[player] -= 43; // move player 43 pixels on the board
 		}
 		else if(playerX[player]<110 && playerX[player]>70 && playerY[player]>450)
 		{
