@@ -18,6 +18,7 @@ public class Cmd_panel  extends JFrame{
     private static JTextField userText;
     //List<player> users = new ArrayList<player>();
 
+
     public Cmd_panel(){
       prepareGUI();
       i++; // next player
@@ -38,6 +39,7 @@ public class Cmd_panel  extends JFrame{
       userText = new JTextField(10);
       Font font1 = new Font("SansSerif", Font.BOLD, 20);
       userText.setFont(font1);
+
       userText.addActionListener(new ActionListener() {
          public void actionPerformed(ActionEvent evt) {
           getMethod(userText.getText());
@@ -61,7 +63,7 @@ public class Cmd_panel  extends JFrame{
    private static void doSomething() {
       i++; // next player
       MyInfoPanel.UserInput("players " + i + " turn: ");
-      Board.MoveTokens(i-1, 1);
+      Board.moveTokens(i-1, 1);
    }
 
    public static void getMethod(String method){
@@ -72,7 +74,7 @@ public class Cmd_panel  extends JFrame{
      return controlPanel;
    }
 
-   
+
     // not needed for sprint one
     /*public int roll(){ //returns dice roll
       int randomNum = ThreadLocalRandom.current().nextInt(2, 12 + 1);

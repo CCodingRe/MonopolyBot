@@ -4,18 +4,19 @@ import java.awt.image.BufferedImage;
 import java.awt.*;
 import java.io.*;
 import javax.imageio.*;
-import javax.swing.JFrame;
+import javax.swing.JPanel;
 
-public class Board extends Container
+public class Board extends JPanel
 {
 
-  private static JFrame frame = new JFrame();
+  private static JPanel frame = new JPanel();
   static BufferedImage img;
   static int frameWidth;
   static int frameHeight;
   static int playerX[] = new int[6];
   static int playerY[] = new int[6];
   static boolean addPlayers[] = new boolean[6];
+
 
   public Board()
   {
@@ -24,6 +25,9 @@ public class Board extends Container
       img = ImageIO.read(new File("monopoly-board.jpg")); // loads in the image of the board
       frameWidth = img.getWidth() + 15;
       frameHeight = img.getHeight() + 40; // +15 and +40 to width and height to adjust for the title at the top of the JFrame
+      setPreferredSize(new Dimension(frameWidth, frameHeight));
+      addTokens(6);
+
     }
     catch (IOException e) {
     }
@@ -31,9 +35,10 @@ public class Board extends Container
 
   public void paint(Graphics g)
   {
-	g.drawImage(img, 0, 0, null); // paints the board image
 
-	if(addPlayers[0] == true) // if show is changd to true for each player in the AddTokens method is true it will paint each player on the board
+	g.drawImage(img, 0, 0, this); // paints the board image
+
+	if(addPlayers[0] == true) // if show is changed to true for each player in the AddTokens method is true it will paint each player on the board
 	{
 		super.paintComponents(g);
 		g.drawOval(playerX[0], playerY[0], 12, 12);
@@ -77,24 +82,12 @@ public class Board extends Container
 	}
   }
 
-  public static void LoadBoard()
+  public static void loadBoard()
   {
     frame.add(new Board());
-    frame.setSize(frameWidth, frameHeight);
-    // frame.setTitle("Monopoly");
-		// frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    frame.setVisible(true);
-
-    AddTokens(6);
-    //MoveTokens(0, 4);
-    //MoveTokens(1, 7);
-    //MoveTokens(2, 9);
-    //MoveTokens(3, 17);
-    //MoveTokens(4, 25);
-    //MoveTokens(5, 72);
   }
 
-  public static void AddTokens(int players)
+  public static void addTokens(int players)
   {
 	for(int i=0; i<players; i++) // loops i times to put i players into the game
 	{
@@ -104,7 +97,7 @@ public class Board extends Container
 	}
   }
 
-  public static void MoveTokens(int player, int spaces)
+  public static void moveTokens(int player, int spaces)
   {
 	while(spaces>0)
 	{
@@ -172,5 +165,10 @@ public class Board extends Container
 	}
 
   }
+  public JPanel getBoard(){
+    return frame;
+  }
+
+
 
  }

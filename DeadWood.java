@@ -2,35 +2,61 @@
                             Aonghus Condren 15348051
                             Conall Doherty 15468482 */
 
-import javax.swing.*;
 import deadwood.*;
-import java.awt.event.*;
+import javax.swing.*;
+import java.util.*;
 import java.awt.*;
 
 
-public class DeadWood extends JFrame
+public class DeadWood extends javax.swing.JFrame
 {
-    private static Info_Panel info = new Info_Panel();
-    private static Cmd_panel cmd = new Cmd_panel();
-    JFrame frame = new JFrame();
+  private final JPanel mainPanel;
+  private final JPanel topPanel;
+  private final JPanel bottomPanel;
+  private final JScrollPane scrollPane; // makes the text scrollable
+  private final JPanel inputPanel;
+
+  private Info_Panel info = new Info_Panel();
+  private Cmd_panel cmd = new Cmd_panel();
+  private Board board = new Board();
 
     public DeadWood()
     {
-      frame.setSize(900, 900);
-      frame.setLayout(new BorderLayout());
-      frame.add(info.getInfoPanel(), BorderLayout.EAST);
-      frame.add(cmd.getCMDPanel(), BorderLayout.PAGE_END);
-      frame.setVisible(true);
-      frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+      mainPanel = new JPanel();
+      topPanel = new JPanel();         // our top component
+      bottomPanel = new JPanel();      // our bottom component
+
+      scrollPane = new JScrollPane();  // this scrollPane is used to make the text area scrollable
+      inputPanel = new JPanel();
+
+      //default size of our window and its layout:
+      setPreferredSize(new Dimension(1080, 1020));
+      getContentPane().setLayout(new GridLayout());
+      getContentPane().add(mainPanel);
+
+      mainPanel.add(topPanel);
+      mainPanel.add(bottomPanel);
+
+      mainPanel.setLayout(new GridLayout());
+      topPanel.add(board.getBoard());
+      bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
+
+      bottomPanel.add(scrollPane);
+      scrollPane.setViewportView(info.getInfoPanel());       // the scrollPane should make the textArea scrollable, so we define the viewport
+      bottomPanel.add(inputPanel);                // then we add the inputPanel to the bottomPanel, so it under the textArea
+
+      inputPanel.add(cmd.getCMDPanel());
+
+      pack();   // calling pack() at the end, will ensure that every layout and size we just defined gets applied before the stuff becomes visible
+      setVisible(true);
+      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
     }
 
 
     public static void main(String [] args)
     {
-
-      DeadWood monopoly = new DeadWood();
-      Board.LoadBoard();
-
+      Board.loadBoard();
+      DeadWood d = new DeadWood();
     }
 }
