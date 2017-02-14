@@ -15,7 +15,7 @@ public class Info_Panel
 		LoadInfoPanel();
 	}
 
- public static void LoadInfoPanel()
+ public static void LoadInfoPanel() //create textArea
  {
 
    MyTextArea = new JTextArea(60, 40);
@@ -26,7 +26,7 @@ public class Info_Panel
    MyTextArea.setEditable(false);
 
  }
- public JTextArea getInfoPanel(){
+ public JTextArea getInfoPanel(){ //returns the Jtextarea
 	 return MyTextArea;
  }
 
@@ -39,7 +39,7 @@ public class Info_Panel
 	 return Roll;
  }*/
 
- public void UserInput(String UserText)
+ public void UserInput(String UserText) //prints to text area
  {
 	 MyTextArea.append(UserText+"\n");
  }

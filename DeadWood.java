@@ -23,8 +23,8 @@ public class DeadWood extends javax.swing.JFrame
     public DeadWood()
     {
       mainPanel = new JPanel();
-      topPanel = new JPanel();         // our top component
-      bottomPanel = new JPanel();      // our bottom component
+      topPanel = new JPanel();
+      bottomPanel = new JPanel();
 
       scrollPane = new JScrollPane();  // this scrollPane is used to make the text area scrollable
       inputPanel = new JPanel();
@@ -38,7 +38,7 @@ public class DeadWood extends javax.swing.JFrame
       mainPanel.add(topPanel);
       mainPanel.add(bottomPanel);
 
-      mainPanel.setLayout(new GridLayout());
+      mainPanel.setLayout(new GridLayout());  //set layout
       topPanel.add(board.getBoard());
       bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
@@ -48,7 +48,7 @@ public class DeadWood extends javax.swing.JFrame
 
       inputPanel.add(cmd.getCMDPanel());
 
-      pack();   // calling pack() at the end, will ensure that every layout and size we just defined gets applied before the stuff becomes visible
+      pack(); 
       setVisible(true);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 

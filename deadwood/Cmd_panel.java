@@ -34,21 +34,21 @@ public class Cmd_panel  extends JFrame{
     }
 
     public static void input_Cmd(){
-
+      //create the command prompt
       JLabel  namelabel= new JLabel("Command: ", JLabel.RIGHT);
       userText = new JTextField(10);
       Font font1 = new Font("SansSerif", Font.BOLD, 20);
       userText.setFont(font1);
-
+      //listens for commands
       userText.addActionListener(new ActionListener() {
-         public void actionPerformed(ActionEvent evt) {
+         public void actionPerformed(ActionEvent evt) {  //runs code when action event runs
           getMethod(userText.getText());
           if(userText.getText().equals("move")){
               turnAction(evt);
          } else {
            MyInfoPanel.UserInput("Invalid Command");
          }
-         userText.setText("");
+         userText.setText(""); //empty text field
       }});
 
       controlPanel.add(namelabel);
@@ -66,11 +66,11 @@ public class Cmd_panel  extends JFrame{
       Board.moveTokens(i-1, 1);
    }
 
-   public static void getMethod(String method){
+   public static void getMethod(String method){ //prints to text area
      MyInfoPanel.UserInput(method);
    }
 
-   public JPanel getCMDPanel(){
+   public JPanel getCMDPanel(){ //returns the panel
      return controlPanel;
    }
 
