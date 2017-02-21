@@ -1,13 +1,11 @@
 package deadwood;
 
-import deadwood.*;
-
 public class Players {
 	private int playerX;
 	private int playerY;
 	private int balance;
 	private int propertiesOwned;
-	private String[] propertyNames = new String[36];
+	//private String[] propertyNames = new String[36];
 	private String playerName;
 	
 

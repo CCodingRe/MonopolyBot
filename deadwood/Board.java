@@ -13,9 +13,6 @@ public class Board extends JPanel
   static BufferedImage img;
   static int panelWidth;
   static int panelHeight;
-//  static int playerX[] = new int[6];
-//  static int playerY[] = new int[6];
-//  static boolean addPlayers[] = new boolean[6];
   private static final Color[] PLAYER_COLOURS = {Color.RED,Color.BLUE,Color.YELLOW,Color.GREEN,Color.MAGENTA,Color.WHITE};
   private static final int[][] PLAYER_OFFSET = {{0, 0}, {12, 12}, {-12,-12}, {-12, 12}, {12, -12}, {0, 12}};
   private static final int MAX_PLAYERS = 6;
