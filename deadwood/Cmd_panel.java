@@ -10,7 +10,7 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
 
-public class Cmd_panel  extends JFrame{
+public class Cmd_panel{
 
     private static JPanel controlPanel;
     private static Info_Panel MyInfoPanel;
