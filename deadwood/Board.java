@@ -52,9 +52,7 @@ public class Board extends JPanel
   {
     panel.add(new Board());
   }
-  
-  public static void refresh() {
-	  panel.repaint();
+
 
   public static void moveTokens(int player, int spaces)
   {
