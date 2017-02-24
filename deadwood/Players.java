@@ -5,7 +5,7 @@ public class Players {
 	private int playerY;
 	private int balance;
 	private int propertiesOwned;
-	//private String[] propertyNames = new String[36];
+	private String[] propertyNames = new String[36];
 	private String playerName;
 	
 
@@ -53,7 +53,8 @@ public class Players {
 		return playerY;
 	}
 	
-	public void propertyBought() {
+	public void propertyBought(String propName) {
+		propertyNames[propertiesOwned] = propName;
 		propertiesOwned++;
 	}
 	

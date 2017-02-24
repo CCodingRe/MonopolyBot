@@ -38,10 +38,10 @@ public class Board extends JPanel
 
 	g.drawImage(img, 0, 0, this); // paints the board image
 
-	for(int i=0; i<TestWood.players.size(); i++) { // if show is changed to true for each player in the AddTokens method is true it will paint each player on the board
+	for(int i=0; i<TestWood.players.size(); i++) { // adds player tokens to the board. Loops for however many objects are in the players arraylist
 		{
 			super.paintComponents(g);
-			g.drawOval(TestWood.players.get(i).getX()+PLAYER_OFFSET[i][0], TestWood.players.get(i).getY()+PLAYER_OFFSET[i][1], 12, 12);
+			g.drawOval(TestWood.players.get(i).getX()+PLAYER_OFFSET[i][0], TestWood.players.get(i).getY()+PLAYER_OFFSET[i][1], 12, 12); // each player position is slightly offset to ensure they arent on top of each other
 			g.setColor(PLAYER_COLOURS[i]);
 			g.fillOval(TestWood.players.get(i).getX()+PLAYER_OFFSET[i][0], TestWood.players.get(i).getY()+PLAYER_OFFSET[i][1], 12, 12);
 		}
@@ -55,7 +55,6 @@ public class Board extends JPanel
   
   public static void refresh() {
 	  panel.repaint();
-  }
 
   public static void moveTokens(int player, int spaces)
   {
