@@ -74,7 +74,6 @@ public class SetUp{
         k++;
       }
 
-      Board.addTokens(j);
      } else {
       Info_Panel.UserInput("Invalid amount, 2 to 6 players allowed");
       playerCheck();
