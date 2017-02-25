@@ -13,9 +13,9 @@ public class DeadWood
 
     public static void main(String [] args)
     {
-      SetUp set = new SetUp();
       UI ui = new UI();
       DeadWood d = new DeadWood();
+      SetUp set = new SetUp();
       set.playerCheck(); //gets amount of players and sets names
       TurnControl.turn();
     }

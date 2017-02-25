@@ -26,7 +26,7 @@ public class Board extends JPanel
       panelWidth = img.getWidth() + 15;
       panelHeight = img.getHeight() + 40; // +15 and +40 to width and height to adjust for the title at the top of the Jpanel
       setPreferredSize(new Dimension(panelWidth, panelHeight));
-      //addTokens(6);
+
 
     }
     catch (IOException e) {
@@ -45,7 +45,7 @@ public class Board extends JPanel
 			g.setColor(PLAYER_COLOURS[i]);
 			g.fillOval(SetUp.getPlayers().get(i).getX()+PLAYER_OFFSET[i][0], SetUp.getPlayers().get(i).getY()+PLAYER_OFFSET[i][1], 12, 12);
 		}
-    panel.repaint();
+
 	}
   }
 
@@ -126,6 +126,10 @@ public class Board extends JPanel
 
   public JPanel getBoard(){
     return panel;
+  }
+
+  public static void refresh(){
+    panel.repaint();
   }
 
 
