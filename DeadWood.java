@@ -46,9 +46,9 @@ public class DeadWood extends javax.swing.JFrame
       scrollPane.setViewportView(info.getInfoPanel());       // the scrollPane should make the textArea scrollable, so we define the viewport
       bottomPanel.add(inputPanel);                // then we add the inputPanel to the bottomPanel, so it under the textArea
 
-      inputPanel.add(cmd.getCMDPanel());
+      inputPanel.add(cmd);
 
-      pack(); 
+      pack();
       setVisible(true);
       setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -59,5 +59,8 @@ public class DeadWood extends javax.swing.JFrame
     {
       Board.loadBoard();
       DeadWood d = new DeadWood();
+      SetUp set = new SetUp();
+      set.playerCheck(); //gets amount of players and sets names
+      TurnControl.turn();
     }
 }

@@ -39,7 +39,7 @@ public class Info_Panel
 	 return Roll;
  }*/
 
- public void UserInput(String UserText) //prints to text area
+ public static void UserInput(String UserText) //prints to text area
  {
 	 MyTextArea.append(UserText+"\n");
  }
