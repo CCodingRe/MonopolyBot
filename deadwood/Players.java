@@ -7,6 +7,7 @@ public class Players {
 	private int playerX;
 	private int playerY;
 	private int balance;
+	private int assets;
 	private int location, n;
 	private int propertiesOwned;
 	private String[] propertyNames = new String[36];
@@ -21,6 +22,7 @@ public class Players {
 		playerX = 480;
 		playerY = 480;
 		balance = 1500;
+		assets = 0;
 		playerName = "Player";
 		propertiesOwned = 0;
 		n = 0;
@@ -79,9 +81,10 @@ public class Players {
 		return location;
 	}
 
-	public void propertyBought(String propName) {
-		propertyNames[propertiesOwned] = propName;
+	public void propertyBought(Propertys prop) {
+		propertyNames[propertiesOwned] = prop.getName();
 		propertiesOwned++;
+		assets += prop.getValue();
 	}
 
 	public String getPropertiesOwned() {
@@ -89,23 +92,27 @@ public class Players {
 		output = playerName + " owns " + propertiesOwned + " properties: " + toStringArray(propertyNames);
 		return output;
 	}
-	
+
+	public int calculateAssets() {
+		return assets + balance;
+	}
+
 	public String toStringArray(String[] array) { // prints the propertyNames array without nullspaces
 		StringBuilder builder = new StringBuilder();
 		int n = array.length;
-	    for(int i=0; i<n; i++) {
-	        if(array[i] != null) {
-	            builder.append(array[i].toString());
-	            break;
-	        }
-	    }
-	    for(int j=1; j<n; j++) {
-	        if(array[j] != null) {
-	            builder.append(", ");
-	            builder.append(array[j].toString());
-	        }
-	    }
-		
+		for(int i=0; i<n; i++) {
+			if(array[i] != null) {
+				builder.append(array[i].toString());
+				break;
+			}
+		}
+		for(int j=1; j<n; j++) {
+			if(array[j] != null) {
+				builder.append(", ");
+				builder.append(array[j].toString());
+			}
+		}
+
 		return builder.toString();
 	}
 
