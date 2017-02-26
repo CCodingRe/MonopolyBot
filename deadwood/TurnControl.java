@@ -1,5 +1,7 @@
 package deadwood;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class TurnControl{
 
     private static String temp;
@@ -22,8 +24,8 @@ public class TurnControl{
       switch(Cmd_panel.getCommand()){
         case "roll" :
             if(roll){
-              movePlayer(element);
-              roll = false;
+            	roll = false;
+            	movePlayer(element);
             } else {
               Info_Panel.UserInput("Player has already rolled");
             }
@@ -35,6 +37,7 @@ public class TurnControl{
             if(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() == null){
               element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
               ((Propertys) SetUp.getLocationsList().get(element.getLocation())).setOwner(element); //sets owner of property
+              element.propertyBought(SetUp.getLocationsList().get(element.getLocation()).getName()); // adds property name to propertyNames array in Players which will be use for querying owned property
             } else {
               Info_Panel.UserInput("Property already bought");
             }
@@ -47,7 +50,12 @@ public class TurnControl{
             Info_Panel.UserInput(Integer.toString(element.getBalance()));
             break;
 
+        case "property" :
+        	Info_Panel.UserInput(element.getPropertiesOwned());
+        	break;
+
         case "help" :
+
             Info_Panel.UserInput("type \"roll\" to move player");
             Info_Panel.UserInput("type \"buy\" to buy property");
             Info_Panel.UserInput("type \"balance\" to get bank balance");
@@ -57,11 +65,11 @@ public class TurnControl{
             break;
 
         case "done" :
-            if(!roll){
-              cond = false;
-            } else {
-              Info_Panel.UserInput("Player hasn't finished rolling");
-            }
+        	if(roll==true){
+        		Info_Panel.UserInput("You must roll first");
+        	}
+        	else cond = false;
+
             break;
 
         default :
@@ -69,6 +77,17 @@ public class TurnControl{
         }
       }
   }
+
+	public static int roll(Players element) { //returns dice roll
+		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		if(dice1 == dice2) { // if double is rolled you can roll again
+			roll = true;
+		}
+		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
+		int rollNum = dice1 + dice2;
+		return rollNum;
+	}
 
   private static void movePlayer(Players element){
 

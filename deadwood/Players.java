@@ -1,5 +1,6 @@
 package deadwood;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Players {
@@ -22,6 +23,7 @@ public class Players {
 		balance = 1500;
 		playerName = "Player";
 		propertiesOwned = 0;
+		n = 0;
 	}
 
 	public void setName(String name) {
@@ -48,7 +50,7 @@ public class Players {
 		return playerX;
 	}
 
-	public void changeX(int pixels) {
+	public void changeX(int pixels) { // changes position on the board
 		playerX += pixels;
 	}
 
@@ -56,29 +58,26 @@ public class Players {
 		return playerY;
 	}
 
-	public void changeY(int pixels) {
+	public void changeY(int pixels) { // changes position on the board
 		playerY += pixels;
 	}
 
-	public void move(){ //moves player according to roll()
-		int k = roll();
+	public void move() { //moves player according to roll()
+		int k = TurnControl.roll(this); // calls roll and passes current player through
 		n = n + k;
 		location = n % 40;
-		Board.moveTokens(id, k);
-	}
-	public void move(int k){ //moves player manually n spaces
-		n = n + k;
-		location = n % 40;
-		Board.moveTokens(id, k);
-	}
-	public int getLocation(){ //returns players location
-			return location;
+		Board.moveTokens(id, k); // moves current player k spaces
 	}
 
-	public static int roll(){ //returns dice roll
-	    int randomNum = ThreadLocalRandom.current().nextInt(2, 12 + 1);
-	    return randomNum;
-	  }
+	public void move(int k) { //moves player manually n spaces
+		n = n + k;
+		location = n % 40;
+		Board.moveTokens(id, k);
+	}
+
+	public int getLocation(){ //returns players location
+		return location;
+	}
 
 	public void propertyBought(String propName) {
 		propertyNames[propertiesOwned] = propName;
@@ -87,8 +86,27 @@ public class Players {
 
 	public String getPropertiesOwned() {
 		String output = "";
-		output = playerName + " owns " + propertiesOwned + " properties";
+		output = playerName + " owns " + propertiesOwned + " properties: " + toStringArray(propertyNames);
 		return output;
+	}
+	
+	public String toStringArray(String[] array) { // prints the propertyNames array without nullspaces
+		StringBuilder builder = new StringBuilder();
+		int n = array.length;
+	    for(int i=0; i<n; i++) {
+	        if(array[i] != null) {
+	            builder.append(array[i].toString());
+	            break;
+	        }
+	    }
+	    for(int j=1; j<n; j++) {
+	        if(array[j] != null) {
+	            builder.append(", ");
+	            builder.append(array[j].toString());
+	        }
+	    }
+		
+		return builder.toString();
 	}
 
 }
