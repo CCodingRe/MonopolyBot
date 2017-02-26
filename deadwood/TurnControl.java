@@ -1,5 +1,7 @@
 package deadwood;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 public class TurnControl{
 
     private static String temp;
@@ -16,31 +18,13 @@ public class TurnControl{
   }
 
   private static void cmdCheck(Players element){
-	int remainingRolls = 1; 
     while(cond){
       Info_Panel.UserInput("Enter Command: ");
       switch(Cmd_panel.getCommand()){
-<<<<<<< HEAD
-        case "move" :
-        	if(remainingRolls > 0) {
-        		element.move();
-        		remainingRolls--;
-        	}
-        	else Info_Panel.UserInput("No rolls remaining");
-            
-        break;
-
-        case "info" :
-            Info_Panel.UserInput(SetUp.getLocationsList().get(element.getLocation()).getName());
-            Info_Panel.UserInput(Integer.toString(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()));
-            if(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != null){
-              Info_Panel.UserInput(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwnerName());
-=======
         case "roll" :
             if(roll){
-              movePlayer(element);
-              roll = false;
->>>>>>> refs/remotes/origin/master
+            	roll = false;
+            	movePlayer(element);
             } else {
               Info_Panel.UserInput("Player has already rolled");
             }
@@ -51,6 +35,7 @@ public class TurnControl{
             if(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() == null){
               element.buy(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
               ((Propertys) SetUp.getLocationsList().get(element.getLocation())).setOwner(element); //sets owner of property
+              element.propertyBought(SetUp.getLocationsList().get(element.getLocation()).getName()); // adds property name to propertyNames array in Players which will be use for querying owned property
             } else {
               Info_Panel.UserInput("Property already bought");
             }
@@ -62,17 +47,25 @@ public class TurnControl{
         case "balance" :
             Info_Panel.UserInput(Integer.toString(element.getBalance()));
             break;
+            
+        case "property" :
+        	Info_Panel.UserInput(element.getPropertiesOwned());
+        	break;
 
         case "help" :
-            Info_Panel.UserInput("type roll to move player");
-            Info_Panel.UserInput("type buy to buy property");
-            Info_Panel.UserInput("type balance to get bank balance");
-            Info_Panel.UserInput("type done when you are finished your turn");
-            Info_Panel.UserInput("type quit to end game");
+            Info_Panel.UserInput("type 'roll' to move player");
+            Info_Panel.UserInput("type 'buy' to buy property");
+            Info_Panel.UserInput("type 'balance' to get bank balance");
+            Info_Panel.UserInput("type 'property' to query owned property");
+            Info_Panel.UserInput("type 'done' when you are finished your turn");
+            Info_Panel.UserInput("type 'quit' to end game");
             break;
 
         case "done" :
-            cond = false;
+        	if(roll==true){
+        		Info_Panel.UserInput("You must roll first");
+        	}
+        	else cond = false;
             break;
 
 
@@ -81,6 +74,17 @@ public class TurnControl{
         }
       }
   }
+  
+	public static int roll(Players element) { //returns dice roll
+		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		if(dice1 == dice2) { // if double is rolled you can roll again
+			roll = true;
+		}
+		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
+		int rollNum = dice1 + dice2;
+		return rollNum;
+	}
 
   private static void movePlayer(Players element){
     /*Info_Panel.UserInput("How Many Spaces? (Hit Enter for default roll)");

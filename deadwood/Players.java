@@ -1,5 +1,6 @@
 package deadwood;
 
+import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Players {
@@ -8,13 +9,6 @@ public class Players {
 	private int balance;
 	private int location, n;
 	private int propertiesOwned;
-<<<<<<< HEAD
-	private int location;
-	private int n;
-	private final int id;
-	private static int counter = 0;
-=======
->>>>>>> refs/remotes/origin/master
 	private String[] propertyNames = new String[36];
 	private String playerName;
 	private static int counter = 0;
@@ -56,7 +50,7 @@ public class Players {
 		return playerX;
 	}
 
-	public void changeX(int pixels) {
+	public void changeX(int pixels) { // changes position on the board
 		playerX += pixels;
 	}
 
@@ -64,48 +58,27 @@ public class Players {
 		return playerY;
 	}
 
-	public void changeY(int pixels) {
+	public void changeY(int pixels) { // changes position on the board
 		playerY += pixels;
 	}
-<<<<<<< HEAD
-	
-	public void move() { //moves player according to roll()
-=======
 
-	public void move(){ //moves player according to roll()
->>>>>>> refs/remotes/origin/master
-		int k = roll();
+	public void move() { //moves player according to roll()
+		int k = TurnControl.roll(this); // calls roll and passes current player through
+		n = n + k;
+		location = n % 40;
+		Board.moveTokens(id, k); // moves current player k spaces
+	}
+
+	public void move(int k) { //moves player manually n spaces
 		n = n + k;
 		location = n % 40;
 		Board.moveTokens(id, k);
 	}
-<<<<<<< HEAD
-	
-	public static int roll() { //returns dice roll
-	    int randomNum = ThreadLocalRandom.current().nextInt(2, 12 + 1);
-	    return randomNum;
-	  }
-	
+
 	public int getLocation(){ //returns players location
 		return location;
-}
-	
-=======
-	public void move(int k){ //moves player manually n spaces
-		n = n + k;
-		location = n % 40;
-		Board.moveTokens(id, k);
-	}
-	public int getLocation(){ //returns players location
-			return location;
 	}
 
-	public static int roll(){ //returns dice roll
-	    int randomNum = ThreadLocalRandom.current().nextInt(2, 12 + 1);
-	    return randomNum;
-	  }
-
->>>>>>> refs/remotes/origin/master
 	public void propertyBought(String propName) {
 		propertyNames[propertiesOwned] = propName;
 		propertiesOwned++;
@@ -113,13 +86,27 @@ public class Players {
 
 	public String getPropertiesOwned() {
 		String output = "";
-		for(int i=0; i<36; i++){
-			if(this == ((Propertys) SetUp.getLocationsList().get(i)).getOwner()) {
-				propertyNames[i] = SetUp.getLocationsList().get(i).getName();
-			}
-		}
-		output = playerName + " owns " + propertiesOwned + " properties: " + propertyNames;
+		output = playerName + " owns " + propertiesOwned + " properties: " + toStringArray(propertyNames);
 		return output;
+	}
+	
+	public String toStringArray(String[] array) { // prints the propertyNames array without nullspaces
+		StringBuilder builder = new StringBuilder();
+		int n = array.length;
+	    for(int i=0; i<n; i++) {
+	        if(array[i] != null) {
+	            builder.append(array[i].toString());
+	            break;
+	        }
+	    }
+	    for(int j=1; j<n; j++) {
+	        if(array[j] != null) {
+	            builder.append(", ");
+	            builder.append(array[j].toString());
+	        }
+	    }
+		
+		return builder.toString();
 	}
 
 }
