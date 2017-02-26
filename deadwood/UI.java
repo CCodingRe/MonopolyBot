@@ -1,25 +1,24 @@
 package deadwood;
 
-import deadwood.*;
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
 
 public class UI extends JFrame {
-	
+
 	private final JPanel mainPanel;
 	private final JPanel topPanel;
 	private final JPanel bottomPanel;
   	private final JScrollPane scrollPane; // makes the text scrollable
   	private final JPanel inputPanel;
-  
+
   	private Info_Panel info = new Info_Panel();
-  	private Cmd_panel cmd = new Cmd_panel();	
+  	private Cmd_panel cmd = new Cmd_panel();
   	private Board board = new Board();
-	
+
 	public UI() {
 		  Board.loadBoard();
-		  
+
 	      mainPanel = new JPanel();
 	      topPanel = new JPanel();
 	      bottomPanel = new JPanel();
@@ -46,7 +45,7 @@ public class UI extends JFrame {
 
 	      inputPanel.add(cmd);
 
-	      pack(); 
+	      pack();
 	      setVisible(true);
 	      setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}

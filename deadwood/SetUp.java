@@ -75,6 +75,7 @@ public class SetUp{
         element.setName(Cmd_panel.getCommand());
         k++;
       }
+      Board.refresh();
 
      } else {
       Info_Panel.UserInput("Invalid amount, 2 to 6 players allowed");
