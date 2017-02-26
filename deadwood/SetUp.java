@@ -65,7 +65,7 @@ public class SetUp{
       for(int i = 1; i <= j; i++){
         users.add(new Players());
       }
-      
+
       Board.refresh();
 
       //get player names
