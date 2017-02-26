@@ -3,13 +3,14 @@ package deadwood;
 public class TurnControl{
 
     private static String temp;
-    private static Boolean cond, roll;
+    private static Boolean cond, roll, rent;
 
     public static void turn(){
     for(Players element : SetUp.getPlayers()){
       Info_Panel.UserInput(element.getName() + "'s turn");
       roll = true;
       cond = true;
+      rent = false;
       cmdCheck(element);
     }
     turn();
@@ -26,12 +27,13 @@ public class TurnControl{
             } else {
               Info_Panel.UserInput("Player has already rolled");
             }
+
               break;
 
         case "buy" :
           if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){
             if(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() == null){
-              element.buy(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
+              element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
               ((Propertys) SetUp.getLocationsList().get(element.getLocation())).setOwner(element); //sets owner of property
             } else {
               Info_Panel.UserInput("Property already bought");
@@ -46,17 +48,21 @@ public class TurnControl{
             break;
 
         case "help" :
-            Info_Panel.UserInput("type roll to move player");
-            Info_Panel.UserInput("type buy to buy property");
-            Info_Panel.UserInput("type balance to get bank balance");
-            Info_Panel.UserInput("type done when you are finished your turn");
-            Info_Panel.UserInput("type quit to end game");
+            Info_Panel.UserInput("type \"roll\" to move player");
+            Info_Panel.UserInput("type \"buy\" to buy property");
+            Info_Panel.UserInput("type \"balance\" to get bank balance");
+            Info_Panel.UserInput("type \"done\" when you are finished your turn");
+            Info_Panel.UserInput("type \"quit\" to end game");
+            Info_Panel.UserInput("type \"pay rent\" to pay rent");
             break;
 
         case "done" :
-            cond = false;
+            if(!roll){
+              cond = false;
+            } else {
+              Info_Panel.UserInput("Player hasn't finished rolling");
+            }
             break;
-
 
         default :
             Info_Panel.UserInput("Invalid commad");
@@ -65,6 +71,8 @@ public class TurnControl{
   }
 
   private static void movePlayer(Players element){
+
+    //allows manually moving and moving based on roll
     /*Info_Panel.UserInput("How Many Spaces? (Hit Enter for default roll)");
     String temp1 = Cmd_panel.getCommand();
     int num;
@@ -76,7 +84,7 @@ public class TurnControl{
         Info_Panel.UserInput("invalid number");
         cmdCheck(element);
       }
-    //allows manually moving and moving based on roll
+
       /*if(temp1.equals("")){
         element.move();
       }

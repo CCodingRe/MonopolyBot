@@ -36,7 +36,7 @@ public class Players {
 		balance += amount;
 	}
 
-	public void buy(int amount) {
+	public void deductBalance(int amount) {
 		balance -= amount;
 	}
 
