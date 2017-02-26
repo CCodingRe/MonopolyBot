@@ -66,8 +66,8 @@ public class Players {
 
 	public void move() { //moves player according to roll()
 		int k = TurnControl.roll(this); // calls roll and passes current player through
-		n = n + k;
-		location = n % 40;
+		/*n = n + k;
+		location = n % 40;*/
 		Board.moveTokens(id, k); // moves current player k spaces
 	}
 
