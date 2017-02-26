@@ -71,10 +71,13 @@ public class Players {
 		Board.moveTokens(id, k); // moves current player k spaces
 	}
 
-	public void move(int k) { //moves player manually n spaces
-		n = n + k;
-		location = n % 40;
+	public void move(int k) { //moves player manually k spaces
 		Board.moveTokens(id, k);
+	}
+	
+	public void changeLocation() {
+		n++;
+		location = n % 40;
 	}
 
 	public int getLocation(){ //returns players location
@@ -115,5 +118,6 @@ public class Players {
 
 		return builder.toString();
 	}
+	
 
 }
