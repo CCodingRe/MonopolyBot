@@ -7,6 +7,8 @@ public class Players {
 	private int playerY;
 	private int balance;
 	private int propertiesOwned;
+	private int location;
+	private int n;
 	private final int id;
 	private static int counter = 0;
 	private String[] propertyNames = new String[36];
@@ -21,6 +23,7 @@ public class Players {
 		balance = 1500;
 		playerName = "Player";
 		propertiesOwned = 0;
+		n = 0;
 	}
 	
 	public void setName(String name) {
@@ -59,17 +62,21 @@ public class Players {
 		playerY += pixels;
 	}
 	
-	public void move(){ //moves player according to roll()
+	public void move() { //moves player according to roll()
 		int k = roll();
-/*		n = n + k;
-		location = n % 40;*/
+		n = n + k;
+		location = n % 40;
 		Board.moveTokens(id, k);
 	}
 	
-	public static int roll(){ //returns dice roll
+	public static int roll() { //returns dice roll
 	    int randomNum = ThreadLocalRandom.current().nextInt(2, 12 + 1);
 	    return randomNum;
 	  }
+	
+	public int getLocation(){ //returns players location
+		return location;
+}
 	
 	public void propertyBought(String propName) {
 		propertyNames[propertiesOwned] = propName;
@@ -78,7 +85,12 @@ public class Players {
 	
 	public String getPropertiesOwned() {
 		String output = "";
-		output = playerName + " owns " + propertiesOwned + " properties";
+		for(int i=0; i<36; i++){
+			if(this == ((Propertys) SetUp.getLocationsList().get(i)).getOwner()) {
+				propertyNames[i] = SetUp.getLocationsList().get(i).getName();
+			}
+		}
+		output = playerName + " owns " + propertiesOwned + " properties: " + propertyNames;
 		return output;
 	}
 	

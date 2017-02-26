@@ -65,6 +65,8 @@ public class SetUp{
       for(int i = 1; i <= j; i++){
         users.add(new Players());
       }
+      
+      Board.refresh();
 
       //get player names
       int k = 1;
@@ -74,7 +76,6 @@ public class SetUp{
         k++;
       }
 
-      Board.addTokens(j);
      } else {
       Info_Panel.UserInput("Invalid amount, 2 to 6 players allowed");
       playerCheck();

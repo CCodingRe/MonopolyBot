@@ -16,27 +16,18 @@ public class TurnControl{
   }
 
   private static void cmdCheck(Players element){
+	int remainingRolls = 1; 
     while(cond){
       Info_Panel.UserInput("Enter Command: ");
       switch(Cmd_panel.getCommand()){
         case "move" :
-            Info_Panel.UserInput("How Many Spaces? (Hit Enter for default roll)");
-            String temp1 = Cmd_panel.getCommand();
-            int num;
-
-              if(temp1.equals("")){
-                element.move();
-              }
-              else{
-                try {
-                    num = Integer.parseInt(temp1);
-                    element.move(num);
-                  } catch (NumberFormatException e) {
-                    Info_Panel.UserInput("invalid number");
-                    cmdCheck(element);
-                  }
-              }
-              break;
+        	if(remainingRolls > 0) {
+        		element.move();
+        		remainingRolls--;
+        	}
+        	else Info_Panel.UserInput("No rolls remaining");
+            
+        break;
 
         case "info" :
             Info_Panel.UserInput(SetUp.getLocationsList().get(element.getLocation()).getName());

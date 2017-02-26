@@ -44,7 +44,7 @@ public class UI extends JFrame {
 	      scrollPane.setViewportView(info.getInfoPanel());       // the scrollPane should make the textArea scrollable, so we define the viewport
 	      bottomPanel.add(inputPanel);                // then we add the inputPanel to the bottomPanel, so it under the textArea
 
-	      inputPanel.add(cmd.getCMDPanel());
+	      inputPanel.add(cmd);
 
 	      pack(); 
 	      setVisible(true);

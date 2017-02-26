@@ -11,10 +11,9 @@ public class TestWood
 	
     public static void main(String [] args)
     {
-    	for(int i=0; i<3; i++)
-    	{
-    		players.add(new Players());
-    	}	
     	UI ui = new UI();
+        SetUp set = new SetUp();
+        set.playerCheck(); //gets amount of players and sets names
+        TurnControl.turn();
     }
 }

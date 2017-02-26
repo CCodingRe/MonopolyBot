@@ -38,12 +38,12 @@ public class Board extends JPanel
 
 	g.drawImage(img, 0, 0, this); // paints the board image
 
-	for(int i=0; i<TestWood.players.size(); i++) { // adds player tokens to the board. Loops for however many objects are in the players arraylist
+	for(int i=0; i<SetUp.getPlayers().size(); i++) { // adds player tokens to the board. Loops for however many objects are in the players arraylist
 		{
 			super.paintComponents(g);
-			g.drawOval(TestWood.players.get(i).getX()+PLAYER_OFFSET[i][0], TestWood.players.get(i).getY()+PLAYER_OFFSET[i][1], 12, 12); // each player position is slightly offset to ensure they arent on top of each other
+			g.drawOval(SetUp.getPlayers().get(i).getX()+PLAYER_OFFSET[i][0], SetUp.getPlayers().get(i).getY()+PLAYER_OFFSET[i][1], 12, 12); // each player position is slightly offset to ensure they arent on top of each other
 			g.setColor(PLAYER_COLOURS[i]);
-			g.fillOval(TestWood.players.get(i).getX()+PLAYER_OFFSET[i][0], TestWood.players.get(i).getY()+PLAYER_OFFSET[i][1], 12, 12);
+			g.fillOval(SetUp.getPlayers().get(i).getX()+PLAYER_OFFSET[i][0], SetUp.getPlayers().get(i).getY()+PLAYER_OFFSET[i][1], 12, 12);
 		}
 	}
   }
@@ -65,56 +65,56 @@ public class Board extends JPanel
 			e1.printStackTrace();
 		}
 
-		if(TestWood.players.get(player).getX()>455 && TestWood.players.get(player).getY()>450) // bottom of board
+		if(SetUp.getPlayers().get(player).getX()>455 && SetUp.getPlayers().get(player).getY()>450) // bottom of board
 		{
-			TestWood.players.get(player).changeX(-55); // move player this many pixels on the board (55 because the corner squares are bigger)
+			SetUp.getPlayers().get(player).changeX(-55); // move player this many pixels on the board (55 because the corner squares are bigger)
 		}
-		else if(TestWood.players.get(player).getX()<455 && TestWood.players.get(player).getX()>111 && TestWood.players.get(player).getY()>450)
+		else if(SetUp.getPlayers().get(player).getX()<455 && SetUp.getPlayers().get(player).getX()>111 && SetUp.getPlayers().get(player).getY()>450)
 		{
-			TestWood.players.get(player).changeX(-43); // move player 43 pixels on the board
+			SetUp.getPlayers().get(player).changeX(-43); // move player 43 pixels on the board
 		}
-		else if(TestWood.players.get(player).getX()<110 && TestWood.players.get(player).getX()>70 && TestWood.players.get(player).getY()>450)
+		else if(SetUp.getPlayers().get(player).getX()<110 && SetUp.getPlayers().get(player).getX()>70 && SetUp.getPlayers().get(player).getY()>450)
 		{
-			TestWood.players.get(player).changeX(-55);
-		}
-
-		else if(TestWood.players.get(player).getY()>455 && TestWood.players.get(player).getX()<70) // left of board
-		{
-			TestWood.players.get(player).changeY(-55);
-		}
-		else if(TestWood.players.get(player).getY()<455 && TestWood.players.get(player).getY()>110 && TestWood.players.get(player).getX()<70)
-		{
-			TestWood.players.get(player).changeY(-43);
-		}
-		else if(TestWood.players.get(player).getY()<110 && TestWood.players.get(player).getY()>70 && TestWood.players.get(player).getX()<70)
-		{
-			TestWood.players.get(player).changeY(-55);
+			SetUp.getPlayers().get(player).changeX(-55);
 		}
 
-		else if(TestWood.players.get(player).getX()<70 && TestWood.players.get(player).getY()<70) // top of board
+		else if(SetUp.getPlayers().get(player).getY()>455 && SetUp.getPlayers().get(player).getX()<70) // left of board
 		{
-			TestWood.players.get(player).changeX(55);
+			SetUp.getPlayers().get(player).changeY(-55);
 		}
-		else if(TestWood.players.get(player).getX()>70 && TestWood.players.get(player).getX()<410 && TestWood.players.get(player).getY()<70)
+		else if(SetUp.getPlayers().get(player).getY()<455 && SetUp.getPlayers().get(player).getY()>110 && SetUp.getPlayers().get(player).getX()<70)
 		{
-			TestWood.players.get(player).changeX(43);
+			SetUp.getPlayers().get(player).changeY(-43);
 		}
-		else if(TestWood.players.get(player).getX()>410 && TestWood.players.get(player).getX()<455 && TestWood.players.get(player).getY()<70)
+		else if(SetUp.getPlayers().get(player).getY()<110 && SetUp.getPlayers().get(player).getY()>70 && SetUp.getPlayers().get(player).getX()<70)
 		{
-			TestWood.players.get(player).changeX(55);
+			SetUp.getPlayers().get(player).changeY(-55);
 		}
 
-		else if(TestWood.players.get(player).getY()<70 && TestWood.players.get(player).getX()>455) // right of board
+		else if(SetUp.getPlayers().get(player).getX()<70 && SetUp.getPlayers().get(player).getY()<70) // top of board
 		{
-			TestWood.players.get(player).changeY(55);
+			SetUp.getPlayers().get(player).changeX(55);
 		}
-		else if(TestWood.players.get(player).getY()>70 && TestWood.players.get(player).getY()<410 && TestWood.players.get(player).getX()>455)
+		else if(SetUp.getPlayers().get(player).getX()>70 && SetUp.getPlayers().get(player).getX()<410 && SetUp.getPlayers().get(player).getY()<70)
 		{
-			TestWood.players.get(player).changeY(43);
+			SetUp.getPlayers().get(player).changeX(43);
 		}
-		else if(TestWood.players.get(player).getY()>410 && TestWood.players.get(player).getY()<455 && TestWood.players.get(player).getX()>455)
+		else if(SetUp.getPlayers().get(player).getX()>410 && SetUp.getPlayers().get(player).getX()<455 && SetUp.getPlayers().get(player).getY()<70)
 		{
-			TestWood.players.get(player).changeY(55);
+			SetUp.getPlayers().get(player).changeX(55);
+		}
+
+		else if(SetUp.getPlayers().get(player).getY()<70 && SetUp.getPlayers().get(player).getX()>455) // right of board
+		{
+			SetUp.getPlayers().get(player).changeY(55);
+		}
+		else if(SetUp.getPlayers().get(player).getY()>70 && SetUp.getPlayers().get(player).getY()<410 && SetUp.getPlayers().get(player).getX()>455)
+		{
+			SetUp.getPlayers().get(player).changeY(43);
+		}
+		else if(SetUp.getPlayers().get(player).getY()>410 && SetUp.getPlayers().get(player).getY()<455 && SetUp.getPlayers().get(player).getX()>455)
+		{
+			SetUp.getPlayers().get(player).changeY(55);
 		}
 
 		panel.repaint(); // repaints each loop to show tokens new position
@@ -127,6 +127,7 @@ public class Board extends JPanel
     return panel;
   }
 
-
-
+  public static void refresh() {
+	  panel.repaint();
+  }
  }
