@@ -45,7 +45,7 @@ public class TurnControl{
 				break;
 
 			case "buy" :
-				if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){
+				if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){ //checks if player is on property
 					if(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() == null){
 						element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
 						((Propertys) SetUp.getLocationsList().get(element.getLocation())).setOwner(element); //sets owner of property
@@ -64,7 +64,7 @@ public class TurnControl{
 				break;
 
 			case "property" :
-				Info_Panel.UserInput(element.getPropertiesOwned());
+				Info_Panel.UserInput(element.getPropertiesOwned()); //return list of players property
 				break;
 
 			case "pay rent" :
@@ -87,7 +87,6 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'buy' to buy property");
 				Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'balance' to get bank balance");
-				Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'property' to query owned property");
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
 				Info_Panel.UserInput("type 'quit' to end game");
@@ -103,11 +102,6 @@ public class TurnControl{
 					cond = false;
 				}
 				playGame = Check(element);
-
-				break;
-
-			case "test" :
-				Info_Panel.UserInput(Integer.toString(element.getLocation()));
 
 				break;
 
