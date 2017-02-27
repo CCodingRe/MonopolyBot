@@ -19,7 +19,7 @@ public class Info_Panel
  {
 
    MyTextArea = new JTextArea(60, 40);
-   MyTextArea.setFont(new Font("Serif", Font.BOLD, 21));
+   MyTextArea.setFont(new Font("Serif", Font.BOLD, 15));
    MyTextArea.setLineWrap(true);
 	 MyTextArea.setBounds(0, 0, 500, 800);
    MyTextArea.setWrapStyleWord(true);

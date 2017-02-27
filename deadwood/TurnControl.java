@@ -12,10 +12,10 @@ public class TurnControl{
 	public static void turn(){
 		for(Players element : SetUp.getPlayers()){
 			if(playGame) {
-				Info_Panel.UserInput(element.getName() + "'s turn");
+				Info_Panel.UserInput("\n" + element.getName() + "'s turn");
 				roll = true;
 				cond = true;
-        rent = true;
+				rent = true;
 				cmdCheck(element);
 			}
 		}
@@ -50,6 +50,7 @@ public class TurnControl{
 						element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
 						((Propertys) SetUp.getLocationsList().get(element.getLocation())).setOwner(element); //sets owner of property
 						element.propertyBought((Propertys) SetUp.getLocationsList().get(element.getLocation())); // adds property name to propertyNames array in Players which will be use for querying owned property
+						Info_Panel.UserInput(element.getName() + " bought " + SetUp.getLocationsList().get(element.getLocation()).getName());
 					} else {
 						Info_Panel.UserInput("Property already bought");
 					}
@@ -72,6 +73,7 @@ public class TurnControl{
             element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent()); //take rent from player
             ( (Propertys) SetUp.getLocationsList().get(element.getLocation()) ).getOwner().addBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());//give rent to property owner
             rent = true;
+            Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());
           }else{
             Info_Panel.UserInput("Can't pay rent here");
           }
@@ -83,6 +85,7 @@ public class TurnControl{
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
+				Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'balance' to get bank balance");
         Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'property' to query owned property");
