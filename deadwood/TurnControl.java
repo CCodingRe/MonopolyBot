@@ -87,11 +87,13 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'buy' to buy property");
 				Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'balance' to get bank balance");
+        Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'property' to query owned property");
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
 				Info_Panel.UserInput("type 'quit' to end game");
 				break;
 
+<<<<<<< HEAD
 			case "done" :
 				if(roll==true){
 					Info_Panel.UserInput("You must finish rolling");
@@ -101,6 +103,25 @@ public class TurnControl{
 				else cond = false;
 
 				break;
+=======
+      case "done" :
+        if(roll==true){
+          Info_Panel.UserInput("You must finish rolling");
+        }else if(rent == false){
+          Info_Panel.UserInput("You must pay outstanding rent");
+        }
+        else{
+          cond = false;
+        }
+        playGame = Check(element);
+
+          break;
+
+      case "test" :
+            Info_Panel.UserInput(Integer.toString(element.getLocation()));
+
+          break;
+>>>>>>> refs/remotes/origin/master
 
 			case "quit" :
 				ArrayList<Players> players = SetUp.getPlayers();
@@ -169,4 +190,18 @@ public class TurnControl{
 			}
 		}
 	}
+
+  private static Boolean Check(Players e){
+    if(e.getBalance() > 0){
+      for(Players element : SetUp.getPlayers()){
+        if((element.getBalance() > 0) && (element != e)){
+          return true;
+        }
+      }
+      Info_Panel.UserInput("Winner, Winner, Chicken Dinner");
+      Info_Panel.UserInput(e.getName() + " is the Winner");
+      return false;
+    }
+    return true;
+  }
 }
