@@ -42,6 +42,7 @@ public class TurnControl{
 						element.buy(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
 						((Propertys) SetUp.getLocationsList().get(element.getLocation())).setOwner(element); //sets owner of property
 						element.propertyBought((Propertys) SetUp.getLocationsList().get(element.getLocation())); // adds property name to propertyNames array in Players which will be use for querying owned property
+						Info_Panel.UserInput(element.getName() + " bought " + SetUp.getLocationsList().get(element.getLocation()).getName());
 					} else {
 						Info_Panel.UserInput("Property already bought");
 					}
