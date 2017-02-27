@@ -7,12 +7,14 @@ public class Players {
 	private int playerX;
 	private int playerY;
 	private int balance;
+	private int assets;
 	private int location, n;
 	private int propertiesOwned;
 	private String[] propertyNames = new String[36];
 	private String playerName;
 	private static int counter = 0;
 	public final int id;
+	private int firstRoll;
 
 	public Players() {
 		location = 0;
@@ -21,6 +23,7 @@ public class Players {
 		playerX = 480;
 		playerY = 480;
 		balance = 1500;
+		assets = 0;
 		playerName = "Player";
 		propertiesOwned = 0;
 		n = 0;
@@ -64,24 +67,28 @@ public class Players {
 
 	public void move() { //moves player according to roll()
 		int k = TurnControl.roll(this); // calls roll and passes current player through
-		n = n + k;
-		location = n % 40;
+		/*n = n + k;
+		location = n % 40;*/
 		Board.moveTokens(id, k); // moves current player k spaces
 	}
 
-	public void move(int k) { //moves player manually n spaces
-		n = n + k;
-		location = n % 40;
+	public void move(int k) { //moves player manually k spaces
 		Board.moveTokens(id, k);
+	}
+
+	public void changeLocation() {
+		n++;
+		location = n % 40;
 	}
 
 	public int getLocation(){ //returns players location
 		return location;
 	}
 
-	public void propertyBought(String propName) {
-		propertyNames[propertiesOwned] = propName;
+	public void propertyBought(Propertys prop) {
+		propertyNames[propertiesOwned] = prop.getName();
 		propertiesOwned++;
+		assets += prop.getValue();
 	}
 
 	public String getPropertiesOwned() {
@@ -89,24 +96,36 @@ public class Players {
 		output = playerName + " owns " + propertiesOwned + " properties: " + toStringArray(propertyNames);
 		return output;
 	}
-	
+
+	public int calculateAssets() {
+		return assets + balance;
+	}
+
 	public String toStringArray(String[] array) { // prints the propertyNames array without nullspaces
 		StringBuilder builder = new StringBuilder();
 		int n = array.length;
-	    for(int i=0; i<n; i++) {
-	        if(array[i] != null) {
-	            builder.append(array[i].toString());
-	            break;
-	        }
-	    }
-	    for(int j=1; j<n; j++) {
-	        if(array[j] != null) {
-	            builder.append(", ");
-	            builder.append(array[j].toString());
-	        }
-	    }
-		
+		for(int i=0; i<n; i++) {
+			if(array[i] != null) {
+				builder.append(array[i].toString());
+				break;
+			}
+		}
+		for(int j=1; j<n; j++) {
+			if(array[j] != null) {
+				builder.append(", ");
+				builder.append(array[j].toString());
+			}
+		}
+
 		return builder.toString();
+	}
+
+	public int getFirstRoll(){
+		return firstRoll;
+	}
+
+	public void setFirstRoll(int total){
+		firstRoll = total;
 	}
 
 }
