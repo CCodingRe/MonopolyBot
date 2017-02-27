@@ -95,6 +95,12 @@ public class SetUp{
            }
       });
 
+    int i = 0;
+    for(Players element : users) {
+      element.setId(i);
+      i++;
+    }
+
 
   }
 

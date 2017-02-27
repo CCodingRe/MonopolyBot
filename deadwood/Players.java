@@ -2,6 +2,7 @@ package deadwood;
 
 import java.util.Arrays;
 import java.util.concurrent.ThreadLocalRandom;
+import java.util.ArrayList;
 
 public class Players {
 	private int playerX;
@@ -12,14 +13,12 @@ public class Players {
 	private int propertiesOwned;
 	private String[] propertyNames = new String[36];
 	private String playerName;
-	private static int counter = 0;
-	public final int id;
+	public int id;
 	private int firstRoll;
+	private Boolean bankrupt;
 
 	public Players() {
 		location = 0;
-		this.id = counter;
-		counter++;
 		playerX = 480;
 		playerY = 480;
 		balance = 1500;
@@ -126,6 +125,10 @@ public class Players {
 
 	public void setFirstRoll(int total){
 		firstRoll = total;
+	}
+
+	public void setId(int index){
+		id = index;
 	}
 
 }
