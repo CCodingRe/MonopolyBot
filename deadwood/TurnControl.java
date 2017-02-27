@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 public class TurnControl{
 
 	private static String temp;
-	private static Boolean cond, roll;
+	private static Boolean cond, roll, rent;
 	private static Boolean playGame = true;
 
 	public static void turn(){
@@ -15,6 +15,7 @@ public class TurnControl{
 				Info_Panel.UserInput(element.getName() + "'s turn");
 				roll = true;
 				cond = true;
+        rent = true;
 				cmdCheck(element);
 			}
 		}
@@ -27,19 +28,26 @@ public class TurnControl{
 		while(cond){
 			Info_Panel.UserInput("Enter Command: ");
 			switch(Cmd_panel.getCommand()){
-			case "roll" :
-				if(roll){
-					roll = false;
-					movePlayer(element);
-				} else {
-					Info_Panel.UserInput("Player has already rolled");
-				}
-				break;
+
+        case "roll" :
+            if(roll){
+              roll = false;
+              movePlayer(element);
+            } else {
+              Info_Panel.UserInput("Player has already rolled");
+            }
+            if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){
+              if((((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != element) && (((Propertys)SetUp.getLocationsList().get(element.getLocation())).getOwner() != null)){
+                rent = false;
+              }
+            }
+
+              break;
 
 			case "buy" :
 				if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){
 					if(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() == null){
-						element.buy(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
+						element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getValue()); //takes money away from players balance
 						((Propertys) SetUp.getLocationsList().get(element.getLocation())).setOwner(element); //sets owner of property
 						element.propertyBought((Propertys) SetUp.getLocationsList().get(element.getLocation())); // adds property name to propertyNames array in Players which will be use for querying owned property
 						Info_Panel.UserInput(element.getName() + " bought " + SetUp.getLocationsList().get(element.getLocation()).getName());
@@ -59,6 +67,20 @@ public class TurnControl{
 				Info_Panel.UserInput(element.getPropertiesOwned());
 				break;
 
+      case "pay rent" :
+        if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
+          if((((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != element) && (((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != null) ){
+            element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent()); //take rent from player
+            ( (Propertys) SetUp.getLocationsList().get(element.getLocation()) ).getOwner().addBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());//give rent to property owner
+            rent = true;
+          }else{
+            Info_Panel.UserInput("Can't pay rent here");
+          }
+        } else {
+          Info_Panel.UserInput("Invalid command");
+        }
+          break;
+
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
@@ -68,12 +90,15 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'quit' to end game");
 				break;
 
-			case "done" :
-				if(roll==true){
-					Info_Panel.UserInput("You must roll first");
-				}
-				else cond = false;
-				break;
+      case "done" :
+        if(roll==true){
+          Info_Panel.UserInput("You must finish rolling");
+        }else if(rent == false){
+          Info_Panel.UserInput("You must pay outstanding rent");
+        }
+        else cond = false;
+
+          break;
 
 			case "test" :
 				element.addBalance(500);
@@ -118,6 +143,7 @@ public class TurnControl{
 		}
 	}
 
+
 	public static int roll(Players element) { //returns dice roll
 		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
@@ -129,31 +155,8 @@ public class TurnControl{
 		return rollNum;
 	}
 
-	private static void movePlayer(Players element){
-		/*Info_Panel.UserInput("How Many Spaces? (Hit Enter for default roll)");
-    String temp1 = Cmd_panel.getCommand();
-    int num;
 
-    try {
-        num = Integer.parseInt(temp1);
-        element.move(num);
-      } catch (NumberFormatException e) {
-        Info_Panel.UserInput("invalid number");
-        cmdCheck(element);
-      }
-    //allows manually moving and moving based on roll
-      /*if(temp1.equals("")){
-        element.move();
-      }
-      else{
-        try {
-            num = Integer.parseInt(temp1);
-            element.move(num);
-          } catch (NumberFormatException e) {
-            Info_Panel.UserInput("invalid number");
-            cmdCheck(element);
-          }
-      }*/
+  private static void movePlayer(Players element){
 
 		element.move();
 

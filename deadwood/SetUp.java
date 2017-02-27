@@ -2,6 +2,8 @@ package deadwood;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+import java.util.Collections;
 
 
 public class SetUp{
@@ -65,7 +67,7 @@ public class SetUp{
       for(int i = 1; i <= j; i++){
         users.add(new Players());
       }
-      
+
       Board.refresh();
 
       //get player names
@@ -81,6 +83,18 @@ public class SetUp{
       Info_Panel.UserInput("Invalid amount, 2 to 6 players allowed");
       playerCheck();
     }
+
+    for(Players element : users){
+          int total = TurnControl.roll(element);
+          element.setFirstRoll(total);
+        }
+
+        Collections.sort(users, new Comparator<Players>(){
+          @Override public int compare(Players p1, Players p2){
+              return p2.getFirstRoll() - p1.getFirstRoll(); // Ascending
+           }
+      });
+
 
   }
 

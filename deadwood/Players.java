@@ -14,6 +14,7 @@ public class Players {
 	private String playerName;
 	private static int counter = 0;
 	public final int id;
+	private int firstRoll;
 
 	public Players() {
 		location = 0;
@@ -40,7 +41,7 @@ public class Players {
 		balance += amount;
 	}
 
-	public void buy(int amount) {
+	public void deductBalance(int amount) {
 		balance -= amount;
 	}
 
@@ -72,7 +73,7 @@ public class Players {
 	public void move(int k) { //moves player manually k spaces
 		Board.moveTokens(id, k);
 	}
-	
+
 	public void changeLocation() {
 		n++;
 		location = n % 40;
@@ -116,6 +117,13 @@ public class Players {
 
 		return builder.toString();
 	}
-	
+
+	public int getFirstRoll(){
+		return firstRoll;
+	}
+
+	public void setFirstRoll(int total){
+		firstRoll = total;
+	}
 
 }
