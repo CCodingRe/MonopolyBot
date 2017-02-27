@@ -11,12 +11,12 @@ import java.awt.*;
 public class DeadWood
 {
 
-    public static void main(String [] args)
-    {
-      UI ui = new UI();
-      DeadWood d = new DeadWood();
-      SetUp set = new SetUp();
-      set.playerCheck(); //gets amount of players and sets names
-      TurnControl.turn();
-    }
+	public static void main(String [] args)
+	{
+		UI ui = new UI();
+		DeadWood d = new DeadWood();
+		SetUp set = new SetUp();
+		set.playerCheck(); //gets amount of players and sets names
+		TurnControl.turn();
+	}
 }

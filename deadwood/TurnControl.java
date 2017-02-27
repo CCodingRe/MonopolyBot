@@ -29,20 +29,20 @@ public class TurnControl{
 			Info_Panel.UserInput("Enter Command: ");
 			switch(Cmd_panel.getCommand()){
 
-        case "roll" :
-            if(roll){
-              roll = false;
-              movePlayer(element);
-            } else {
-              Info_Panel.UserInput("Player has already rolled");
-            }
-            if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){
-              if((((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != element) && (((Propertys)SetUp.getLocationsList().get(element.getLocation())).getOwner() != null)){
-                rent = false;
-              }
-            }
+			case "roll" :
+				if(roll){
+					roll = false;
+					movePlayer(element);
+				} else {
+					Info_Panel.UserInput("Player has already rolled");
+				}
+				if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){
+					if((((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != element) && (((Propertys)SetUp.getLocationsList().get(element.getLocation())).getOwner() != null)){
+						rent = false;
+					}
+				}
 
-              break;
+				break;
 
 			case "buy" :
 				if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){
@@ -67,20 +67,20 @@ public class TurnControl{
 				Info_Panel.UserInput(element.getPropertiesOwned());
 				break;
 
-      case "pay rent" :
-        if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
-          if((((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != element) && (((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != null) ){
-            element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent()); //take rent from player
-            ( (Propertys) SetUp.getLocationsList().get(element.getLocation()) ).getOwner().addBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());//give rent to property owner
-            rent = true;
-            Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());
-          }else{
-            Info_Panel.UserInput("Can't pay rent here");
-          }
-        } else {
-          Info_Panel.UserInput("Invalid command");
-        }
-          break;
+			case "pay rent" :
+				if(SetUp.getLocationsList().get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
+					if((((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != element) && (((Propertys) SetUp.getLocationsList().get(element.getLocation())).getOwner() != null) ){
+						element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent()); //take rent from player
+						( (Propertys) SetUp.getLocationsList().get(element.getLocation()) ).getOwner().addBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());//give rent to property owner
+						rent = true;
+						Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());
+					}else{
+						Info_Panel.UserInput("Can't pay rent here");
+					}
+				} else {
+					Info_Panel.UserInput("Invalid command");
+				}
+				break;
 
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
@@ -92,18 +92,14 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'quit' to end game");
 				break;
 
-      case "done" :
-        if(roll==true){
-          Info_Panel.UserInput("You must finish rolling");
-        }else if(rent == false){
-          Info_Panel.UserInput("You must pay outstanding rent");
-        }
-        else cond = false;
+			case "done" :
+				if(roll==true){
+					Info_Panel.UserInput("You must finish rolling");
+				}else if(rent == false){
+					Info_Panel.UserInput("You must pay outstanding rent");
+				}
+				else cond = false;
 
-          break;
-
-			case "test" :
-				element.addBalance(500);
 				break;
 
 			case "quit" :
@@ -158,7 +154,7 @@ public class TurnControl{
 	}
 
 
-  private static void movePlayer(Players element){
+	private static void movePlayer(Players element){
 
 		element.move();
 
