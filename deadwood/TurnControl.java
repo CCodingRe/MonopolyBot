@@ -12,10 +12,10 @@ public class TurnControl{
 	public static void turn(){
 		for(Players element : SetUp.getPlayers()){
 			if(playGame) {
-				Info_Panel.UserInput(element.getName() + "'s turn");
+				Info_Panel.UserInput("\n" + element.getName() + "'s turn");
 				roll = true;
 				cond = true;
-        rent = true;
+				rent = true;
 				cmdCheck(element);
 			}
 		}
@@ -73,6 +73,7 @@ public class TurnControl{
             element.deductBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent()); //take rent from player
             ( (Propertys) SetUp.getLocationsList().get(element.getLocation()) ).getOwner().addBalance(((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());//give rent to property owner
             rent = true;
+            Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) SetUp.getLocationsList().get(element.getLocation())).getRent());
           }else{
             Info_Panel.UserInput("Can't pay rent here");
           }
@@ -84,6 +85,7 @@ public class TurnControl{
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
+				Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'balance' to get bank balance");
 				Info_Panel.UserInput("type 'property' to query owned property");
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
