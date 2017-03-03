@@ -15,7 +15,6 @@ public class Players {
 	private String playerName;
 	public int id;
 	private int firstRoll;
-	private Boolean bankrupt;
 
 	public Players() {
 		location = 0;
