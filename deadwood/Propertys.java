@@ -5,13 +5,15 @@ public class Propertys extends Locations{
 	int value;
 	Players owner = null;
 	int rent;
+	String group;
 
-	Propertys(String n, int loc, int v, int r){
+	Propertys(String n, int loc, int v, int r, String g){
 		super(n, loc);
 		setName(n);
 		setLocation(loc);
 		value = v;
 		rent = r;
+		group = g;
 	}
 
 
