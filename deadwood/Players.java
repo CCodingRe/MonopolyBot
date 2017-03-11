@@ -63,11 +63,11 @@ public class Players {
 
 	public void move() { //moves player according to roll()
 		int k = TurnControl.roll(this); // calls roll and passes current player through
-		Board.moveTokens(id, k); // moves current player k spaces
+		Board.moveTokens(this, k); // moves current player k spaces
 	}
 
 	public void move(int k) { //moves player manually k spaces
-		Board.moveTokens(id, k);
+		Board.moveTokens(this, k);
 	}
 
 	public void changeLocation() {
@@ -118,6 +118,10 @@ public class Players {
 
 	public void setId(int index){
 		id = index;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 }

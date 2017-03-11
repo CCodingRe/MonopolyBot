@@ -1,6 +1,7 @@
 package deadwood;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class TurnControl{
@@ -8,10 +9,13 @@ public class TurnControl{
 	private static Boolean cond, roll, rent;
 	private static Boolean playGame = true;
 	private static ArrayList<Locations> locations = (ArrayList<Locations>) SetUp.getLocationsList();
+	private static ArrayList<Players> players = SetUp.getPlayers();
+	private static Iterator<Players> it;
 	private static String propName;
 
 	public static void turn(){
-		for(Players element : SetUp.getPlayers()){
+		for(it = players.iterator(); it.hasNext(); ) { // iterator iterates through the players arrayList. This avoids a ConcurrentModificationException when declaring bankruptcy and removing elements
+			Players element = it.next();
 			if(playGame) {
 				Info_Panel.UserInput("\n" + element.getName() + "'s turn");
 				roll = true;
@@ -143,6 +147,22 @@ public class TurnControl{
 				Info_Panel.UserInput("");
 				break;
 				
+			case "bankrupt" :
+				Info_Panel.UserInput(element.getName() + " has declared bankrupty");
+				for(Locations property : locations) {
+					if(property instanceof Propertys) { //checks that the property object is a property
+						if(element==((Propertys) property).getOwner()) { // if the player owns the property
+							((Propertys) property).setOwner(null);
+							((Propertys) property).redeem();
+						}
+					}
+				}
+				it.remove();
+				Board.refresh();
+				cond = false;
+				playGame = Check(element);
+				break;
+				
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
@@ -153,6 +173,7 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'redeem' to redeem a mortgaged property");
 				Info_Panel.UserInput("type 'input names' to get a list of input names for the properties");
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
+				Info_Panel.UserInput("type 'bankrupt' to declare bankruptcy");
 				Info_Panel.UserInput("type 'quit' to end game");
 				break;
 

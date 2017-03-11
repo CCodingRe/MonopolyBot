@@ -58,14 +58,19 @@ public class SetUp{
 
 	}
 
-	public void playerCheck(){
+	public void playerCheck() {
 		//set up players
 		int j = Integer.parseInt(Cmd_panel.getCommand());
 
 		//get amount of players
-		if(j <= 6 && j >= 2){
+		if(j <= 6 && j >= 2) {
 			for(int i = 1; i <= j; i++){
 				users.add(new Players());
+			}
+			int i = 0;
+			for(Players element : users) {
+				element.setId(i);
+				i++;
 			}
 
 			Board.refresh();
@@ -77,7 +82,6 @@ public class SetUp{
 				element.setName(Cmd_panel.getCommand());
 				k++;
 			}
-			Board.refresh();
 
 		} else {
 			Info_Panel.UserInput("Invalid amount, 2 to 6 players allowed");
@@ -95,13 +99,7 @@ public class SetUp{
 			}
 		});
 
-		int i = 0;
-		for(Players element : users) {
-			element.setId(i);
-			i++;
-		}
-
-
+		Board.refresh();
 	}
 
 	public static ArrayList<Players> getPlayers(){
