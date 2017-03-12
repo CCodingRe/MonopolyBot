@@ -160,6 +160,7 @@ public class TurnControl{
 				it.remove();
 				Board.refresh();
 				cond = false;
+				playGame = checkWinner();
 				break;
 				
 			case "help" :
@@ -185,6 +186,7 @@ public class TurnControl{
 				else{
 					cond = false;
 				}
+				playGame = checkWinner();
 
 				break;
 
@@ -257,6 +259,7 @@ public class TurnControl{
 		}
 	}
 
+	private static Boolean checkWinner(){
 		int pAmount = 0;
 		for(Players player : players) {
 			pAmount++;
