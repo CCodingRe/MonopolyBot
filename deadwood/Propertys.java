@@ -6,14 +6,17 @@ public class Propertys extends Locations{
 	Players owner = null;
 	int rent;
 	String group;
+	int house_Cost;
+	int house_Num;
 
-	Propertys(String n, int loc, int v, int r, String g){
+	Propertys(String n, int loc, int v, int r, String g, int h_Cost){
 		super(n, loc);
 		setName(n);
 		setLocation(loc);
 		value = v;
 		rent = r;
 		group = g;
+		house_Cost = h_Cost;
 	}
 
 

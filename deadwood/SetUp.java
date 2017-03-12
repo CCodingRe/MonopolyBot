@@ -16,45 +16,45 @@ public class SetUp{
 		//set up board
 
 		LocationList.add(new Locations("Go", 0));
-		LocationList.add(new Propertys("Mediterranean Avenue", 1, 60, 5, "Brown"));
+		LocationList.add(new Propertys("Mediterranean Avenue", 1, 60, 5, "Brown", 50));
 		LocationList.add(new Locations("Community Chest", 2));
-		LocationList.add(new Propertys("Baltic Avenue", 3, 60, 5, "Brown"));
+		LocationList.add(new Propertys("Baltic Avenue", 3, 60, 5, "Brown", 50));
 		LocationList.add(new Locations("Income Tax", 4));
 		LocationList.add(new Locations("Reading Railroad", 5));
-		LocationList.add(new Propertys("Oriental Avenue", 6, 100, 5, "Turquoise"));
+		LocationList.add(new Propertys("Oriental Avenue", 6, 100, 5, "Turquoise", 50));
 		LocationList.add(new Locations("Chance", 7));
-		LocationList.add(new Propertys("Vemont Avenue",8, 100, 5, "Turquoise" ));
-		LocationList.add(new Propertys("Connecticut Avenue", 9, 120, 5, "Turquoise" ));
+		LocationList.add(new Propertys("Vemont Avenue",8, 100, 5, "Turquoise", 50 ));
+		LocationList.add(new Propertys("Connecticut Avenue", 9, 120, 5, "Turquoise", 50 ));
 		LocationList.add(new Locations("Jail", 10));
-		LocationList.add(new Propertys("St.Charles Place",11, 140, 5, "Pink" ));
+		LocationList.add(new Propertys("St.Charles Place",11, 140, 5, "Pink", 100 ));
 		LocationList.add(new Locations("Electric Company", 12));
-		LocationList.add(new Propertys("States Avenue",13, 140 , 5, "Pink" ));
-		LocationList.add(new Propertys("Virginia Avenue", 14, 160, 5, "Pink" ));
+		LocationList.add(new Propertys("States Avenue",13, 140 , 5, "Pink", 100 ));
+		LocationList.add(new Propertys("Virginia Avenue", 14, 160, 5, "Pink" , 100));
 		LocationList.add(new Locations("Pennsylvania Railroad", 15));
-		LocationList.add(new Propertys("St.James Place",16, 180, 5, "Orange"));
+		LocationList.add(new Propertys("St.James Place",16, 180, 5, "Orange",100));
 		LocationList.add(new Locations("Community Chest", 17));
-		LocationList.add(new Propertys("Tennessee Avenue", 18, 180, 5, "Orange" ));
-		LocationList.add(new Propertys("New York Avenue", 19, 200, 5, "Orange" ));
+		LocationList.add(new Propertys("Tennessee Avenue", 18, 180, 5, "Orange", 100 ));
+		LocationList.add(new Propertys("New York Avenue", 19, 200, 5, "Orange", 100 ));
 		LocationList.add(new Locations("Free Parking", 20));
-		LocationList.add(new Propertys("Kentuck Avenue",21, 220, 5, "Red" ));
+		LocationList.add(new Propertys("Kentuck Avenue",21, 220, 5, "Red", 150 ));
 		LocationList.add(new Locations("Chance", 22));
-		LocationList.add(new Propertys("Inidanna Avenue", 23, 220, 5, "Red" ));
-		LocationList.add(new Propertys("Illinois Avenue", 24, 240, 5, "Red" ));
+		LocationList.add(new Propertys("Inidanna Avenue", 23, 220, 5, "Red", 150 ));
+		LocationList.add(new Propertys("Illinois Avenue", 24, 240, 5, "Red" , 150));
 		LocationList.add(new Locations("B & O Raiload", 25));
-		LocationList.add(new Propertys("Atlantic Avenue", 26, 260, 5, "Yellow"));
-		LocationList.add(new Propertys("Ventnor Avenue", 27, 260, 5, "Yellow"));
+		LocationList.add(new Propertys("Atlantic Avenue", 26, 260, 5, "Yellow", 150));
+		LocationList.add(new Propertys("Ventnor Avenue", 27, 260, 5, "Yellow", 150));
 		LocationList.add(new Locations("Water Works", 28));
-		LocationList.add(new Propertys("Marvin Gardens",29, 280, 5, "Yellow"));
+		LocationList.add(new Propertys("Marvin Gardens",29, 280, 5, "Yellow", 150));
 		LocationList.add(new Locations("Go To Jail", 30));
-		LocationList.add(new Propertys("Pacific Avenue",31, 300, 5, "Green"));
-		LocationList.add(new Propertys("North Carolina Avenue",32, 300, 5, "Green"));
+		LocationList.add(new Propertys("Pacific Avenue",31, 300, 5, "Green", 200));
+		LocationList.add(new Propertys("North Carolina Avenue",32, 300, 5, "Green", 200));
 		LocationList.add(new Locations("Community Chest", 33));
-		LocationList.add(new Propertys("Pennsylvania Avenue",34, 320, 5, "Green"));
+		LocationList.add(new Propertys("Pennsylvania Avenue",34, 320, 5, "Green", 200));
 		LocationList.add(new Locations("Short Line", 35));
 		LocationList.add(new Locations("Chance", 36));
-		LocationList.add(new Propertys("Park Place", 37, 350, 5, "Blue" ));
+		LocationList.add(new Propertys("Park Place", 37, 350, 5, "Blue", 200 ));
 		LocationList.add(new Locations("Luxery Tax", 38));
-		LocationList.add(new Propertys("Boardwalk", 39, 400, 5, "Blue"));
+		LocationList.add(new Propertys("Boardwalk", 39, 400, 5, "Blue", 200));
 
 	}
 
