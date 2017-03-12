@@ -259,18 +259,13 @@ public class TurnControl{
 		}
 	}
 
-	private static Boolean checkWinner(){
-		int pAmount = 0;
-		for(Players player : players) {
-			pAmount++;
-		}
-		if(pAmount > 1) {
-			return true;
-		}
+	private static Boolean checkWinner() {
+		if(players.size() > 1) return true;
 		else {
 			Info_Panel.UserInput("\nWinner, Winner, Chicken Dinner");
-			Info_Panel.UserInput(it.next().getName() + " is the Winner");
+			Info_Panel.UserInput(players.get(0).getName() + " is the Winner");
 			return false;
 		}
 	}
+	
 }
