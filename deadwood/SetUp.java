@@ -68,17 +68,6 @@ public class SetUp{
 					users.add(new Players());
 					users.get(i).setId(i);
 				}
-
-				Board.refresh();
-
-				//get player names
-				int k = 1;
-				for(Players element : users ){
-					Info_Panel.UserInput("Enter name for player " + k);
-					element.setName(Cmd_panel.getCommand());
-					k++;
-				}
-
 			} else {
 				Info_Panel.UserInput("Error: Invalid amount, 2 to 6 players allowed");
 				playerCheck();
@@ -87,6 +76,16 @@ public class SetUp{
 		catch (NumberFormatException e) {
 			Info_Panel.UserInput("Error: Please enter a valid number");
 			playerCheck();
+		}
+		
+		Board.refresh();
+
+		//get player names
+		int k = 1;
+		for(Players element : users ){
+			Info_Panel.UserInput("Enter name for player " + k);
+			element.setName(Cmd_panel.getCommand());
+			k++;
 		}
 
 		for(Players element : users){
