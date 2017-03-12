@@ -160,7 +160,6 @@ public class TurnControl{
 				it.remove();
 				Board.refresh();
 				cond = false;
-				playGame = Check(element);
 				break;
 				
 			case "help" :
@@ -186,7 +185,6 @@ public class TurnControl{
 				else{
 					cond = false;
 				}
-				playGame = Check(element);
 
 				break;
 
@@ -259,17 +257,17 @@ public class TurnControl{
 		}
 	}
 
-	private static Boolean Check(Players e){
-		if(e.getBalance() > 0){
-			for(Players element : SetUp.getPlayers()){
-				if((element.getBalance() > 0) && (element != e)){
-					return true;
-				}
-			}
-			Info_Panel.UserInput("Winner, Winner, Chicken Dinner");
-			Info_Panel.UserInput(e.getName() + " is the Winner");
+		int pAmount = 0;
+		for(Players player : players) {
+			pAmount++;
+		}
+		if(pAmount > 1) {
+			return true;
+		}
+		else {
+			Info_Panel.UserInput("\nWinner, Winner, Chicken Dinner");
+			Info_Panel.UserInput(it.next().getName() + " is the Winner");
 			return false;
 		}
-		return true;
 	}
 }
