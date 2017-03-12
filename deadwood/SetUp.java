@@ -40,7 +40,7 @@ public class SetUp{
 		LocationList.add(new Locations("Chance", 22));
 		LocationList.add(new Propertys("Indiana Avenue", "Indiana", 23, 220, 110, 5 ));
 		LocationList.add(new Propertys("Illinois Avenue", "Illinois", 24, 240, 120, 5 ));
-		LocationList.add(new Locations("B & O Raiload", 25));
+		LocationList.add(new Locations("B & O Railroad", 25));
 		LocationList.add(new Propertys("Atlantic Avenue", "Atlantic", 26, 260, 130, 5));
 		LocationList.add(new Propertys("Ventnor Avenue", "Ventnor", 27, 260, 130, 5));
 		LocationList.add(new Locations("Water Works", 28));
@@ -50,7 +50,7 @@ public class SetUp{
 		LocationList.add(new Propertys("North Carolina Avenue", "Carolina", 32, 300, 150, 5));
 		LocationList.add(new Locations("Community Chest", 33));
 		LocationList.add(new Propertys("Pennsylvania Avenue", "Pennsylvania", 34, 320, 160, 5));
-		LocationList.add(new Locations("Short Line", 35));
+		LocationList.add(new Locations("Short Line Railroad", 35));
 		LocationList.add(new Locations("Chance", 36));
 		LocationList.add(new Propertys("Park Place", "Park", 37, 350, 175, 5 ));
 		LocationList.add(new Locations("Luxery Tax", 38));
@@ -60,31 +60,32 @@ public class SetUp{
 
 	public void playerCheck() {
 		//set up players
-		int j = Integer.parseInt(Cmd_panel.getCommand());
+		try { // try/catch ensures an integer value is entered
+			int j = Integer.parseInt(Cmd_panel.getCommand());
+			//get amount of players
+			if(j <= 6 && j >= 2) {
+				for(int i = 0; i < j; i++) {
+					users.add(new Players());
+					users.get(i).setId(i);
+				}
 
-		//get amount of players
-		if(j <= 6 && j >= 2) {
-			for(int i = 1; i <= j; i++){
-				users.add(new Players());
+				Board.refresh();
+
+				//get player names
+				int k = 1;
+				for(Players element : users ){
+					Info_Panel.UserInput("Enter name for player " + k);
+					element.setName(Cmd_panel.getCommand());
+					k++;
+				}
+
+			} else {
+				Info_Panel.UserInput("Error: Invalid amount, 2 to 6 players allowed");
+				playerCheck();
 			}
-			int i = 0;
-			for(Players element : users) {
-				element.setId(i);
-				i++;
-			}
-
-			Board.refresh();
-
-			//get player names
-			int k = 1;
-			for(Players element : users ){
-				Info_Panel.UserInput("Enter name for player " + k);
-				element.setName(Cmd_panel.getCommand());
-				k++;
-			}
-
-		} else {
-			Info_Panel.UserInput("Invalid amount, 2 to 6 players allowed");
+		} 
+		catch (NumberFormatException e) {
+			Info_Panel.UserInput("Error: Please enter a valid number");
 			playerCheck();
 		}
 

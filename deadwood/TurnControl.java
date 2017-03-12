@@ -252,6 +252,7 @@ public class TurnControl{
 			Info_Panel.UserInput("Cost: " + Integer.toString(((Propertys) locations.get(element.getLocation())).getValue()));
 			if(((Propertys) locations.get(element.getLocation())).getOwner() != null){
 				Info_Panel.UserInput("Owner: " + ((Propertys) locations.get(element.getLocation())).getOwnerName());
+				Info_Panel.UserInput("Rent: " + ((Propertys) locations.get(element.getLocation())).getRent());
 			} else {
 				Info_Panel.UserInput("No Owner");
 			}

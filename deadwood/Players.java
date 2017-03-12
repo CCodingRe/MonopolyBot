@@ -13,6 +13,7 @@ public class Players {
 	private String playerName;
 	public int id;
 	private int firstRoll;
+	private static final String[] COLOUR = {"red", "blue", "yellow", "green", "magenta", "white"};
 
 	public Players() {
 		location = 0;
@@ -30,7 +31,7 @@ public class Players {
 	}
 
 	public String getName() {
-		return playerName;
+		return playerName + " (" + COLOUR[id] + ")";
 	}
 
 	public void addBalance(int amount) {
