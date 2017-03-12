@@ -21,7 +21,7 @@ public class Cmd_panel extends JPanel{
           public void actionPerformed(ActionEvent evt) {  //runs code when action event runs
             synchronized (cmdBuff){
               cmdBuff.add(userText.getText());
-              Info_Panel.UserInput(userText.getText());
+              Info_Panel.UserInput("> " + userText.getText());
               userText.setText(""); //empty text field
               cmdBuff.notify();
             }

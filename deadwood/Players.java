@@ -1,8 +1,6 @@
 package deadwood;
 
-import java.util.Arrays;
-import java.util.concurrent.ThreadLocalRandom;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 public class Players {
 	private int playerX;
@@ -11,10 +9,11 @@ public class Players {
 	private int assets;
 	private int location, n;
 	private int propertiesOwned;
-	private String[] propertyNames = new String[36];
+	private LinkedList<Propertys> ownedProperties = new LinkedList<Propertys>();
 	private String playerName;
 	public int id;
 	private int firstRoll;
+	private static final String[] COLOUR = {"red", "blue", "yellow", "green", "magenta", "white"};
 
 	public Players() {
 		location = 0;
@@ -32,7 +31,7 @@ public class Players {
 	}
 
 	public String getName() {
-		return playerName;
+		return playerName + " (" + COLOUR[id] + ")";
 	}
 
 	public void addBalance(int amount) {
@@ -65,11 +64,11 @@ public class Players {
 
 	public void move() { //moves player according to roll()
 		int k = TurnControl.roll(this); // calls roll and passes current player through
-		Board.moveTokens(id, k); // moves current player k spaces
+		Board.moveTokens(this, k); // moves current player k spaces
 	}
 
 	public void move(int k) { //moves player manually k spaces
-		Board.moveTokens(id, k);
+		Board.moveTokens(this, k);
 	}
 
 	public void changeLocation() {
@@ -82,14 +81,14 @@ public class Players {
 	}
 
 	public void propertyBought(Propertys prop) {
-		propertyNames[propertiesOwned] = prop.getName();
+		ownedProperties.add(prop);
 		propertiesOwned++;
 		assets += prop.getValue();
 	}
 
 	public String getPropertiesOwned() {
 		String output = "";
-		output = playerName + " owns " + propertiesOwned + " properties: " + toStringArray(propertyNames);
+		output = playerName + " owns " + propertiesOwned + " properties: " + toStringList(ownedProperties);
 		return output;
 	}
 
@@ -97,22 +96,16 @@ public class Players {
 		return assets + balance;
 	}
 
-	public String toStringArray(String[] array) { // prints the propertyNames array without nullspaces
+	public String toStringList(LinkedList<Propertys> propertyNames) { // puts the owned properties in a string
 		StringBuilder builder = new StringBuilder();
-		int n = array.length;
-		for(int i=0; i<n; i++) {
-			if(array[i] != null) {
-				builder.append(array[i].toString());
-				break;
+		
+		for (Propertys prop : propertyNames) {
+			builder.append(prop.getName());
+			if(prop.isMortgaged()) {
+				builder.append("(mortgaged)");
 			}
+			builder.append(", ");
 		}
-		for(int j=1; j<n; j++) {
-			if(array[j] != null) {
-				builder.append(", ");
-				builder.append(array[j].toString());
-			}
-		}
-
 		return builder.toString();
 	}
 
@@ -126,6 +119,10 @@ public class Players {
 
 	public void setId(int index){
 		id = index;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 }
