@@ -24,7 +24,7 @@ public class Board extends JPanel
 	{
 		try
 		{
-			img = ImageIO.read(new File("monopoly-board.jpg")); // loads in the image of the board
+			img = ImageIO.read(this.getClass().getResource("monopoly-board.jpg")); // loads in the image of the board
 			panelWidth = img.getWidth() + 15;
 			panelHeight = img.getHeight() + 40; // +15 and +40 to width and height to adjust for the title at the top of the Jpanel
 			setPreferredSize(new Dimension(panelWidth, panelHeight));
