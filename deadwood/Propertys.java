@@ -9,7 +9,7 @@ public class Propertys extends Locations{
 	int rent;
 	String group;
 	int house_Cost;
-	int house_Num;
+	int units = 0;
 	Boolean isMortgaged;
 
 	Propertys(String n, String iN, int loc, int v, int mV, int r, String g, int h_Cost){
@@ -60,6 +60,12 @@ public class Propertys extends Locations{
 	}
 	public Boolean isMortgaged() {
 		return isMortgaged;
+	}
+	public int getUnits(){
+		return units;
+	}
+	public void addUnits(int n){
+		units += n;
 	}
 
 }

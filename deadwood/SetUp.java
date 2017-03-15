@@ -71,11 +71,13 @@ public class SetUp{
 			} else {
 				Info_Panel.UserInput("Error: Invalid amount, 2 to 6 players allowed");
 				playerCheck();
+				return;
 			}
 		}
 		catch (NumberFormatException e) {
 			Info_Panel.UserInput("Error: Please enter a valid number");
 			playerCheck();
+			return;
 		}
 
 		Board.refresh();

@@ -32,7 +32,9 @@ public class TurnControl{
 	private static void cmdCheck(Players element){
 		while(cond){
 			Info_Panel.UserInput("Enter Command: ");
-			switch(Cmd_panel.getCommand()){
+			String[] s = Cmd_panel.getCommand().split(" ");
+			String command = s[0];
+			switch(command){
 
 			case "roll" :
 				if(roll){
@@ -86,7 +88,7 @@ public class TurnControl{
 					Info_Panel.UserInput("Error: Invalid command");
 				}
 				break;
-				
+
 			case "mortgage" :
 				Info_Panel.UserInput("What property would you like to mortgage?");
 				propName = Cmd_panel.getCommand();
@@ -111,7 +113,7 @@ public class TurnControl{
 				}
 				if(isProperty==false) Info_Panel.UserInput("Error: Invalid property input name");
 				break;
-				
+
 			case "redeem" :
 				Info_Panel.UserInput("What mortgaged property would you like to redeem?");
 				propName = Cmd_panel.getCommand();
@@ -136,7 +138,7 @@ public class TurnControl{
 				}
 				if(isProperty==false) Info_Panel.UserInput("Error: Invalid property input name");
 				break;
-				
+
 			case "input names" :
 				Info_Panel.UserInput("");
 				for(Locations property : locations) {
@@ -146,7 +148,7 @@ public class TurnControl{
 				}
 				Info_Panel.UserInput("");
 				break;
-				
+
 			case "bankrupt" :
 				Info_Panel.UserInput(element.getName() + " has declared bankrupty");
 				for(Locations property : locations) {
@@ -162,7 +164,54 @@ public class TurnControl{
 				cond = false;
 				playGame = checkWinner();
 				break;
-				
+
+			case "build" :
+
+				if(!(s.length == 3)){
+					Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
+					Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
+					break;
+				}
+
+				String propertyname = s[1];
+				Propertys prop = propertyFinder(propertyname);
+
+				if(prop==null){
+					Info_Panel.UserInput("Error: Invalid property input name");
+					break;
+				}
+
+				if(element==prop.getOwner() && !(prop.isMortgaged())){
+					try{
+						if(s[2].equalsIgnoreCase("hotel")){
+							if(prop.getUnits() == 4){
+								prop.addUnits(1);
+								Info_Panel.UserInput("Building Hotel on " + prop.getName());
+							} else if (prop.getUnits() == 5){
+								Info_Panel.UserInput("Error: Hotel already built here");
+							} else {
+								Info_Panel.UserInput("Error: Need 4 houses before building hotel");
+							}
+						} else {
+							int units = Integer.parseInt(s[2]);
+							if((prop.getUnits() + units) <= 4){
+								prop.addUnits(units);
+								Info_Panel.UserInput("Building " + units + " houses on " + prop.getName());
+							} else {
+								Info_Panel.UserInput("Error: Max of 4 houses per property");
+							}
+						}
+
+					} catch(NumberFormatException e) {
+						Info_Panel.UserInput("Error: ensure correct inputs");
+					}
+				} else {
+					Info_Panel.UserInput("Error: can't build here");
+				}
+
+				break;
+
+
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
@@ -175,6 +224,9 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
 				Info_Panel.UserInput("type 'bankrupt' to declare bankruptcy");
 				Info_Panel.UserInput("type 'quit' to end game");
+				Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
+				Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
+
 				break;
 
 			case "done" :
@@ -268,5 +320,17 @@ public class TurnControl{
 			return false;
 		}
 	}
-	
+
+	private static Propertys propertyFinder(String propName){
+		for(Locations property : locations){
+			if(property instanceof Propertys){
+				if( (((Propertys) property).getInputName()).equalsIgnoreCase(propName)){
+					return (Propertys) property;
+				}
+			}
+		}
+		return null;
+	}
+
+
 }
