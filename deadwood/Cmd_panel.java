@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import javax.swing.JTextField;
 
+
 public class Cmd_panel extends JPanel{
 
     private JTextField userText = new JTextField(10);;

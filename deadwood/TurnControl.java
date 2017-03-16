@@ -32,7 +32,9 @@ public class TurnControl{
 	private static void cmdCheck(Players element){
 		while(cond){
 			Info_Panel.UserInput("Enter Command: ");
-			switch(Cmd_panel.getCommand()){
+			String[] s = Cmd_panel.getCommand().split(" "); //input commands are split into words and stored in array
+			String command = s[0];
+			switch(command){
 
 			case "roll" :
 				if(roll){
@@ -72,21 +74,27 @@ public class TurnControl{
 				Info_Panel.UserInput(element.getPropertiesOwned()); //return list of players property
 				break;
 
-			case "pay rent" :
-				if(locations.get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
-					if((((Propertys) locations.get(element.getLocation())).getOwner() != element) && (((Propertys) locations.get(element.getLocation())).getOwner() != null) ){
-						element.deductBalance(((Propertys) locations.get(element.getLocation())).getRent()); //take rent from player
-						( (Propertys) locations.get(element.getLocation()) ).getOwner().addBalance(((Propertys) locations.get(element.getLocation())).getRent());//give rent to property owner
-						rent = true;
-						Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) locations.get(element.getLocation())).getRent());
-					}else{
-						Info_Panel.UserInput("Error: Can't pay rent here");
-					}
-				} else {
+			case "pay" :
+				if(!(s.length == 2)){
 					Info_Panel.UserInput("Error: Invalid command");
+					break;
+				}
+				if(s[1].equalsIgnoreCase("rent")){
+					if(locations.get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
+						if((((Propertys) locations.get(element.getLocation())).getOwner() != element) && (((Propertys) locations.get(element.getLocation())).getOwner() != null) ){
+							element.deductBalance(((Propertys) locations.get(element.getLocation())).getRent()); //take rent from player
+							( (Propertys) locations.get(element.getLocation()) ).getOwner().addBalance(((Propertys) locations.get(element.getLocation())).getRent());//give rent to property owner
+							rent = true;
+							Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) locations.get(element.getLocation())).getRent());
+						}else{
+							Info_Panel.UserInput("Error: Can't pay rent here");
+						}
+					} else {
+						Info_Panel.UserInput("Error: Invalid command");
+					}
 				}
 				break;
-				
+
 			case "mortgage" :
 				Info_Panel.UserInput("What property would you like to mortgage?");
 				propName = Cmd_panel.getCommand();
@@ -111,7 +119,7 @@ public class TurnControl{
 				}
 				if(isProperty==false) Info_Panel.UserInput("Error: Invalid property input name");
 				break;
-				
+
 			case "redeem" :
 				Info_Panel.UserInput("What mortgaged property would you like to redeem?");
 				propName = Cmd_panel.getCommand();
@@ -136,8 +144,14 @@ public class TurnControl{
 				}
 				if(isProperty==false) Info_Panel.UserInput("Error: Invalid property input name");
 				break;
-				
-			case "input names" :
+
+			case "input" :
+
+			if(!(s.length == 2)){
+				Info_Panel.UserInput("Error: Invalid command");
+				break;
+			}
+			if(s[1].equalsIgnoreCase("names")){
 				Info_Panel.UserInput("");
 				for(Locations property : locations) {
 					if(property instanceof Propertys) { //checks that the property object is a property
@@ -145,8 +159,11 @@ public class TurnControl{
 					}
 				}
 				Info_Panel.UserInput("");
+			} else {
+				Info_Panel.UserInput("Error: Invalid command");
+			}
 				break;
-				
+
 			case "bankrupt" :
 				Info_Panel.UserInput(element.getName() + " has declared bankrupty");
 				for(Locations property : locations) {
@@ -162,7 +179,60 @@ public class TurnControl{
 				cond = false;
 				playGame = checkWinner();
 				break;
-				
+
+			case "build" :
+
+				if(!(s.length == 3)){
+					Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
+					Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
+					break;
+				}
+
+				String propertyname = s[1];
+				Propertys prop = propertyFinder(propertyname);
+
+				if(prop==null){
+					Info_Panel.UserInput("Error: Invalid property input name");
+					break;
+				}
+
+				boolean monopoly = groupCheck(element, prop.getGroup());
+
+				if(element==prop.getOwner() && !(prop.isMortgaged()) && monopoly){
+					try{
+						if(s[2].equalsIgnoreCase("hotel")){
+							if(prop.getUnits() == 4){
+								prop.addUnits(1);
+								Info_Panel.UserInput("Building Hotel on " + prop.getName());
+							} else if (prop.getUnits() == 5){
+								Info_Panel.UserInput("Error: Hotel already built here");
+							} else {
+								Info_Panel.UserInput("Error: Need 4 houses before building hotel");
+							}
+						} else {
+							int units = Integer.parseInt(s[2]);
+							if((prop.getUnits() + units) <= 4){
+								prop.addUnits(units);
+								Info_Panel.UserInput("Building " + units + " houses on " + prop.getName());
+							} else {
+								Info_Panel.UserInput("Error: Max of 4 houses per property");
+							}
+						}
+
+					} catch(NumberFormatException e) {
+						Info_Panel.UserInput("Error: ensure correct inputs");
+					}
+				} else {
+					Info_Panel.UserInput("Error: can't build here");
+				}
+
+				break;
+
+			case "move" : //for easier testing, move <number of spaces>
+				int n = Integer.parseInt(s[1]);
+				element.move(n);
+				break;
+
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
@@ -175,6 +245,9 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
 				Info_Panel.UserInput("type 'bankrupt' to declare bankruptcy");
 				Info_Panel.UserInput("type 'quit' to end game");
+				Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
+				Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
+
 				break;
 
 			case "done" :
@@ -224,7 +297,7 @@ public class TurnControl{
 
 
 			default :
-				Info_Panel.UserInput("Error: Invalid commad");
+				Info_Panel.UserInput("Error: Invalid command");
 			}
 		}
 	}
@@ -268,5 +341,26 @@ public class TurnControl{
 			return false;
 		}
 	}
-	
+
+	private static Propertys propertyFinder(String propName){
+		for(Locations property : locations){
+			if(property instanceof Propertys){
+				if( (((Propertys) property).getInputName()).equalsIgnoreCase(propName)){
+					return (Propertys) property;
+				}
+			}
+		}
+		return null;
+	}
+
+	private static boolean groupCheck(Players player, String group){
+		for (Locations property : locations){
+			if(property instanceof Propertys){
+				if ( ( (Propertys) property).getGroup().equals(group) && ((Propertys) property).getOwner() != player) return false;
+			}
+		}
+		return true;
+	}
+
+
 }

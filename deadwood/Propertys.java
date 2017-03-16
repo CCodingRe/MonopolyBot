@@ -7,9 +7,12 @@ public class Propertys extends Locations{
 	int mortgageValue;
 	Players owner = null;
 	int rent;
+	String group;
+	int house_Cost;
+	int units = 0;
 	Boolean isMortgaged;
 
-	Propertys(String n, String iN, int loc, int v, int mV, int r){
+	Propertys(String n, String iN, int loc, int v, int mV, int r, String g, int h_Cost){
 		super(n, loc);
 		setName(n);
 		setInputName(iN); // input name will be used to compare with user inputs when mortgaging, etc.
@@ -17,9 +20,11 @@ public class Propertys extends Locations{
 		value = v;
 		mortgageValue = mV;
 		rent = r;
+		group = g;
+		house_Cost = h_Cost;
 		isMortgaged = false;
 	}
-	
+
 	public void setInputName(String name) {
 		inputName = name;
 	}
@@ -55,6 +60,16 @@ public class Propertys extends Locations{
 	}
 	public Boolean isMortgaged() {
 		return isMortgaged;
+	}
+	public int getUnits(){
+		return units;
+	}
+	public void addUnits(int n){
+		units += n;
+		owner.deductBalance(house_Cost*n);
+	}
+	public String getGroup(){
+		return group;
 	}
 
 }
