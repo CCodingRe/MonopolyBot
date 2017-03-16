@@ -32,7 +32,7 @@ public class TurnControl{
 	private static void cmdCheck(Players element){
 		while(cond){
 			Info_Panel.UserInput("Enter Command: ");
-			String[] s = Cmd_panel.getCommand().split(" ");
+			String[] s = Cmd_panel.getCommand().split(" "); //input commands are split into words and stored in array
 			String command = s[0];
 			switch(command){
 
@@ -74,18 +74,24 @@ public class TurnControl{
 				Info_Panel.UserInput(element.getPropertiesOwned()); //return list of players property
 				break;
 
-			case "pay rent" :
-				if(locations.get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
-					if((((Propertys) locations.get(element.getLocation())).getOwner() != element) && (((Propertys) locations.get(element.getLocation())).getOwner() != null) ){
-						element.deductBalance(((Propertys) locations.get(element.getLocation())).getRent()); //take rent from player
-						( (Propertys) locations.get(element.getLocation()) ).getOwner().addBalance(((Propertys) locations.get(element.getLocation())).getRent());//give rent to property owner
-						rent = true;
-						Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) locations.get(element.getLocation())).getRent());
-					}else{
-						Info_Panel.UserInput("Error: Can't pay rent here");
-					}
-				} else {
+			case "pay" :
+				if(!(s.length == 2)){
 					Info_Panel.UserInput("Error: Invalid command");
+					break;
+				}
+				if(s[1].equalsIgnoreCase("rent")){
+					if(locations.get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
+						if((((Propertys) locations.get(element.getLocation())).getOwner() != element) && (((Propertys) locations.get(element.getLocation())).getOwner() != null) ){
+							element.deductBalance(((Propertys) locations.get(element.getLocation())).getRent()); //take rent from player
+							( (Propertys) locations.get(element.getLocation()) ).getOwner().addBalance(((Propertys) locations.get(element.getLocation())).getRent());//give rent to property owner
+							rent = true;
+							Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) locations.get(element.getLocation())).getRent());
+						}else{
+							Info_Panel.UserInput("Error: Can't pay rent here");
+						}
+					} else {
+						Info_Panel.UserInput("Error: Invalid command");
+					}
 				}
 				break;
 
@@ -139,7 +145,13 @@ public class TurnControl{
 				if(isProperty==false) Info_Panel.UserInput("Error: Invalid property input name");
 				break;
 
-			case "input names" :
+			case "input" :
+
+			if(!(s.length == 2)){
+				Info_Panel.UserInput("Error: Invalid command");
+				break;
+			}
+			if(s[1].equalsIgnoreCase("names")){
 				Info_Panel.UserInput("");
 				for(Locations property : locations) {
 					if(property instanceof Propertys) { //checks that the property object is a property
@@ -147,6 +159,9 @@ public class TurnControl{
 					}
 				}
 				Info_Panel.UserInput("");
+			} else {
+				Info_Panel.UserInput("Error: Invalid command");
+			}
 				break;
 
 			case "bankrupt" :
@@ -181,7 +196,9 @@ public class TurnControl{
 					break;
 				}
 
-				if(element==prop.getOwner() && !(prop.isMortgaged())){
+				boolean monopoly = groupCheck(element, prop.getGroup());
+
+				if(element==prop.getOwner() && !(prop.isMortgaged()) && monopoly){
 					try{
 						if(s[2].equalsIgnoreCase("hotel")){
 							if(prop.getUnits() == 4){
@@ -211,6 +228,10 @@ public class TurnControl{
 
 				break;
 
+			case "move" : //for easier testing, move <number of spaces>
+				int n = Integer.parseInt(s[1]);
+				element.move(n);
+				break;
 
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
@@ -276,7 +297,7 @@ public class TurnControl{
 
 
 			default :
-				Info_Panel.UserInput("Error: Invalid commad");
+				Info_Panel.UserInput("Error: Invalid command");
 			}
 		}
 	}
@@ -330,6 +351,15 @@ public class TurnControl{
 			}
 		}
 		return null;
+	}
+
+	private static boolean groupCheck(Players player, String group){
+		for (Locations property : locations){
+			if(property instanceof Propertys){
+				if ( ( (Propertys) property).getGroup().equals(group) && ((Propertys) property).getOwner() != player) return false;
+			}
+		}
+		return true;
 	}
 
 

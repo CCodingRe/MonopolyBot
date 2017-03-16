@@ -67,5 +67,8 @@ public class Propertys extends Locations{
 	public void addUnits(int n){
 		units += n;
 	}
+	public String getGroup(){
+		return group;
+	}
 
 }
