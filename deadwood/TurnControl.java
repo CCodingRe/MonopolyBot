@@ -114,7 +114,7 @@ public class TurnControl{
 					break;
 				}
 
-				if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false) { // if the input name is correct, the player owns the property and it is not already mortgaged
+				if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false && prop.getUnits()==0) { // if the input name is correct, the player owns the property and it is not already mortgaged
 					prop.mortgage();
 					element.addBalance(prop.getMortgageValue());
 					Info_Panel.UserInput(element.getName() + " mortgaged " + prop.getName() + " for $" + prop.getMortgageValue());
@@ -124,6 +124,9 @@ public class TurnControl{
 				}
 				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) {
 					Info_Panel.UserInput("Error: Property is already mortgaged");
+				}
+				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false && prop.getUnits()>=0) {
+					Info_Panel.UserInput("Error: Please sell all houses/hotel before mortgaging");
 				}
 
 				break;
@@ -184,6 +187,7 @@ public class TurnControl{
 						if(element==((Propertys) property).getOwner()) { // if the player owns the property
 							((Propertys) property).setOwner(null);
 							((Propertys) property).redeem();
+							((Propertys) property).removeUnits(((Propertys) property).getUnits());
 						}
 					}
 				}
@@ -248,7 +252,7 @@ public class TurnControl{
 
 
 			case "help" :
-				Info_Panel.UserInput("type 'roll' to move player");
+				Info_Panel.UserInput("\ntype 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
 				Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'balance' to get bank balance");
@@ -260,7 +264,7 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'bankrupt' to declare bankruptcy");
 				Info_Panel.UserInput("type 'quit' to end game");
 				Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
-				Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
+				Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property\n");
 
 				break;
 
@@ -331,21 +335,25 @@ public class TurnControl{
 	}
 
 
-	private static void movePlayer(Players element){
+	private static void movePlayer(Players element) {
 
 		element.move();
 
 		//info on square
 		Info_Panel.UserInput("\n" + locations.get(element.getLocation()).getName());
-		if(locations.get(element.getLocation()) instanceof Propertys){
+		if(locations.get(element.getLocation()) instanceof Propertys) {
 			Info_Panel.UserInput("Cost: " + Integer.toString(((Propertys) locations.get(element.getLocation())).getValue()));
 			if(((Propertys) locations.get(element.getLocation())).getOwner() != null){
 				Info_Panel.UserInput("Owner: " + ((Propertys) locations.get(element.getLocation())).getOwnerName());
 				Info_Panel.UserInput("Rent: " + ((Propertys) locations.get(element.getLocation())).getRent());
+				Info_Panel.UserInput("Mortgaged: " + ((Propertys) locations.get(element.getLocation())).isMortgaged());
+				if(((Propertys) locations.get(element.getLocation())).getUnits()<=4) {
+					Info_Panel.UserInput("Houses: " + ((Propertys) locations.get(element.getLocation())).getUnits());
+				}
+				else Info_Panel.UserInput("Hotel");
 			} else {
 				Info_Panel.UserInput("No Owner");
 			}
-			Info_Panel.UserInput("Mortgaged: " + ((Propertys) locations.get(element.getLocation())).isMortgaged());
 		}
 	}
 

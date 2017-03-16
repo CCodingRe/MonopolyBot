@@ -68,6 +68,10 @@ public class Propertys extends Locations{
 		units += n;
 		owner.deductBalance(house_Cost*n);
 	}
+	public void removeUnits(int n){
+		units -= n;
+		owner.addBalance((int) (house_Cost*n*0.5));
+	}
 	public String getGroup(){
 		return group;
 	}
