@@ -36,8 +36,15 @@ public class Players {
 		balance += amount;
 	}
 
-	public void deductBalance(int amount) {
-		balance -= amount;
+	public boolean deductBalance(int amount) {
+		if(amount > balance) { // this check is in the Players class to ensure to transactions leave the balance below 0;
+			Info_Panel.UserInput("Error: Insufficient Funds");
+			return false;
+		}
+		else {
+			balance -= amount;
+			return true;
+		}
 	}
 
 	public int getBalance() {

@@ -31,6 +31,7 @@ public class TurnControl{
 	private static void cmdCheck(Players element){
 		while(cond){
 			Info_Panel.UserInput("Enter Command: ");
+			Locations loc = locations.get(element.getLocation());
 			String[] s = Cmd_panel.getCommand().split(" "); //input commands are split into words and stored in array
 			String command = s[0];
 			switch(command){
@@ -42,9 +43,9 @@ public class TurnControl{
 				}
 				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
 				else Info_Panel.UserInput("Error: You must pay outstanding rent");
-				
-				if(locations.get(element.getLocation()) instanceof Propertys){
-					if((((Propertys) locations.get(element.getLocation())).getOwner() != element) && (((Propertys)locations.get(element.getLocation())).getOwner() != null) && (((Propertys)locations.get(element.getLocation())).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+
+				if(loc instanceof Propertys){
+					if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
 						rent = false;
 					}
 				}
@@ -53,12 +54,14 @@ public class TurnControl{
 
 
 			case "buy" :
-				if(locations.get(element.getLocation()) instanceof Propertys){ //checks if player is on property
-					if(((Propertys) locations.get(element.getLocation())).getOwner() == null){
-						element.deductBalance(((Propertys) locations.get(element.getLocation())).getValue()); //takes money away from players balance
-						((Propertys) locations.get(element.getLocation())).setOwner(element); //sets owner of property
-						element.propertyBought((Propertys) locations.get(element.getLocation())); // adds property name to propertyNames array in Players which will be use for querying owned property
-						Info_Panel.UserInput(element.getName() + " bought " + locations.get(element.getLocation()).getName() + " for $" + ((Propertys) locations.get(element.getLocation())).getValue());
+				if(loc instanceof Propertys){ //checks if player is on property
+					if(((Propertys) loc).getOwner() == null){
+						if(element.deductBalance(((Propertys) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
+							((Propertys) loc).setOwner(element); //sets owner of property
+							element.propertyBought((Propertys) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
+							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Propertys) loc).getValue());
+						} 
+
 					} else {
 						Info_Panel.UserInput("Error: Property already bought");
 					}
@@ -84,12 +87,13 @@ public class TurnControl{
 					break;
 				}
 				if(s[1].equalsIgnoreCase("rent")){
-					if(locations.get(element.getLocation()) instanceof Propertys){ //checks that player is on a property
-						if((((Propertys) locations.get(element.getLocation())).getOwner() != element) && (((Propertys) locations.get(element.getLocation())).getOwner() != null) ){
-							element.deductBalance(((Propertys) locations.get(element.getLocation())).getRent()); //take rent from player
-							( (Propertys) locations.get(element.getLocation()) ).getOwner().addBalance(((Propertys) locations.get(element.getLocation())).getRent());//give rent to property owner
-							rent = true;
-							Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) locations.get(element.getLocation())).getRent() + " to " + ((Propertys) locations.get(element.getLocation())).getOwnerName());
+					if(loc instanceof Propertys){ //checks that player is on a property
+						if((((Propertys) loc).getOwner() != element) && (((Propertys) loc).getOwner() != null) ){
+							if(element.deductBalance(((Propertys) loc).getRent()) == true) { //take rent from player if it doesn't leave balance below 0, if so the rest will run
+								((Propertys) loc).getOwner().addBalance(((Propertys) loc).getRent());//give rent to property owner
+								rent = true;
+								Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) loc).getRent() + " to " + ((Propertys) loc).getOwnerName());
+							}
 						}else{
 							Info_Panel.UserInput("Error: Can't pay rent here");
 						}
@@ -147,9 +151,10 @@ public class TurnControl{
 				}
 
 				if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
-					prop.redeem();
-					element.deductBalance(prop.getRedeemValue());
-					Info_Panel.UserInput(element.getName() + " redeemed " + prop.getName() + " for $" + prop.getRedeemValue());
+					if(element.deductBalance(prop.getRedeemValue()) == true) {
+						prop.redeem();
+						Info_Panel.UserInput(element.getName() + " redeemed " + prop.getName() + " for $" + prop.getRedeemValue());
+					}
 				}
 				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element!=prop.getOwner()) {
 					Info_Panel.UserInput("Error: You don't own this property");
@@ -315,6 +320,10 @@ public class TurnControl{
 				playGame = false; // prevents further commands from being entered
 				break;
 
+			case "test" :
+				element.deductBalance(2000);
+				break;
+
 
 			default :
 				Info_Panel.UserInput("Error: Invalid command");
@@ -338,17 +347,18 @@ public class TurnControl{
 	private static void movePlayer(Players element) {
 
 		element.move();
+		Locations loc = locations.get(element.getLocation());
 
 		//info on square
-		Info_Panel.UserInput("\n" + locations.get(element.getLocation()).getName());
-		if(locations.get(element.getLocation()) instanceof Propertys) {
-			Info_Panel.UserInput("Cost: " + Integer.toString(((Propertys) locations.get(element.getLocation())).getValue()));
-			if(((Propertys) locations.get(element.getLocation())).getOwner() != null){
-				Info_Panel.UserInput("Owner: " + ((Propertys) locations.get(element.getLocation())).getOwnerName());
-				Info_Panel.UserInput("Rent: " + ((Propertys) locations.get(element.getLocation())).getRent());
-				Info_Panel.UserInput("Mortgaged: " + ((Propertys) locations.get(element.getLocation())).isMortgaged());
-				if(((Propertys) locations.get(element.getLocation())).getUnits()<=4) {
-					Info_Panel.UserInput("Houses: " + ((Propertys) locations.get(element.getLocation())).getUnits());
+		Info_Panel.UserInput("\n" + loc.getName());
+		if(loc instanceof Propertys) {
+			Info_Panel.UserInput("Cost: " + Integer.toString(((Propertys) loc).getValue()));
+			if(((Propertys) loc).getOwner() != null){
+				Info_Panel.UserInput("Owner: " + ((Propertys) loc).getOwnerName());
+				Info_Panel.UserInput("Rent: " + ((Propertys) loc).getRent());
+				Info_Panel.UserInput("Mortgaged: " + ((Propertys) loc).isMortgaged());
+				if(((Propertys) loc).getUnits()<=4) {
+					Info_Panel.UserInput("Houses: " + ((Propertys) loc).getUnits());
 				}
 				else Info_Panel.UserInput("Hotel");
 			} else {
