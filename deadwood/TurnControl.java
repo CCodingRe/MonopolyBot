@@ -51,6 +51,7 @@ public class TurnControl{
 
 				break;
 
+
 			case "buy" :
 				if(locations.get(element.getLocation()) instanceof Propertys){ //checks if player is on property
 					if(((Propertys) locations.get(element.getLocation())).getOwner() == null){
@@ -66,13 +67,16 @@ public class TurnControl{
 				}
 				break;
 
+
 			case "balance" :
 				Info_Panel.UserInput(Integer.toString(element.getBalance()));
 				break;
 
+
 			case "property" :
 				Info_Panel.UserInput(element.getPropertiesOwned()); //return list of players property
 				break;
+
 
 			case "pay" :
 				if(!(s.length == 2)){
@@ -95,74 +99,83 @@ public class TurnControl{
 				}
 				break;
 
+
 			case "mortgage" :
-				Info_Panel.UserInput("What property would you like to mortgage?");
-				propName = Cmd_panel.getCommand();
-				Boolean isProperty = false; // checks that the user input is a property
-				for(Locations property : locations) {
-					if(property instanceof Propertys) { //checks that the property object is a property
-						if(propName.equalsIgnoreCase(((Propertys) property).getInputName()) && element==((Propertys) property).getOwner() && ((Propertys) property).isMortgaged()==false) { // if the input name is correct, the player owns the property and it is not already mortgaged
-							((Propertys) property).mortgage();
-							element.addBalance(((Propertys) property).getMortgageValue());
-							Info_Panel.UserInput(element.getName() + " mortgaged " + property.getName() + " for $" + ((Propertys) property).getMortgageValue());
-							isProperty = true;
-						}
-						else if(propName.equalsIgnoreCase(((Propertys) property).getInputName()) && element != ((Propertys) property).getOwner()) {
-							Info_Panel.UserInput("Error: You don't own this property");
-							isProperty = true;
-						}
-						else if(propName.equalsIgnoreCase(((Propertys) property).getInputName()) && element==((Propertys) property).getOwner() && ((Propertys) property).isMortgaged()) {
-							Info_Panel.UserInput("Error: Property is already mortgaged");
-							isProperty = true;
-						}
-					}
+				if(!(s.length == 2)){
+					Info_Panel.UserInput("type 'mortgage <propertyname>' to mortgage a property");
+					break;
 				}
-				if(isProperty==false) Info_Panel.UserInput("Error: Invalid property input name");
+
+				String propertyName = s[1];
+				Propertys prop = propertyFinder(propertyName);
+
+				if(prop==null) {
+					Info_Panel.UserInput("Error: Invalid property input name");
+					break;
+				}
+
+				if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false) { // if the input name is correct, the player owns the property and it is not already mortgaged
+					prop.mortgage();
+					element.addBalance(prop.getMortgageValue());
+					Info_Panel.UserInput(element.getName() + " mortgaged " + prop.getName() + " for $" + prop.getMortgageValue());
+				}
+				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element!=prop.getOwner()) {
+					Info_Panel.UserInput("Error: You don't own this property");
+				}
+				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) {
+					Info_Panel.UserInput("Error: Property is already mortgaged");
+				}
+
 				break;
+
 
 			case "redeem" :
-				Info_Panel.UserInput("What mortgaged property would you like to redeem?");
-				propName = Cmd_panel.getCommand();
-				isProperty = false;
-				for(Locations property : locations) {
-					if(property instanceof Propertys) { //checks that the property object is a property
-						if(propName.equalsIgnoreCase(((Propertys) property).getInputName()) && element==((Propertys) property).getOwner() && ((Propertys) property).isMortgaged()) { // if the input name is correct, the player owns the property and it is mortgaged
-							((Propertys) property).redeem();
-							element.deductBalance(((Propertys) property).getRedeemValue());
-							Info_Panel.UserInput(element.getName() + " redeemed " + property.getName() + " for $" + ((Propertys) property).getRedeemValue());
-							isProperty = true;
-						}
-						else if(propName.equalsIgnoreCase(((Propertys) property).getInputName()) && element != ((Propertys) property).getOwner()) {
-							Info_Panel.UserInput("Error: You don't own this property");
-							isProperty = true;
-						}
-						else if(propName.equalsIgnoreCase(((Propertys) property).getInputName()) && element==((Propertys) property).getOwner() && ((Propertys) property).isMortgaged()==false) {
-							Info_Panel.UserInput("Error: Property is not already mortgaged");
-							isProperty = true;
-						}
-					}
+				if(!(s.length == 2)){
+					Info_Panel.UserInput("type 'redeem <propertyname>' to redeem a mortgaged property");
+					break;
 				}
-				if(isProperty==false) Info_Panel.UserInput("Error: Invalid property input name");
+
+				propertyName = s[1];
+				prop = propertyFinder(propertyName);
+
+				if(prop==null) {
+					Info_Panel.UserInput("Error: Invalid property input name");
+					break;
+				}
+
+				if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
+					prop.redeem();
+					element.deductBalance(prop.getRedeemValue());
+					Info_Panel.UserInput(element.getName() + " redeemed " + prop.getName() + " for $" + prop.getRedeemValue());
+				}
+				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element!=prop.getOwner()) {
+					Info_Panel.UserInput("Error: You don't own this property");
+				}
+				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false) {
+					Info_Panel.UserInput("Error: Property is not already mortgaged");
+				}
+
 				break;
+
 
 			case "input" :
-
-			if(!(s.length == 2)){
-				Info_Panel.UserInput("Error: Invalid command");
-				break;
-			}
-			if(s[1].equalsIgnoreCase("names")){
-				Info_Panel.UserInput("");
-				for(Locations property : locations) {
-					if(property instanceof Propertys) { //checks that the property object is a property
-						Info_Panel.UserInput(property.getName() + " - " + ((Propertys) property).getInputName());
-					}
+				if(!(s.length == 2)){
+					Info_Panel.UserInput("Error: Invalid command");
+					break;
 				}
-				Info_Panel.UserInput("");
-			} else {
-				Info_Panel.UserInput("Error: Invalid command");
-			}
+				if(s[1].equalsIgnoreCase("names")){
+					Info_Panel.UserInput("");
+					for(Locations property : locations) {
+						if(property instanceof Propertys) { //checks that the property object is a property
+							Info_Panel.UserInput(property.getName() + " - " + ((Propertys) property).getInputName());
+						}
+					}
+					Info_Panel.UserInput("");
+				} else {
+					Info_Panel.UserInput("Error: Invalid command");
+				}
 				break;
+
 
 			case "bankrupt" :
 				Info_Panel.UserInput(element.getName() + " has declared bankrupty");
@@ -180,16 +193,16 @@ public class TurnControl{
 				playGame = checkWinner();
 				break;
 
-			case "build" :
 
+			case "build" :
 				if(!(s.length == 3)){
 					Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
 					Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
 					break;
 				}
 
-				String propertyname = s[1];
-				Propertys prop = propertyFinder(propertyname);
+				propertyName = s[1];
+				prop = propertyFinder(propertyName);
 
 				if(prop==null){
 					Info_Panel.UserInput("Error: Invalid property input name");
@@ -225,13 +238,14 @@ public class TurnControl{
 				} else {
 					Info_Panel.UserInput("Error: can't build here");
 				}
-
 				break;
+
 
 			case "move" : //for easier testing, move <number of spaces>
 				int n = Integer.parseInt(s[1]);
 				element.move(n);
 				break;
+
 
 			case "help" :
 				Info_Panel.UserInput("type 'roll' to move player");
@@ -239,8 +253,8 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'pay rent' to pay rent");
 				Info_Panel.UserInput("type 'balance' to get bank balance");
 				Info_Panel.UserInput("type 'property' to query owned property");
-				Info_Panel.UserInput("type 'mortgage' to mortgage an owned property");
-				Info_Panel.UserInput("type 'redeem' to redeem a mortgaged property");
+				Info_Panel.UserInput("type 'mortgage <propertyname>' to mortgage a property");
+				Info_Panel.UserInput("type 'redeem <propertyname>' to redeem a mortgaged property");
 				Info_Panel.UserInput("type 'input names' to get a list of input names for the properties");
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
 				Info_Panel.UserInput("type 'bankrupt' to declare bankruptcy");
@@ -249,6 +263,7 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
 
 				break;
+
 
 			case "done" :
 				if(roll==true){
@@ -262,6 +277,7 @@ public class TurnControl{
 				playGame = checkWinner();
 
 				break;
+
 
 			case "quit" :
 				ArrayList<Players> players = SetUp.getPlayers();
