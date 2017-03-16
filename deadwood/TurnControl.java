@@ -11,7 +11,6 @@ public class TurnControl{
 	private static ArrayList<Locations> locations = (ArrayList<Locations>) SetUp.getLocationsList();
 	private static ArrayList<Players> players = SetUp.getPlayers();
 	private static Iterator<Players> it;
-	private static String propName;
 
 	public static void turn(){
 		for(it = players.iterator(); it.hasNext(); ) { // iterator iterates through the players arrayList. This avoids a ConcurrentModificationException when declaring bankruptcy and removing elements
@@ -37,12 +36,13 @@ public class TurnControl{
 			switch(command){
 
 			case "roll" :
-				if(roll){
+				if(roll && rent){ // ensures player pays rent on current property if necessary
 					roll = false;
 					movePlayer(element);
-				} else {
-					Info_Panel.UserInput("Error: Player has already rolled");
 				}
+				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
+				else Info_Panel.UserInput("Error: You must pay outstanding rent");
+				
 				if(locations.get(element.getLocation()) instanceof Propertys){
 					if((((Propertys) locations.get(element.getLocation())).getOwner() != element) && (((Propertys)locations.get(element.getLocation())).getOwner() != null) && (((Propertys)locations.get(element.getLocation())).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
 						rent = false;
@@ -89,7 +89,7 @@ public class TurnControl{
 							element.deductBalance(((Propertys) locations.get(element.getLocation())).getRent()); //take rent from player
 							( (Propertys) locations.get(element.getLocation()) ).getOwner().addBalance(((Propertys) locations.get(element.getLocation())).getRent());//give rent to property owner
 							rent = true;
-							Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) locations.get(element.getLocation())).getRent());
+							Info_Panel.UserInput(element.getName() + " paid $" + ((Propertys) locations.get(element.getLocation())).getRent() + " to " + ((Propertys) locations.get(element.getLocation())).getOwnerName());
 						}else{
 							Info_Panel.UserInput("Error: Can't pay rent here");
 						}
