@@ -8,7 +8,6 @@ public class Players {
 	private int balance;
 	private int assets;
 	private int location, n;
-	private int propertiesOwned;
 	private LinkedList<Propertys> ownedProperties = new LinkedList<Propertys>();
 	private String playerName;
 	public int id;
@@ -22,7 +21,6 @@ public class Players {
 		balance = 1500;
 		assets = 0;
 		playerName = "Player";
-		propertiesOwned = 0;
 		n = 0;
 	}
 
@@ -82,13 +80,12 @@ public class Players {
 
 	public void propertyBought(Propertys prop) {
 		ownedProperties.add(prop);
-		propertiesOwned++;
 		assets += prop.getValue();
 	}
 
 	public String getPropertiesOwned() {
 		String output = "";
-		output = playerName + " owns " + propertiesOwned + " properties: " + toStringList(ownedProperties);
+		output = playerName + " owns " + ownedProperties.size() + " properties: " + toStringList(ownedProperties);
 		return output;
 	}
 
