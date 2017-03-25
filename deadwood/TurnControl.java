@@ -49,6 +49,11 @@ public class TurnControl{
 						rent = false;
 					}
 				}
+			/*	else if(loc instanceof Services){
+					if((((Services) loc).getOwner() != element) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+						rent = false;
+					}
+				} */
 
 				break;
 
@@ -60,9 +65,19 @@ public class TurnControl{
 							((Propertys) loc).setOwner(element); //sets owner of property
 							element.propertyBought((Propertys) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
 							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Propertys) loc).getValue());
-						} 
+						}
 
-					} else {
+					}
+
+			/*		else if(loc instanceof Services){ //checks if player is on property
+						if(((Services) loc).getOwner() == null){
+							if(element.deductBalance(((Services) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
+								((Services) loc).setOwner(element); //sets owner of property
+								element.propertyBought((Services) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
+								Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Servicess) loc).getValue());
+							}
+
+						}	 */else {
 						Info_Panel.UserInput("Error: Property already bought");
 					}
 				} else {

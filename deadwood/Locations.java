@@ -1,11 +1,11 @@
 package deadwood;
 
-public class Locations{
+public class Locations extends Services{
 
   private String name;
   private int location;
 
-  public Locations(String n, int loc){
+ public Locations(String n, int loc){
     setName(n);
     setLocation(loc);
   }
