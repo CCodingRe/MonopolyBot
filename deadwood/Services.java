@@ -1,6 +1,6 @@
 package deadwood;
 
-public class Services extends Propertys{
+public class Services extends Locations{
 
 	String inputName;
 	int value;
@@ -11,7 +11,8 @@ public class Services extends Propertys{
 	Boolean isMortgaged;
 
 	public Services(String n, String iN, int loc, int v, int mV, int r, String g){
-		setName(n);
+    super(n, loc);
+    setName(n);
 		setInputName(iN); // input name will be used to compare with user inputs when mortgaging, etc.
 		setLocation(loc);
 		value = v;

@@ -67,17 +67,20 @@ public class TurnControl{
 							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Propertys) loc).getValue());
 						}
 
+						}	 else {
+						Info_Panel.UserInput("Error: Property already bought");
 					}
+				} 
 
-			/*		else if(loc instanceof Services){ //checks if player is on property
-						if(((Services) loc).getOwner() == null){
-							if(element.deductBalance(((Services) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
-								((Services) loc).setOwner(element); //sets owner of property
-								element.propertyBought((Services) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
-								Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Servicess) loc).getValue());
-							}
+			else if(loc instanceof Services){ //checks if player is on property
+					if(((Services) loc).getOwner() == null){
+						if(element.deductBalance(((Services) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
+							((Services) loc).setOwner(element); //sets owner of property
+							element.ServicesBought((Services) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
+							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Services) loc).getValue());
+						}
 
-						}	 */else {
+						}	 else {
 						Info_Panel.UserInput("Error: Property already bought");
 					}
 				} else {

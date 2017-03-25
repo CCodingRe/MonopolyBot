@@ -1,6 +1,6 @@
 package deadwood;
 
-public class Locations extends Services{
+public class Locations{
 
   private String name;
   private int location;

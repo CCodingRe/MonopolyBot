@@ -9,6 +9,7 @@ public class Players {
 	private int assets;
 	private int location, n;
 	private LinkedList<Propertys> ownedProperties = new LinkedList<Propertys>();
+	private LinkedList<Services> ownedServices = new LinkedList<Services>();
 	private String playerName;
 	public int id;
 	private int firstRoll;
@@ -90,6 +91,11 @@ public class Players {
 		assets += prop.getValue();
 	}
 
+	public void ServicesBought(Services service) {
+		ownedServices.add(service);
+		assets += service.getValue();
+	}
+
 	public String getPropertiesOwned() {
 		String output = "";
 		output = playerName + " owns " + ownedProperties.size() + " properties: " + toStringList(ownedProperties);
@@ -102,7 +108,7 @@ public class Players {
 
 	public String toStringList(LinkedList<Propertys> propertyNames) { // puts the owned properties in a string
 		StringBuilder builder = new StringBuilder();
-		
+
 		for (Propertys prop : propertyNames) {
 			builder.append(prop.getName());
 			if(prop.isMortgaged()) {
@@ -124,7 +130,7 @@ public class Players {
 	public void setId(int index){
 		id = index;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
