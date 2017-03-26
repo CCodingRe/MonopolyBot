@@ -70,7 +70,7 @@ public class TurnControl{
 						}	 else {
 						Info_Panel.UserInput("Error: Property already bought");
 					}
-				} 
+				}
 
 			else if(loc instanceof Services){ //checks if player is on property
 					if(((Services) loc).getOwner() == null){
@@ -119,6 +119,26 @@ public class TurnControl{
 						Info_Panel.UserInput("Error: Invalid command");
 					}
 				}
+
+					else if(loc instanceof Services){ //checks that player is on a property
+						if((((Services) loc).getOwner() != element) && (((Services) loc).getOwner() != null) ){
+							if(element.deductBalance(((Services) loc).getRent()) == true) { //take rent from player if it doesn't leave balance below 0, if so the rest will run
+								((Services) loc).getOwner().addBalance(((Services) loc).getRent());//give rent to property owner
+								rent = true;
+								Info_Panel.UserInput(element.getName() + " paid $" + ((Services) loc).getRent() + " to " + ((Services) loc).getOwnerName());
+							}
+						}else{
+							Info_Panel.UserInput("Error: Can't pay rent here");
+						}
+					}
+					else if(loc instanceof Services )
+					{
+						Info_Panel.UserInput("Error: Must pay rent first");
+					}
+					else {
+						Info_Panel.UserInput("Error: Invalid command");
+					}
+
 				break;
 
 
@@ -131,7 +151,7 @@ public class TurnControl{
 				String propertyName = s[1];
 				Propertys prop = propertyFinder(propertyName);
 
-				if(prop==null) {
+				if(prop==null ) {
 					Info_Panel.UserInput("Error: Invalid property input name");
 					break;
 				}
@@ -214,6 +234,15 @@ public class TurnControl{
 						}
 					}
 				}
+			/* 	for(Locations service : locations) {
+					if(service instanceof Services) { //checks that the property object is a property
+						if(element==((Services) service).getOwner()) { // if the player owns the property
+							((Services) service).setOwner(null);
+							((Services) service).redeem();
+							((Services) service).removeUnits(((Services) service).getUnits());
+						}
+					}
+				} */
 				it.remove();
 				Board.refresh();
 				cond = false;
