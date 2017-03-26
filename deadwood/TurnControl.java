@@ -374,6 +374,7 @@ public class TurnControl{
 		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		if(dice1 == dice2) { // if double is rolled you can roll again
+			Info_Panel.UserInput("You Rolled a Double, Roll Again");
 			roll = true;
 		}
 		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
