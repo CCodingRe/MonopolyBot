@@ -3,6 +3,7 @@ package deadwood;
 import javax.swing.*;
 import java.util.*;
 import java.awt.*;
+import javax.swing.text.DefaultCaret;
 
 public class UI extends JFrame {
 
@@ -40,11 +41,13 @@ public class UI extends JFrame {
 		bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
 
 		bottomPanel.add(scrollPane);
-		scrollPane.setViewportView(info.getInfoPanel());       // the scrollPane should make the textArea scrollable, so we define the viewport
+		JTextArea textArea = info.getInfoPanel();
+		scrollPane.setViewportView(textArea);       // the scrollPane should make the textArea scrollable, so we define the viewport
 		bottomPanel.add(inputPanel);                // then we add the inputPanel to the bottomPanel, so it under the textArea
 
 		inputPanel.add(cmd);
 
+	
 		pack();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
