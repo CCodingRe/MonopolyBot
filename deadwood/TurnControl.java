@@ -41,31 +41,17 @@ public class TurnControl{
 					roll = false;
 					movePlayer(element);
 					loc = locations.get(element.getLocation());
-<<<<<<< HEAD
-				}
-				else if(!roll){
-					Info_Panel.UserInput("Errorr: Player has already rolled");
-				}
-				else {
-					Info_Panel.UserInput("Errorr: You must pay outstanding rent");
-				}
-
-				if(loc instanceof Propertys){
-					if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
-						rent = false;
-						Info_Panel.UserInput("You must pay rent");
-=======
 					if(loc instanceof Propertys){
 						if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
 							rent = false;
-						}
->>>>>>> d4c777d6502b858e81332524bb8332ea10bc2f2e
-					}
-					if(loc instanceof Services){
-						if((((Services) loc).getOwner() != element) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
-							rent = false;
+							Info_Panel.UserInput("You must pay rent");
 						}
 					}
+						if(loc instanceof Services){
+							if((((Services) loc).getOwner() != element) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+								rent = false;
+							}
+						}
 				}
 				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
 				else if(!rent) Info_Panel.UserInput("Error: You must pay outstanding rent");
