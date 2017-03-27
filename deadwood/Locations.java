@@ -5,7 +5,7 @@ public class Locations{
   private String name;
   private int location;
 
-  public Locations(String n, int loc){
+ public Locations(String n, int loc){
     setName(n);
     setLocation(loc);
   }

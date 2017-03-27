@@ -9,6 +9,7 @@ public class Players {
 	private int assets;
 	private int location, n;
 	private LinkedList<Propertys> ownedProperties = new LinkedList<Propertys>();
+	private LinkedList<Services> ownedServices = new LinkedList<Services>();
 	private String playerName;
 	public int id;
 	private int firstRoll;
@@ -90,9 +91,14 @@ public class Players {
 		assets += prop.getValue();
 	}
 
+	public void ServicesBought(Services service) {
+		ownedServices.add(service);
+		assets += service.getValue();
+	}
+
 	public String getPropertiesOwned() {
 		String output = "";
-		output = playerName + " owns " + ownedProperties.size() + " properties: " + toStringList(ownedProperties);
+		output = playerName + " owns " + (ownedProperties.size()+ownedServices.size()) + " properties: " + toStringList(ownedProperties) +  toStringList1(ownedServices);
 		return output;
 	}
 
@@ -102,8 +108,8 @@ public class Players {
 
 	public String toStringList(LinkedList<Propertys> propertyNames) { // puts the owned properties in a string
 		StringBuilder builder = new StringBuilder();
-		
-		for (Propertys prop : propertyNames) {
+
+			for (Propertys prop : propertyNames) {
 			builder.append(prop.getName());
 			if(prop.isMortgaged()) {
 				builder.append("(mortgaged)");
@@ -111,6 +117,19 @@ public class Players {
 			builder.append(", ");
 		}
 		return builder.toString();
+	}
+
+	public String toStringList1(LinkedList<Services> serviceNames) { // puts the owned properties in a string
+		StringBuilder builder1 = new StringBuilder();
+
+			for (Services service : serviceNames) {
+			builder1.append(service.getName());
+			if(service.isMortgaged()) {
+				builder1.append("(mortgaged)");
+			}
+			builder1.append(", ");
+		}
+		return builder1.toString();
 	}
 
 	public int getFirstRoll(){
@@ -124,7 +143,7 @@ public class Players {
 	public void setId(int index){
 		id = index;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
