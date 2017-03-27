@@ -14,7 +14,6 @@ public class SetUp{
 
 	public SetUp(){
 		//set up board
-
 		LocationList.add(new Locations("Go", 0));
 		LocationList.add(new Propertys("Mediterranean Avenue", "Mediterranean", 1, 60, 30, 2, 10, 30, 90, 160, 250, "Brown", 50));
 		LocationList.add(new Locations("Community Chest", 2));
@@ -55,7 +54,6 @@ public class SetUp{
 		LocationList.add(new Propertys("Park Place", "Park", 37, 350, 175, 35,175,500,1100,1300,1500, "Blue", 200 ));
 		LocationList.add(new Locations("Luxery Tax", 38));
 		LocationList.add(new Propertys("Boardwalk", "Boardwalk", 39, 400, 200, 50,200,600,1400,1700,2000, "Blue", 200));
-
 
 	}
 

@@ -31,7 +31,7 @@ public class TurnControl{
 	private static void cmdCheck(Players element){
 		while(cond){
 			Info_Panel.UserInput("Enter Command: ");
-			Locations loc = locations.get(element.getLocation());
+			Locations loc;
 			String[] s = Cmd_panel.getCommand().split(" "); //input commands are split into words and stored in array
 			String command = s[0];
 			switch(command){
@@ -41,6 +41,7 @@ public class TurnControl{
 					roll = false;
 					movePlayer(element);
 					loc = locations.get(element.getLocation());
+<<<<<<< HEAD
 				}
 				else if(!roll){
 					Info_Panel.UserInput("Errorr: Player has already rolled");
@@ -53,18 +54,27 @@ public class TurnControl{
 					if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
 						rent = false;
 						Info_Panel.UserInput("You must pay rent");
+=======
+					if(loc instanceof Propertys){
+						if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+							rent = false;
+						}
+>>>>>>> d4c777d6502b858e81332524bb8332ea10bc2f2e
+					}
+					if(loc instanceof Services){
+						if((((Services) loc).getOwner() != element) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+							rent = false;
+						}
 					}
 				}
-        if(loc instanceof Services){
-					if((((Services) loc).getOwner() != element) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
-						rent = false;
-					}
-				}
+				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
+				else if(!rent) Info_Panel.UserInput("Error: You must pay outstanding rent");
 
 				break;
 
 
 			case "buy" :
+				loc = locations.get(element.getLocation());
 				if(loc instanceof Propertys){ //checks if player is on property
 					if(((Propertys) loc).getOwner() == null){
 						if(element.deductBalance(((Propertys) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
@@ -73,12 +83,12 @@ public class TurnControl{
 							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Propertys) loc).getValue());
 						}
 
-						}	 else {
+					}	 else {
 						Info_Panel.UserInput("Error: Property already bought");
 					}
 				}
 
-			else if(loc instanceof Services){ //checks if player is on property
+				else if(loc instanceof Services){ //checks if player is on property
 					if(((Services) loc).getOwner() == null){
 						if(element.deductBalance(((Services) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
 							((Services) loc).setOwner(element); //sets owner of property
@@ -86,7 +96,7 @@ public class TurnControl{
 							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Services) loc).getValue());
 						}
 
-						}	 else {
+					}	 else {
 						Info_Panel.UserInput("Error: Property already bought");
 					}
 				} else {
@@ -110,7 +120,8 @@ public class TurnControl{
 					Info_Panel.UserInput("Error: Invalid command");
 					break;
 				}
-				if(s[1].equalsIgnoreCase("rent")){
+				if(s[1].equalsIgnoreCase("rent")) {
+					loc = locations.get(element.getLocation());
 					if(loc instanceof Propertys){ //checks that player is on a property
 						if((((Propertys) loc).getOwner() != element) && (((Propertys) loc).getOwner() != null) ){
 							if(element.deductBalance(((Propertys) loc).getRent()) == true) { //take rent from player if it doesn't leave balance below 0, if so the rest will run
@@ -254,7 +265,7 @@ public class TurnControl{
 							((Propertys) property).removeUnits(((Propertys) property).getUnits());
 						}
 					}
-          if(property instanceof Services) { //checks that the property object is a property
+					if(property instanceof Services) { //checks that the property object is a property
 						if(element==((Services) property).getOwner()) { // if the player owns the property
 							((Services) property).setOwner(null);
 							((Services) property).redeem();
@@ -381,7 +392,7 @@ public class TurnControl{
 			case "done" :
 				if(roll==true){
 					Info_Panel.UserInput("Error: You must finish rolling");
-				}else if(rent == false){
+				}if(rent==false){
 					Info_Panel.UserInput("Error: You must pay outstanding rent");
 				}
 				else{
@@ -424,11 +435,6 @@ public class TurnControl{
 				playGame = false; // prevents further commands from being entered
 				break;
 
-			case "test" :
-				element.deductBalance(2000);
-				break;
-
-
 			default :
 				Info_Panel.UserInput("Error: Invalid command");
 			}
@@ -439,11 +445,11 @@ public class TurnControl{
 	public static int roll(Players element) { //returns dice roll
 		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
 		if(dice1 == dice2) { // if double is rolled you can roll again
 			Info_Panel.UserInput("You Rolled a Double, Roll Again");
 			roll = true;
 		}
-		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
 		int rollNum = dice1 + dice2;
 		return rollNum;
 	}
@@ -503,7 +509,7 @@ public class TurnControl{
 		return null;
 	}
 
-  private static Services serviceFinder(String serviceName){
+	private static Services serviceFinder(String serviceName){
 		for(Locations service : locations){
 			if(service instanceof Services){
 				if( (((Services) service).getInputName()).equalsIgnoreCase(serviceName)){
