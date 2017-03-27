@@ -23,6 +23,7 @@ public class Players {
 		assets = 0;
 		playerName = "Player";
 		n = 0;
+		firstRoll = 0;
 	}
 
 	public void setName(String name) {
@@ -91,7 +92,7 @@ public class Players {
 		assets += prop.getValue();
 	}
 
-	public void ServicesBought(Services service) {
+	public void servicesBought(Services service) {
 		ownedServices.add(service);
 		assets += service.getValue();
 	}

@@ -77,7 +77,7 @@ public class TurnControl{
 					if(((Services) loc).getOwner() == null){
 						if(element.deductBalance(((Services) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
 							((Services) loc).setOwner(element); //sets owner of property
-							element.ServicesBought((Services) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
+							element.servicesBought((Services) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
 							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Services) loc).getValue());
 						}
 
@@ -420,12 +420,11 @@ public class TurnControl{
 		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
-		if(dice1 == dice2) { // if double is rolled you can roll again
+		if(dice1 == dice2 && element.getFirstRoll() != 0) { // if double is rolled you can roll again
 			Info_Panel.UserInput("You Rolled a Double, Roll Again");
 			roll = true;
 		}
-		int rollNum = dice1 + dice2;
-		return rollNum;
+		return dice1 + dice2;
 	}
 
 
@@ -446,8 +445,11 @@ public class TurnControl{
 					Info_Panel.UserInput("Houses: " + ((Propertys) loc).getUnits());
 				}
 				else Info_Panel.UserInput("Hotel");
+				if(!((Propertys) loc).isMortgaged()) Info_Panel.UserInput("You must pay rent on this property.");
+				else Info_Panel.UserInput("You don't need to pay rent on this property.");
 			} else {
 				Info_Panel.UserInput("No Owner");
+				Info_Panel.UserInput("Property is for sale!");
 			}
 		}
 		if(loc instanceof Services) {
@@ -456,8 +458,11 @@ public class TurnControl{
 				Info_Panel.UserInput("Owner: " + ((Services) loc).getOwnerName());
 				Info_Panel.UserInput("Rent: " + ((Services) loc).getRent());
 				Info_Panel.UserInput("Mortgaged: " + ((Services) loc).isMortgaged());
+				if(!((Services) loc).isMortgaged()) Info_Panel.UserInput("You must pay rent on this property.");
+				else Info_Panel.UserInput("You don't need to pay rent on this property.");
 			} else {
 				Info_Panel.UserInput("No Owner");
+				Info_Panel.UserInput("Property is for sale!");
 			}
 		}
 
