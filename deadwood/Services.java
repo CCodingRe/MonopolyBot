@@ -64,19 +64,3 @@ public class Services extends Locations{
 	}
 
 }
-
-/*
-public class Services{
-
-  private String name;
-  private int location;
-  private int value;
-  private int mortgage;
-  private int rent;
-  private String group;
-
-
-
-
-}
-*/

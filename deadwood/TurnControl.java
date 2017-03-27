@@ -1,4 +1,3 @@
-///i can see it
 package deadwood;
 
 import java.util.ArrayList;
@@ -41,13 +40,19 @@ public class TurnControl{
 				if(roll && rent){ // ensures player pays rent on current property if necessary
 					roll = false;
 					movePlayer(element);
+					loc = locations.get(element.getLocation());
 				}
-				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
-				else Info_Panel.UserInput("Error: You must pay outstanding rent");
+				else if(!roll){
+					Info_Panel.UserInput("Errorr: Player has already rolled");
+				}
+				else {
+					Info_Panel.UserInput("Errorr: You must pay outstanding rent");
+				}
 
 				if(loc instanceof Propertys){
 					if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
 						rent = false;
+						Info_Panel.UserInput("You must pay rent");
 					}
 				}
         if(loc instanceof Services){
@@ -299,6 +304,42 @@ public class TurnControl{
 				}
 				break;
 
+			case "demolish"	:
+				if(!(s.length == 3)){
+					Info_Panel.UserInput("type 'demolish <propertyname> <number of units>' to buy houses for property");
+					Info_Panel.UserInput("type 'demolish <propertyname> hotel' to buy houses for property");
+				}
+
+				prop = propertyFinder(s[1]);
+				if(prop==null){ Info_Panel.UserInput("Error: Incorrect Property Name"); break;}
+
+				if(element==prop.getOwner()){
+					try{
+						if(s[2].equalsIgnoreCase("hotel")){
+							if(prop.getUnits() == 5){
+								prop.removeUnits(1);
+								Info_Panel.UserInput("Demolishing Hotel on " + prop.getName());
+							} else {
+								Info_Panel.UserInput("Error: No Hotel to demolish");
+							}
+						} else {
+							int units = Integer.parseInt(s[2]);
+							if(prop.getUnits() >= units){
+								prop.removeUnits(units);
+								Info_Panel.UserInput("Demolishing " + units + " houses on " + prop.getName());
+							} else {
+								Info_Panel.UserInput("Error: You dont't have that many houses");
+							}
+						}
+
+					} catch(NumberFormatException e) {
+						Info_Panel.UserInput("Error: ensure correct inputs");
+					}
+				} else {
+					Info_Panel.UserInput("Error: can't build here");
+				}
+				break;
+
 
 			case "move" : //for easier testing, move <number of spaces>
 				int n = Integer.parseInt(s[1]);
@@ -310,6 +351,10 @@ public class TurnControl{
 				Info_Panel.UserInput("\ntype 'roll' to move player");
 				Info_Panel.UserInput("type 'buy' to buy property");
 				Info_Panel.UserInput("type 'pay rent' to pay rent");
+				Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
+				Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property");
+				Info_Panel.UserInput("type 'demolish <propertyname> <number of units>' to buy houses for property");
+				Info_Panel.UserInput("type 'demolish <propertyname> hotel' to buy houses for property");
 				Info_Panel.UserInput("type 'balance' to get bank balance");
 				Info_Panel.UserInput("type 'property' to query owned property");
 				Info_Panel.UserInput("type 'mortgage <propertyname>' to mortgage a property");
@@ -317,9 +362,7 @@ public class TurnControl{
 				Info_Panel.UserInput("type 'input names' to get a list of input names for the properties");
 				Info_Panel.UserInput("type 'done' when you are finished your turn");
 				Info_Panel.UserInput("type 'bankrupt' to declare bankruptcy");
-				Info_Panel.UserInput("type 'quit' to end game");
-				Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
-				Info_Panel.UserInput("type 'build <propertyname> hotel' to buy hotel for property\n");
+				Info_Panel.UserInput("type 'quit' to end game\n");
 
 				break;
 
@@ -386,6 +429,7 @@ public class TurnControl{
 		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		if(dice1 == dice2) { // if double is rolled you can roll again
+			Info_Panel.UserInput("You Rolled a Double, Roll Again");
 			roll = true;
 		}
 		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
