@@ -44,13 +44,14 @@ public class TurnControl{
 					if(loc instanceof Propertys){
 						if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
 							rent = false;
+							Info_Panel.UserInput("You must pay rent");
 						}
 					}
-					if(loc instanceof Services){
-						if((((Services) loc).getOwner() != element) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
-							rent = false;
+						if(loc instanceof Services){
+							if((((Services) loc).getOwner() != element) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+								rent = false;
+							}
 						}
-					}
 				}
 				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
 				else if(!rent) Info_Panel.UserInput("Error: You must pay outstanding rent");
@@ -141,27 +142,40 @@ public class TurnControl{
 
 				String propertyName = s[1];
 				Propertys prop = propertyFinder(propertyName);
-
+				Services service = serviceFinder(propertyName);
 				if(prop==null ) {
-					Info_Panel.UserInput("Error: Invalid property input name");
-					break;
+					if(service==null){
+						Info_Panel.UserInput("Error: Invalid input name");
+						break;
+					} else {
+						if(propertyName.equalsIgnoreCase(service.getInputName()) && element==service.getOwner() && service.isMortgaged()==false) { // if the input name is correct, the player owns the property and it is not already mortgaged
+							service.mortgage();
+							element.addBalance(service.getMortgageValue());
+							Info_Panel.UserInput(element.getName() + " mortgaged " + service.getName() + " for $" + service.getMortgageValue());
+						}
+						else if(propertyName.equalsIgnoreCase(service.getInputName()) && element!=service.getOwner()) {
+							Info_Panel.UserInput("Error: You don't own this property");
+						}
+						else if(propertyName.equalsIgnoreCase(service.getInputName()) && element==service.getOwner() && service.isMortgaged()) {
+							Info_Panel.UserInput("Error: Property is already mortgaged");
+						}
+					}
+				} else {
+					if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false && prop.getUnits()==0) { // if the input name is correct, the player owns the property and it is not already mortgaged
+						prop.mortgage();
+						element.addBalance(prop.getMortgageValue());
+						Info_Panel.UserInput(element.getName() + " mortgaged " + prop.getName() + " for $" + prop.getMortgageValue());
+					}
+					else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element!=prop.getOwner()) {
+						Info_Panel.UserInput("Error: You don't own this property");
+					}
+					else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) {
+						Info_Panel.UserInput("Error: Property is already mortgaged");
+					}
+					else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false && prop.getUnits()>=0) {
+						Info_Panel.UserInput("Error: Please sell all houses/hotel before mortgaging");
+					}
 				}
-
-				if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false && prop.getUnits()==0) { // if the input name is correct, the player owns the property and it is not already mortgaged
-					prop.mortgage();
-					element.addBalance(prop.getMortgageValue());
-					Info_Panel.UserInput(element.getName() + " mortgaged " + prop.getName() + " for $" + prop.getMortgageValue());
-				}
-				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element!=prop.getOwner()) {
-					Info_Panel.UserInput("Error: You don't own this property");
-				}
-				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) {
-					Info_Panel.UserInput("Error: Property is already mortgaged");
-				}
-				else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false && prop.getUnits()>=0) {
-					Info_Panel.UserInput("Error: Please sell all houses/hotel before mortgaging");
-				}
-
 				break;
 
 
@@ -173,39 +187,37 @@ public class TurnControl{
 
 				propertyName = s[1];
 				prop = propertyFinder(propertyName);
-				Services service = serviceFinder(propertyName);
-				if(prop==null){
-
-					if(propertyName.equalsIgnoreCase(service.getInputName()) && element==service.getOwner() && service.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
-						if(element.deductBalance(service.getRedeemValue()) == true) {
-							service.redeem();
-							Info_Panel.UserInput(element.getName() + " redeemed " + service.getName() + " for $" + service.getRedeemValue());
-						}
-					}
-					else if(propertyName.equalsIgnoreCase(service.getInputName()) && element!=service.getOwner()) {
-						Info_Panel.UserInput("Error: You don't own this property");
-					}
-					else if(propertyName.equalsIgnoreCase(service.getInputName()) && element==service.getOwner() && service.isMortgaged()==false) {
-						Info_Panel.UserInput("Error: Property is not already mortgaged");
-					}
-				} else {
-					if(prop==null) {
-						Info_Panel.UserInput("Error: Invalid property input name");
+				service = serviceFinder(propertyName);
+        if(prop==null){
+					if(service == null){
+						Info_Panel.UserInput("Error: Invalid input name");
 						break;
 					}
-
-					if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
-						if(element.deductBalance(prop.getRedeemValue()) == true) {
-							prop.redeem();
-							Info_Panel.UserInput(element.getName() + " redeemed " + prop.getName() + " for $" + prop.getRedeemValue());
-						}
-					}
-					else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element!=prop.getOwner()) {
-						Info_Panel.UserInput("Error: You don't own this property");
-					}
-					else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false) {
-						Info_Panel.UserInput("Error: Property is not already mortgaged");
-					}
+          if(propertyName.equalsIgnoreCase(service.getInputName()) && element==service.getOwner() && service.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
+            if(element.deductBalance(service.getRedeemValue()) == true) {
+              service.redeem();
+              Info_Panel.UserInput(element.getName() + " redeemed " + service.getName() + " for $" + service.getRedeemValue());
+            }
+          }
+          else if(propertyName.equalsIgnoreCase(service.getInputName()) && element!=service.getOwner()) {
+            Info_Panel.UserInput("Error: You don't own this property");
+          }
+          else if(propertyName.equalsIgnoreCase(service.getInputName()) && element==service.getOwner() && service.isMortgaged()==false) {
+            Info_Panel.UserInput("Error: Property is not already mortgaged");
+          }
+        } else {
+          if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
+            if(element.deductBalance(prop.getRedeemValue()) == true) {
+              prop.redeem();
+              Info_Panel.UserInput(element.getName() + " redeemed " + prop.getName() + " for $" + prop.getRedeemValue());
+            }
+          }
+          else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element!=prop.getOwner()) {
+            Info_Panel.UserInput("Error: You don't own this property");
+          }
+          else if(propertyName.equalsIgnoreCase(prop.getInputName()) && element==prop.getOwner() && prop.isMortgaged()==false) {
+            Info_Panel.UserInput("Error: Property is not already mortgaged");
+          }
 				}
 				break;
 
