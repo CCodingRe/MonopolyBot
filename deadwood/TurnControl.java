@@ -40,13 +40,19 @@ public class TurnControl{
 				if(roll && rent){ // ensures player pays rent on current property if necessary
 					roll = false;
 					movePlayer(element);
+					loc = locations.get(element.getLocation());
 				}
-				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
-				else Info_Panel.UserInput("Error: You must pay outstanding rent");
+				else if(!roll){
+					Info_Panel.UserInput("Errorr: Player has already rolled");
+				}
+				else {
+					Info_Panel.UserInput("Errorr: You must pay outstanding rent");
+				}
 
 				if(loc instanceof Propertys){
 					if((((Propertys) loc).getOwner() != element) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
 						rent = false;
+						Info_Panel.UserInput("You must pay rent");
 					}
 				}
 
