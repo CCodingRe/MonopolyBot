@@ -32,6 +32,7 @@ public class Info_Panel
 
 	public static void UserInput(String UserText) //prints to text area
 	{
+		MyTextArea.setCaretPosition(MyTextArea.getDocument().getLength()); // auto-scolls the pane
 		MyTextArea.append(UserText+"\n");
 	}
 
