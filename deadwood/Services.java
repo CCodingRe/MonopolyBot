@@ -62,9 +62,8 @@ public class Services extends Locations{
 
 		return units;
 	}
-	public void addService(TurnControl.ownedService()){
-		units += TurnControl.ownedServices.size();
-		owner.deductBalance(TurnControl.ownedServices.size());
+	public void changeUnits(int x){
+		units += x;
 	}
 	public void redeem() {
 		isMortgaged = false;

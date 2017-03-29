@@ -80,6 +80,7 @@ public class TurnControl{
 							((Services) loc).setOwner(element); //sets owner of property
 							element.servicesBought((Services) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
 							Info_Panel.UserInput(element.getName() + " bought " + loc.getName() + " for $" + ((Services) loc).getValue());
+							Services.changeUnits(1);
 						}
 
 					}	 else {
