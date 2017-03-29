@@ -427,7 +427,7 @@ public class TurnControl{
 		}
 	}
 
-
+	private static int rollNum;
 	public static int roll(Players element) { //returns dice roll
 		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
@@ -436,7 +436,11 @@ public class TurnControl{
 			Info_Panel.UserInput("You Rolled a Double, Roll Again");
 			roll = true;
 		}
-		return dice1 + dice2;
+		rollNum = dice1 + dice2;
+		return rollNum;
+	}
+	public static int getRoll(){
+		return rollNum;
 	}
 
 
@@ -511,7 +515,7 @@ public class TurnControl{
 		return null;
 	}
 
-	private static boolean groupCheck(Players player, String group){
+	public static boolean groupCheck(Players player, String group){
 		for (Locations property : locations){
 			if(property instanceof Propertys){
 				if ( ( (Propertys) property).getGroup().equals(group) && ((Propertys) property).getOwner() != player) return false;
