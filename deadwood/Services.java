@@ -47,7 +47,15 @@ public class Services extends Locations{
 		return (int) (mortgageValue + mortgageValue*.1);
 	}
 	public int getRent(){
-		return rent[units];
+
+		int rentToPay = 0;
+		if(group.equals("utilities") && TurnControl.groupCheck(owner, "utilities")){
+			rentToPay = 10 * TurnControl.getRoll();
+		} else if(group.equals("utilities")){
+			rentToPay = 4 * TurnControl.getRoll();
+		}
+		return rentToPay;
+
 	}
 	public String getOwnerName(){
 		return owner.getName();
