@@ -63,31 +63,25 @@ public class TurnControl{
 				loc = locations.get(currPlayer.getLocation());
 				if(loc instanceof Propertys){ //checks if player is on property
 					if(((Propertys) loc).getOwner() == null){
-						if(currPlayer.deductBalance(((Propertys) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
+						if(currPlayer.getBalance() > ((Propertys) loc).getValue()) { //checks if transaction won't leave players balance below 0
+							currPlayer.deductBalance(((Propertys) loc).getValue());
 							((Propertys) loc).setOwner(currPlayer); //sets owner of property
 							currPlayer.propertyBought((Propertys) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
 							Info_Panel.UserInput(currPlayer.getName() + " bought " + loc.getName() + " for $" + ((Propertys) loc).getValue());
-						}
-
-					}	 else {
-						Info_Panel.UserInput("Error: Property already bought");
-					}
+						} else Info_Panel.UserInput("Error: Insufficient funds");
+					} else Info_Panel.UserInput("Error: Property already bought");
 				}
 
 				else if(loc instanceof Services){ //checks if player is on property
 					if(((Services) loc).getOwner() == null){
-						if(currPlayer.deductBalance(((Services) loc).getValue()) == true) { //takes money away from players balance if it doesn't leave balance below 0, if so the rest will run
+						if(currPlayer.getBalance() > ((Services) loc).getValue()) { //checks if transaction won't leave players balance below 0
+							currPlayer.deductBalance(((Services) loc).getValue());
 							((Services) loc).setOwner(currPlayer); //sets owner of property
 							currPlayer.servicesBought((Services) loc); // adds property name to propertyNames array in Players which will be use for querying owned property
 							Info_Panel.UserInput(currPlayer.getName() + " bought " + loc.getName() + " for $" + ((Services) loc).getValue());
 						}
-
-					}	 else {
-						Info_Panel.UserInput("Error: Property already bought");
-					}
-				} else {
-					Info_Panel.UserInput("Error: Invalid Command");
-				}
+					} else Info_Panel.UserInput("Error: Insufficient funds");
+			} else Info_Panel.UserInput("Error: Property already bought");
 				break;
 
 
@@ -110,7 +104,8 @@ public class TurnControl{
 					loc = locations.get(currPlayer.getLocation());
 					if(loc instanceof Propertys){ //checks that player is on a property
 						if((((Propertys) loc).getOwner() != currPlayer) && (((Propertys) loc).getOwner() != null) ){
-							if(currPlayer.deductBalance(((Propertys) loc).getRent()) == true) { //take rent from player if it doesn't leave balance below 0, if so the rest will run
+							if(currPlayer.getBalance() > ((Propertys) loc).getRent()) { //checks if transaction won't leave players balance below 0
+								currPlayer.deductBalance(((Propertys) loc).getRent());
 								((Propertys) loc).getOwner().addBalance(((Propertys) loc).getRent());//give rent to property owner
 								rent = true;
 								Info_Panel.UserInput(currPlayer.getName() + " paid $" + ((Propertys) loc).getRent() + " to " + ((Propertys) loc).getOwnerName());
@@ -120,7 +115,8 @@ public class TurnControl{
 						}
 					}else if(loc instanceof Services){ //checks that player is on a property
 						if((((Services) loc).getOwner() != currPlayer) && (((Services) loc).getOwner() != null) ){
-							if(currPlayer.deductBalance(((Services) loc).getRent()) == true) { //take rent from player if it doesn't leave balance below 0, if so the rest will run
+							if(currPlayer.getBalance() > ((Services) loc).getRent()) { //checks if transaction won't leave players balance below 0
+								currPlayer.deductBalance(((Services) loc).getRent());
 								((Services) loc).getOwner().addBalance(((Services) loc).getRent());//give rent to property owner
 								rent = true;
 								Info_Panel.UserInput(currPlayer.getName() + " paid $" + ((Services) loc).getRent() + " to " + ((Services) loc).getOwnerName());
@@ -194,9 +190,10 @@ public class TurnControl{
 						break;
 					}
           if(propertyName.equalsIgnoreCase(service.getInputName()) && currPlayer==service.getOwner() && service.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
-            if(currPlayer.deductBalance(service.getRedeemValue()) == true) {
-              service.redeem();
-              Info_Panel.UserInput(currPlayer.getName() + " redeemed " + service.getName() + " for $" + service.getRedeemValue());
+            if(currPlayer.getBalance() > service.getRedeemValue()) {
+            	currPlayer.deductBalance(service.getRedeemValue());
+            	service.redeem();
+            	Info_Panel.UserInput(currPlayer.getName() + " redeemed " + service.getName() + " for $" + service.getRedeemValue());
             }
           }
           else if(propertyName.equalsIgnoreCase(service.getInputName()) && currPlayer!=service.getOwner()) {
@@ -207,9 +204,10 @@ public class TurnControl{
           }
         } else {
           if(propertyName.equalsIgnoreCase(prop.getInputName()) && currPlayer==prop.getOwner() && prop.isMortgaged()) { // if the input name is correct, the player owns the property and it is already mortgaged
-            if(currPlayer.deductBalance(prop.getRedeemValue()) == true) {
-              prop.redeem();
-              Info_Panel.UserInput(currPlayer.getName() + " redeemed " + prop.getName() + " for $" + prop.getRedeemValue());
+            if(currPlayer.getBalance() > prop.getRedeemValue()) {
+            	currPlayer.deductBalance(prop.getRedeemValue());
+            	prop.redeem();
+            	Info_Panel.UserInput(currPlayer.getName() + " redeemed " + prop.getName() + " for $" + prop.getRedeemValue());
             }
           }
           else if(propertyName.equalsIgnoreCase(prop.getInputName()) && currPlayer!=prop.getOwner()) {
