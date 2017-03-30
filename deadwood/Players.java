@@ -149,4 +149,15 @@ public class Players {
 		return id;
 	}
 
+	public int getNumStationsOwned(){
+		int numRailroad = 0;
+		for (int t=0;t<ownedServices.size;t++){
+			if(ownedServices[t]==group.equals("railroad")){
+				 numRailroad++;
+			}
+			t++;
+		}
+		return numRailroad;
+	}
+
 }

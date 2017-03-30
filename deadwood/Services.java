@@ -54,6 +54,10 @@ public class Services extends Locations{
 		} else if(group.equals("utilities")){
 			rentToPay = 4 * TurnControl.getRoll();
 		}
+		else if(group.equals("railroad")){
+			int payme = getOwner().getNumStationsOwned()-1;
+			rentToPay = rent[payme];
+		}
 		return rentToPay;
 
 	}
@@ -84,4 +88,4 @@ public class Services extends Locations{
 		return group;
 	}
 
-}
+	}
