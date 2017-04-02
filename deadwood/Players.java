@@ -8,6 +8,7 @@ public class Players {
 	private int balance;
 	private int assets;
 	private int location, n;
+	private int getOutOfJailCard;
 	private LinkedList<Propertys> ownedProperties = new LinkedList<Propertys>();
 	private LinkedList<Services> ownedServices = new LinkedList<Services>();
 	private String playerName;
@@ -24,6 +25,7 @@ public class Players {
 		playerName = "Player";
 		n = 0;
 		firstRoll = 0;
+		getOutOfJailCard = 0;
 	}
 
 	public void setName(String name) {
@@ -72,15 +74,15 @@ public class Players {
 
 	public void move() { //moves player according to roll()
 		int k = TurnControl.roll(this); // calls roll and passes current player through
-		Board.moveTokens(this, k); // moves current player k spaces
+		Board.moveTokens(this, k, 1); // moves current player k spaces
 	}
 
 	public void move(int k) { //moves player manually k spaces
-		Board.moveTokens(this, k);
+		Board.moveTokens(this, k, 1);
 	}
 
-	public void changeLocation() {
-		n++;
+	public void changeLocation(int direction) {
+		n += direction;
 		location = n % 40;
 	}
 	
@@ -155,4 +157,13 @@ public class Players {
 		return id;
 	}
 
+	public void addJailCard() {
+		getOutOfJailCard++;
+	}
+	public void useJailCard() {
+		getOutOfJailCard--;
+	}
+	public int getJailCard() {
+		return getOutOfJailCard;
+	}
 }

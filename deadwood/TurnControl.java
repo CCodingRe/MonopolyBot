@@ -41,6 +41,9 @@ public class TurnControl {
 					roll = false;
 					currPlayer.move();
 					squareInfo(currPlayer);
+					if(currPlayer.getLocation()==30) {
+						//TODO implement go to jail
+					}
 					rentOwed = rentOwed(currPlayer);
 					if(rentOwed) payRent(currPlayer);
 					checkIfDrawCard(currPlayer);
@@ -389,7 +392,7 @@ public class TurnControl {
 				break;
 				
 			case "cheat3" :
-				Cards.chance(9, currPlayer);
+				Cards.chance(6, currPlayer);
 				break;
 
 			default :

@@ -56,7 +56,7 @@ public class Board extends JPanel
 	}
 
 
-	public static void moveTokens(Players player, int spaces)
+	public static void moveTokens(Players player, int spaces, int direction) // direction 1=forward, -1=backwards
 	{
 		while(spaces>0)
 		{
@@ -68,59 +68,71 @@ public class Board extends JPanel
 
 			if(player.getX()>455 && player.getY()>450) // bottom of board
 			{
-				player.changeX(-55); // move player this many pixels on the board (55 because the corner squares are bigger)
+				if(direction==1) player.changeX(-55); // move player this many pixels on the board (55 because the corner squares are bigger)
+				else player.changeY(-55);
 			}
 			else if(player.getX()<455 && player.getX()>111 && player.getY()>450)
 			{
-				player.changeX(-43); // move player 43 pixels on the board
+				if(player.getX()<455 && player.getX()>415 && direction==-1) player.changeX(55); // if player needs to move back onto the corner space
+				else player.changeX(-43*direction); // move player 43 pixels on the board
 			}
 			else if(player.getX()<110 && player.getX()>70 && player.getY()>450)
 			{
-				player.changeX(-55);
+				if(direction==1) player.changeX(-55);
+				else player.changeX(43);
 			}
 
 			else if(player.getY()>455 && player.getX()<70) // left of board
 			{
-				player.changeY(-55);
+				if(direction==1) player.changeY(-55);
+				else player.changeX(55);
 			}
 			else if(player.getY()<455 && player.getY()>110 && player.getX()<70)
 			{
-				player.changeY(-43);
+				if(player.getY()<455 && player.getY()>415 && direction==-1) player.changeY(55); // if player needs to move back onto the corner space
+				else player.changeY(-43*direction);
 			}
 			else if(player.getY()<110 && player.getY()>70 && player.getX()<70)
 			{
-				player.changeY(-55);
+				if(direction==1) player.changeY(-55);
+				else player.changeY(43);
 			}
 
 			else if(player.getX()<70 && player.getY()<70) // top of board
 			{
-				player.changeX(55);
+				if(direction==1) player.changeX(55);
+				else player.changeY(55);
 			}
 			else if(player.getX()>70 && player.getX()<410 && player.getY()<70)
 			{
-				player.changeX(43);
+				if(player.getX()>70 && player.getX()<110 && direction==-1) player.changeX(-55);
+				else player.changeX(43*direction);
 			}
 			else if(player.getX()>410 && player.getX()<455 && player.getY()<70)
 			{
-				player.changeX(55);
+				if(direction==1) player.changeX(55);
+				else player.changeX(-43);
 			}
 
 			else if(player.getY()<70 && player.getX()>455) // right of board
 			{
-				player.changeY(55);
+				if(direction==1) player.changeY(55);
+				else player.changeX(-55);
 			}
 			else if(player.getY()>70 && player.getY()<410 && player.getX()>455)
 			{
-				player.changeY(43);
+				if(player.getY()>70 && player.getY()<110 && direction==-1) player.changeY(-55);
+				else player.changeY(43*direction);
 			}
 			else if(player.getY()>410 && player.getY()<455 && player.getX()>455)
 			{
-				player.changeY(55);
+				if(direction==1) player.changeY(55);
+				else player.changeY(-43);
 			}
 
 			panel.repaint(); // repaints each loop to show tokens new position
 			spaces--;
-			player.changeLocation(); // moves 1 location with each loop
+			player.changeLocation(direction); // moves 1 location with each loop
 			if(player.getLocation() == 0) { // if the player passes go
 				player.addBalance(200);
 				Info_Panel.UserInput(player.getName() + " recieved $200 for passing Go");

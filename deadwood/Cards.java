@@ -76,8 +76,8 @@ public class Cards {
 			break; 
 
 		case 14 :
-			Info_Panel.UserInput("Implement get out of jail card");
-			//TODO add get out of jail free card
+			Info_Panel.UserInput("Get out of jail free. This card may be kept until needed or sold");
+			player.addJailCard();
 			break;
 
 		case 15 :
@@ -120,8 +120,7 @@ public class Cards {
 			break;
 
 		case 6 :
-			Info_Panel.UserInput("Card: Go back three spaces");
-			//TODO figure out how to go back spaces Sean you pathetic piece of shit
+			backThreeSpaces(player);
 			break;
 
 		case 7 :
@@ -165,8 +164,8 @@ public class Cards {
 			break;
 
 		case 15 :
-			Info_Panel.UserInput("Implement get out of jail card");
-			//TODO add get out of jail free card
+			Info_Panel.UserInput("Get out of jail free. This card may be kept until needed or sold");
+			player.addJailCard();
 			break;
 
 		default :
@@ -273,5 +272,11 @@ public class Cards {
 		}
 		player.deductBalance(total);
 		Info_Panel.UserInput(player.getName() + " paid $" + total + " in repairs");
+	}
+	
+	private static void backThreeSpaces(Players player) {
+		Info_Panel.UserInput("Card: Go back three spaces");
+		Board.moveTokens(player, 3, -1);
+		TurnControl.squareInfo(player);
 	}
 }
