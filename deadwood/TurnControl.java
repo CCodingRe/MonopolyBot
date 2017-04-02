@@ -6,7 +6,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class TurnControl {
 
-	private static Boolean cond, roll, rent;
+	private static Boolean cond, roll, rentOwed;
 	private static Boolean playGame = true;
 	private static ArrayList<Locations> locations = (ArrayList<Locations>) SetUp.getLocationsList();
 	private static ArrayList<Players> players = SetUp.getPlayers();
@@ -19,7 +19,7 @@ public class TurnControl {
 				Info_Panel.UserInput("\n" + currPlayer.getName() + "'s turn");
 				roll = true;
 				cond = true;
-				rent = true;
+				rentOwed = false;
 				cmdCheck(currPlayer);
 			}
 		}
@@ -39,40 +39,14 @@ public class TurnControl {
 			case "roll" :
 				if(roll && currPlayer.getBalance()>=0){ // ensures player pays rent on current property if necessary
 					roll = false;
-					movePlayer(currPlayer);
-					loc = locations.get(currPlayer.getLocation());
-					if(loc instanceof Propertys){
-						if((((Propertys) loc).getOwner() != currPlayer) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
-							rent = false;
-						}
-					}
-					if(loc instanceof Services){
-						if((((Services) loc).getOwner() != currPlayer) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
-							rent = false;
-						}
-					}
+					currPlayer.move();
+					squareInfo(currPlayer);
+					rentOwed = rentOwed(currPlayer);
+					if(rentOwed) payRent(currPlayer);
+					checkIfDrawCard(currPlayer);
 				}
 				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
 				else if(currPlayer.getBalance()<0) Info_Panel.UserInput("Error: Cannot roll with a negative balance");
-					
-				if(!rent) {
-					loc = locations.get(currPlayer.getLocation());
-					if(loc instanceof Propertys) { //checks that player is on a property
-						if((((Propertys) loc).getOwner() != currPlayer) && (((Propertys) loc).getOwner() != null) ){
-							currPlayer.deductBalance(((Propertys) loc).getRent());
-							((Propertys) loc).getOwner().addBalance(((Propertys) loc).getRent());//give rent to property owner
-							rent = true;
-							Info_Panel.UserInput(currPlayer.getName() + " paid $" + ((Propertys) loc).getRent() + " to " + ((Propertys) loc).getOwnerName());
-						} else Info_Panel.UserInput("Error: Can't pay rent here");
-					} else if(loc instanceof Services){ //checks that player is on a property
-						if((((Services) loc).getOwner() != currPlayer) && (((Services) loc).getOwner() != null) ) {
-							currPlayer.deductBalance(((Services) loc).getRent());
-							((Services) loc).getOwner().addBalance(((Services) loc).getRent());//give rent to property owner
-							rent = true;
-							Info_Panel.UserInput(currPlayer.getName() + " paid $" + ((Services) loc).getRent() + " to " + ((Services) loc).getOwnerName());
-						} else Info_Panel.UserInput("Error: Can't pay rent here");
-					}
-				}
 
 				break;
 
@@ -333,8 +307,10 @@ public class TurnControl {
 			case "move" : //for easier testing, move <number of spaces>
 				int n = Integer.parseInt(s[1]);
 				currPlayer.move(n);
-				loc = locations.get(currPlayer.getLocation());
-				squareInfo(loc, currPlayer);
+				squareInfo(currPlayer);
+				rentOwed = rentOwed(currPlayer);
+				if(rentOwed) payRent(currPlayer);
+				checkIfDrawCard(currPlayer);
 				break;
 
 
@@ -361,7 +337,7 @@ public class TurnControl {
 				if(roll==true)	Info_Panel.UserInput("Error: You must finish rolling");
 				else if(currPlayer.getBalance()<0)	Info_Panel.UserInput("Error: You cannot end turn with a negative balance");
 				else	cond = false; // ends turn
-				
+
 				playGame = checkWinner();
 
 				break;
@@ -402,9 +378,18 @@ public class TurnControl {
 			case "cheat" :
 				prop = propertyFinder("Mediterranean");
 				prop.setOwner(currPlayer);
+				prop.addUnits(3);
 				prop = propertyFinder("Baltic");
 				prop.setOwner(currPlayer);
+				prop.addUnits(5);
+				break;
+				
+			case "cheat2" :
 				currPlayer.deductBalance(1600);
+				break;
+				
+			case "cheat3" :
+				Cards.chance(9, currPlayer);
 				break;
 
 			default :
@@ -429,17 +414,9 @@ public class TurnControl {
 		return rollNum;
 	}
 
-
-	private static void movePlayer(Players currPlayer) {
-
-		currPlayer.move();
-		Locations loc = locations.get(currPlayer.getLocation());
-		squareInfo(loc, currPlayer);
-
-	}
-
-	private static void squareInfo(Locations loc, Players currPlayer) {
+	static void squareInfo(Players currPlayer) {
 		//info on square
+		Locations loc = locations.get(currPlayer.getLocation());
 		Info_Panel.UserInput("\n" + loc.getName());
 		if(loc instanceof Propertys) {
 			Info_Panel.UserInput("Cost: " + Integer.toString(((Propertys) loc).getValue()));
@@ -483,7 +460,7 @@ public class TurnControl {
 	}
 
 	private static Propertys propertyFinder(String propName){
-		for(Locations property : locations){
+		for(Locations property : locations) {
 			if(property instanceof Propertys){
 				if( (((Propertys) property).getInputName()).equalsIgnoreCase(propName)){
 					return (Propertys) property;
@@ -513,5 +490,47 @@ public class TurnControl {
 		return true;
 	}
 
+	public static boolean rentOwed(Players player) {
+		Locations loc = locations.get(player.getLocation());
+		if(loc instanceof Propertys){
+			if((((Propertys) loc).getOwner() != player) && (((Propertys)loc).getOwner() != null) && (((Propertys)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+				return true;
+			}
+		}
+		if(loc instanceof Services){
+			if((((Services) loc).getOwner() != player) && (((Services)loc).getOwner() != null) && (((Services)loc).isMortgaged() != true)) { // checks if the property is owned by another player and if it's not mortgaged
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public static void payRent(Players player) {
+		Locations loc = locations.get(player.getLocation());
+		if(loc instanceof Propertys) { //checks that player is on a property
+			player.deductBalance(((Propertys) loc).getRent());
+			((Propertys) loc).getOwner().addBalance(((Propertys) loc).getRent());//give rent to property owner
+			rentOwed = false;
+			Info_Panel.UserInput(player.getName() + " paid $" + ((Propertys) loc).getRent() + " to " + ((Propertys) loc).getOwnerName());
+		} else if(loc instanceof Services){ //checks that player is on a property
+			player.deductBalance(((Services) loc).getRent());
+			((Services) loc).getOwner().addBalance(((Services) loc).getRent());//give rent to property owner
+			rentOwed = false;
+			Info_Panel.UserInput(player.getName() + " paid $" + ((Services) loc).getRent() + " to " + ((Services) loc).getOwnerName());
+		} else Info_Panel.UserInput("ERROR");
+	}
+
+	private static void checkIfDrawCard(Players player) {
+		int locNum = player.getLocation();
+		int cardNum = ThreadLocalRandom.current().nextInt(0, 16);
+		if(locNum==2 || locNum==17 || locNum==33) {
+			Info_Panel.UserInput("Take Community Chest Card");
+			Cards.communityChest(cardNum, player);
+		}
+		if(locNum==7 || locNum==22 || locNum==36) {
+			Info_Panel.UserInput("Take Chance Card");
+			Cards.chance(cardNum, player);
+		}
+	}
 
 }

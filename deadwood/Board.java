@@ -63,7 +63,6 @@ public class Board extends JPanel
 			try {
 				Thread.sleep(300); // suspends execution for a time to show each move
 			} catch (InterruptedException e1) {
-				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 
@@ -124,6 +123,7 @@ public class Board extends JPanel
 			player.changeLocation(); // moves 1 location with each loop
 			if(player.getLocation() == 0) { // if the player passes go
 				player.addBalance(200);
+				Info_Panel.UserInput(player.getName() + " recieved $200 for passing Go");
 			}
 		}
 

@@ -45,13 +45,21 @@ public class Players {
 	public int getBalance() {
 		return balance;
 	}
-
+	
+	public void setX(int x) {
+		playerX = x;
+	}
+	
 	public int getX() {
 		return playerX;
 	}
 
 	public void changeX(int pixels) { // changes position on the board
 		playerX += pixels;
+	}
+	
+	public void setY(int y) {
+		playerY = y;
 	}
 
 	public int getY() {
@@ -75,6 +83,11 @@ public class Players {
 		n++;
 		location = n % 40;
 	}
+	
+	public void setLocation(int loc) {
+		location = loc;
+		n=loc;
+	}
 
 	public int getLocation(){ //returns players location
 		return location;
@@ -92,15 +105,15 @@ public class Players {
 
 	public String getPropertiesOwned() {
 		String output = "";
-		output = playerName + " owns " + (ownedProperties.size()+ownedServices.size()) + " properties: " + toStringList(ownedProperties) +  toStringList1(ownedServices);
+		output = playerName + " owns " + (ownedProperties.size()+ownedServices.size()) + " properties: " + toStringListProperties(ownedProperties) +  toStringListServices(ownedServices);
 		return output;
 	}
-
+	
 	public int calculateAssets() {
 		return assets + balance;
 	}
 
-	public String toStringList(LinkedList<Propertys> propertyNames) { // puts the owned properties in a string
+	public String toStringListProperties(LinkedList<Propertys> propertyNames) { // puts the owned properties in a string
 		StringBuilder builder = new StringBuilder();
 
 			for (Propertys prop : propertyNames) {
@@ -113,7 +126,7 @@ public class Players {
 		return builder.toString();
 	}
 
-	public String toStringList1(LinkedList<Services> serviceNames) { // puts the owned properties in a string
+	public String toStringListServices(LinkedList<Services> serviceNames) { // puts the owned properties in a string
 		StringBuilder builder1 = new StringBuilder();
 
 			for (Services service : serviceNames) {
