@@ -120,6 +120,7 @@ public class Players {
 
 			for (Propertys prop : propertyNames) {
 			builder.append(prop.getName());
+			builder.append("[" + prop.getGroup() + "]");
 			if(prop.isMortgaged()) {
 				builder.append("(mortgaged)");
 			}
@@ -133,6 +134,7 @@ public class Players {
 
 			for (Services service : serviceNames) {
 			builder1.append(service.getName());
+			builder1.append("[" + service.getGroup() + "]");
 			if(service.isMortgaged()) {
 				builder1.append("(mortgaged)");
 			}

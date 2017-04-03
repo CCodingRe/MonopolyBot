@@ -26,7 +26,7 @@ public class SetUp{
 		LocationList.add(new Propertys("Connecticut Avenue", "Connecticut", 9, 120, 60, 8,40,100,300,450,600, "Turquoise", 50 ));
 		LocationList.add(new Locations("Jail", 10));
 		LocationList.add(new Propertys("St. Charles Place", "Charles", 11, 140, 50, 10,50,150,450,625,750, "Pink", 100 ));
-		LocationList.add(new Services("Electric Company","Electic", 12,150,75,10,"utilities"));
+		LocationList.add(new Services("Electric Company","Electric", 12,150,75,10,"utilities"));
 		LocationList.add(new Propertys("States Avenue", "States", 13, 140 , 70, 10,50,150,450,625,750, "Pink", 100 ));
 		LocationList.add(new Propertys("Virginia Avenue", "Virginia", 14, 160, 80, 12,60,180,500,700,900, "Pink", 100 ));
 		LocationList.add(new Services("Pennsylvania Railroad","Pennsylvania", 15, 200,100,25,"railroad"));

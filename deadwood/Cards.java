@@ -1,10 +1,8 @@
 package deadwood;
 
-import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Cards {
-	private static ArrayList<Locations> locations = (ArrayList<Locations>) SetUp.getLocationsList();
 	static boolean rentOwed;
 
 	public static void communityChest(int card, Players player) {
@@ -111,7 +109,7 @@ public class Cards {
 
 		case 4 :
 			Info_Panel.UserInput("Card: Advance to Illinois Avenue. If you pass Go collect $200");
-			advanceToLocation(2, 210, 26, player);
+			advanceToLocation(24, 210, 26, player);
 			break;
 
 		case 5 :
@@ -120,7 +118,8 @@ public class Cards {
 			break;
 
 		case 6 :
-			backThreeSpaces(player);
+			Info_Panel.UserInput("Card: Go back three spaces");
+			backSpaces(player, 3);
 			break;
 
 		case 7 :
@@ -274,9 +273,8 @@ public class Cards {
 		Info_Panel.UserInput(player.getName() + " paid $" + total + " in repairs");
 	}
 	
-	private static void backThreeSpaces(Players player) {
-		Info_Panel.UserInput("Card: Go back three spaces");
-		Board.moveTokens(player, 3, -1);
+	private static void backSpaces(Players player, int spaces) {
+		Board.moveTokens(player, spaces, -1);
 		TurnControl.squareInfo(player);
 	}
 }
