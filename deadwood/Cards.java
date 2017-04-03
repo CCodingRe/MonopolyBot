@@ -217,11 +217,11 @@ public class Cards {
 
 	private static void birthdayMoney(Players player) {
 		Info_Panel.UserInput("Card: It is your birthday. Collect $10 from each player");
-		for(Players currPlayer: SetUp.getPlayers()) {
-			if(currPlayer!=player) {
-				currPlayer.deductBalance(10);
+		for(Players otherPlayer: SetUp.getPlayers()) {
+			if(otherPlayer!=player) {
+				otherPlayer.deductBalance(10);
 				player.addBalance(10);
-				Info_Panel.UserInput(currPlayer.getName() + " paid $10 to " + player.getName());
+				Info_Panel.UserInput(otherPlayer.getName() + " paid $10 to " + player.getName());
 			}
 		}
 	}
@@ -263,10 +263,12 @@ public class Cards {
 		int total = 0;
 		for(Locations prop : SetUp.getLocationsList()) {
 			if(prop instanceof Propertys){
-				if(((Propertys) prop).getUnits()<5){
-					total += ((Propertys) prop).getUnits()*house;
+				if(((Propertys) prop).getOwner()==player) {
+					if(((Propertys) prop).getUnits()<5){
+						total += ((Propertys) prop).getUnits()*house;
+					}
+					else total += hotel;
 				}
-				else total += hotel;
 			}
 		}
 		player.deductBalance(total);
