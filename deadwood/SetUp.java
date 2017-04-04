@@ -90,7 +90,29 @@ public class SetUp{
 			k++;
 		}
 
-		for(Players element : users){
+
+		/*public void decideStarter (){
+			Players inPlayers = new Players(players), selectedPlayers = new Players();
+			int highestTotal = 0;
+			boolean tie = false;
+			for(Players element : users){
+				int total = TurnControl.roll(element);
+				element.setFirstRoll(total);
+			}
+			for(Players element : users){
+				if(highestTotal > Players.getFirstRoll){
+					highestTotal = Players.getFirstRoll;
+				}
+				else if(highestotal==Players.getFirstRoll){
+					int
+				}
+
+			}
+		} */
+
+
+ /*
+	for(Players element : users){
 			int total = TurnControl.roll(element);
 			element.setFirstRoll(total);
 		}
@@ -101,7 +123,37 @@ public class SetUp{
 			}
 		});
 
+		Board.refresh(); */
+	}
+
+	public void decideStarter() {
+		Players inPlayers = new Players(getPlayers), selectedPlayers = new Players();
+		boolean tie = false;
+		do {
+			int highestTotal = 0;
+			for (Player p : inPlayers.get()) {
+			//	dice.roll();
+				//ui.displayDice(p,dice);
+				if (Players.getFirstRoll() > highestTotal) {
+					tie = false;
+					highestTotal = Players.getFirstRoll();
+					selectedPlayers.clear();
+					selectedPlayers.add(p);
+				} else if (Players.getFirstRoll() == highestTotal) {
+					tie = true;
+					selectedPlayers.add(p);
+				}
+			}
+			if (tie) {
+			//	ui.displayRollDraw();
+				inPlayers = new Players(selectedPlayers);
+				selectedPlayers.clear();
+			}
+		} while (tie);
+		Player = selectedPlayers.get(0);
+	//	ui.displayRollWinner(currPlayer);
 		Board.refresh();
+		return;
 	}
 
 	public static ArrayList<Players> getPlayers(){

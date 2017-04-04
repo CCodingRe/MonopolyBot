@@ -481,7 +481,7 @@ public class TurnControl{
 				Info_Panel.UserInput("No Owner");
 				Info_Panel.UserInput("Property is for sale!");
 			}
-		}
+		} 
 		if(loc instanceof Services) {
 			Info_Panel.UserInput("Cost: " + Integer.toString(((Services) loc).getValue()));
 			if(((Services) loc).getOwner() != null){

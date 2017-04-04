@@ -55,8 +55,8 @@ public class Services extends Locations{
 			rentToPay = 4 * TurnControl.getRoll();
 		}
 		else if(group.equals("railroad")){
-			int payme = getOwner().getNumStationsOwned()-1;
-			rentToPay = rent[payme];
+			int payme = owner.getNumStationsOwned();
+			rentToPay = rent[payme-1];
 		}
 		return rentToPay;
 

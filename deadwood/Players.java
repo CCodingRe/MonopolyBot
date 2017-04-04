@@ -145,17 +145,26 @@ public class Players {
 		id = index;
 	}
 
+	public void add(Player player) {
+		Players.add(Players);
+		return;
+  }
+
+	public void clear () {
+		players.clear();
+		return;
+	}
+
 	public int getId() {
 		return id;
 	}
 
 	public int getNumStationsOwned(){
 		int numRailroad = 0;
-		for (int t=0;t<ownedServices.size;t++){
-			if(ownedServices[t]==group.equals("railroad")){
+		for (int t=0;t<ownedServices.size();t++){
+			if(ownedServices.get(t).getGroup().equals("railroad")){
 				 numRailroad++;
 			}
-			t++;
 		}
 		return numRailroad;
 	}
