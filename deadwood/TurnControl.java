@@ -255,10 +255,12 @@ public class TurnControl {
 							}
 						} else {
 							int units = Integer.parseInt(s[2]);
-							if((prop.getUnits() + units) <= 4){
+							if( units>0 && (prop.getUnits() + units) <= 4){
 								prop.addUnits(units);
 								Info_Panel.UserInput("Building " + units + " houses on " + prop.getName());
-							} else {
+							} else if(units<1){
+								Info_Panel.UserInput("Error: You must build at least 1 house");
+							}else {
 								Info_Panel.UserInput("Error: Max of 4 houses per property");
 							}
 						}
@@ -291,9 +293,11 @@ public class TurnControl {
 							}
 						} else {
 							int units = Integer.parseInt(s[2]);
-							if(prop.getUnits() >= units){
+							if(units>0 &&prop.getUnits() >= units){
 								prop.removeUnits(units);
 								Info_Panel.UserInput("Demolishing " + units + " houses on " + prop.getName());
+							}else if(units<1){
+								Info_Panel.UserInput("Error: You must destroy at least 1 house");
 							} else {
 								Info_Panel.UserInput("Error: You dont't have that many houses");
 							}
