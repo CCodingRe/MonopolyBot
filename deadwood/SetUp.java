@@ -111,10 +111,24 @@ public class SetUp{
 		} */
 
 
- /*
+  int highestTotal = 0;
 	for(Players element : users){
 			int total = TurnControl.roll(element);
 			element.setFirstRoll(total);
+		}
+
+		for(int possDouble=0;possDouble<users.size();possDouble++){
+    	for(int otherPossDouble=1;otherPossDouble<users.size();otherPossDouble++){
+    		if(otherPossDouble!=possDouble && users.get(otherPossDouble) == users.get(possDouble)){
+
+ 				Info_Panel.UserInput(users.get(possDouble).getName() + "and " + users.get(otherPossDouble).getName() +" rolled the same, they must roll again!");
+
+					int aTotal = TurnControl.roll(users.get(otherPossDouble));
+					users.get(otherPossDouble).setFirstRoll(aTotal);
+					int otherTotal = TurnControl.roll(users.get(possDouble));
+					users.get(possDouble).setFirstRoll(otherTotal);
+				}
+			}
 		}
 
 		Collections.sort(users, new Comparator<Players>(){
@@ -123,37 +137,7 @@ public class SetUp{
 			}
 		});
 
-		Board.refresh(); */
-	}
-
-	public void decideStarter() {
-		Players inPlayers = new Players(getPlayers), selectedPlayers = new Players();
-		boolean tie = false;
-		do {
-			int highestTotal = 0;
-			for (Player p : inPlayers.get()) {
-			//	dice.roll();
-				//ui.displayDice(p,dice);
-				if (Players.getFirstRoll() > highestTotal) {
-					tie = false;
-					highestTotal = Players.getFirstRoll();
-					selectedPlayers.clear();
-					selectedPlayers.add(p);
-				} else if (Players.getFirstRoll() == highestTotal) {
-					tie = true;
-					selectedPlayers.add(p);
-				}
-			}
-			if (tie) {
-			//	ui.displayRollDraw();
-				inPlayers = new Players(selectedPlayers);
-				selectedPlayers.clear();
-			}
-		} while (tie);
-		Player = selectedPlayers.get(0);
-	//	ui.displayRollWinner(currPlayer);
 		Board.refresh();
-		return;
 	}
 
 	public static ArrayList<Players> getPlayers(){

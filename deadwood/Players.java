@@ -145,16 +145,6 @@ public class Players {
 		id = index;
 	}
 
-	public void add(Player player) {
-		Players.add(Players);
-		return;
-  }
-
-	public void clear () {
-		players.clear();
-		return;
-	}
-
 	public int getId() {
 		return id;
 	}
