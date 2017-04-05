@@ -8,6 +8,7 @@ public class Players {
 	private int balance;
 	private int assets;
 	private int location, n;
+	private int getOutOfJailCard;
 	private LinkedList<Propertys> ownedProperties = new LinkedList<Propertys>();
 	private LinkedList<Services> ownedServices = new LinkedList<Services>();
 	private String playerName;
@@ -24,6 +25,7 @@ public class Players {
 		playerName = "Player";
 		n = 0;
 		firstRoll = 0;
+		getOutOfJailCard = 0;
 	}
 
 	public void setName(String name) {
@@ -38,19 +40,16 @@ public class Players {
 		balance += amount;
 	}
 
-	public boolean deductBalance(int amount) {
-		if(amount > balance) { // this check is in the Players class to ensure to transactions leave the balance below 0;
-			Info_Panel.UserInput("Error: Insufficient Funds");
-			return false;
-		}
-		else {
-			balance -= amount;
-			return true;
-		}
+	public void deductBalance(int amount) {
+		balance -= amount;
 	}
 
 	public int getBalance() {
 		return balance;
+	}
+
+	public void setX(int x) {
+		playerX = x;
 	}
 
 	public int getX() {
@@ -59,6 +58,10 @@ public class Players {
 
 	public void changeX(int pixels) { // changes position on the board
 		playerX += pixels;
+	}
+
+	public void setY(int y) {
+		playerY = y;
 	}
 
 	public int getY() {
@@ -71,16 +74,21 @@ public class Players {
 
 	public void move() { //moves player according to roll()
 		int k = TurnControl.roll(this); // calls roll and passes current player through
-		Board.moveTokens(this, k); // moves current player k spaces
+		Board.moveTokens(this, k, 1); // moves current player k spaces
 	}
 
 	public void move(int k) { //moves player manually k spaces
-		Board.moveTokens(this, k);
+		Board.moveTokens(this, k, 1);
 	}
 
-	public void changeLocation() {
-		n++;
+	public void changeLocation(int direction) {
+		n += direction;
 		location = n % 40;
+	}
+
+	public void setLocation(int loc) {
+		location = loc;
+		n=loc;
 	}
 
 	public int getLocation(){ //returns players location
@@ -99,7 +107,7 @@ public class Players {
 
 	public String getPropertiesOwned() {
 		String output = "";
-		output = playerName + " owns " + (ownedProperties.size()+ownedServices.size()) + " properties: " + toStringList(ownedProperties) +  toStringList1(ownedServices);
+		output = playerName + " owns " + (ownedProperties.size()+ownedServices.size()) + " properties: " + toStringListProperties(ownedProperties) +  toStringListServices(ownedServices);
 		return output;
 	}
 
@@ -107,11 +115,12 @@ public class Players {
 		return assets + balance;
 	}
 
-	public String toStringList(LinkedList<Propertys> propertyNames) { // puts the owned properties in a string
+	public String toStringListProperties(LinkedList<Propertys> propertyNames) { // puts the owned properties in a string
 		StringBuilder builder = new StringBuilder();
 
 			for (Propertys prop : propertyNames) {
 			builder.append(prop.getName());
+			builder.append("[" + prop.getGroup() + "]");
 			if(prop.isMortgaged()) {
 				builder.append("(mortgaged)");
 			}
@@ -120,11 +129,12 @@ public class Players {
 		return builder.toString();
 	}
 
-	public String toStringList1(LinkedList<Services> serviceNames) { // puts the owned properties in a string
+	public String toStringListServices(LinkedList<Services> serviceNames) { // puts the owned properties in a string
 		StringBuilder builder1 = new StringBuilder();
 
 			for (Services service : serviceNames) {
 			builder1.append(service.getName());
+			builder1.append("[" + service.getGroup() + "]");
 			if(service.isMortgaged()) {
 				builder1.append("(mortgaged)");
 			}
@@ -157,6 +167,16 @@ public class Players {
 			}
 		}
 		return numRailroad;
+	}
+
+	public void addJailCard() {
+		getOutOfJailCard++;
+	}
+	public void useJailCard() {
+		getOutOfJailCard--;
+	}
+	public int getJailCard() {
+		return getOutOfJailCard;
 	}
 
 }

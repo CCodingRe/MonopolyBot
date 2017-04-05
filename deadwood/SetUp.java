@@ -55,7 +55,6 @@ public class SetUp{
 				LocationList.add(new Locations("Luxery Tax", 38));
 				LocationList.add(new Propertys("Boardwalk", "Boardwalk", 39, 400, 200, 50,200,600,1400,1700,2000, "Blue", 200));
 
-
 	}
 
 	public void playerCheck() {
