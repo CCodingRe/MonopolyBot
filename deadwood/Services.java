@@ -59,7 +59,6 @@ public class Services extends Locations{
 			rentToPay = rent[payme-1];
 		}
 		return rentToPay;
-
 	}
 	public String getOwnerName(){
 		return owner.getName();

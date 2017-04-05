@@ -90,33 +90,13 @@ public class SetUp{
 			k++;
 		}
 
-
-		/*public void decideStarter (){
-			Players inPlayers = new Players(players), selectedPlayers = new Players();
-			int highestTotal = 0;
-			boolean tie = false;
-			for(Players element : users){
-				int total = TurnControl.roll(element);
-				element.setFirstRoll(total);
-			}
-			for(Players element : users){
-				if(highestTotal > Players.getFirstRoll){
-					highestTotal = Players.getFirstRoll;
-				}
-				else if(highestotal==Players.getFirstRoll){
-					int
-				}
-
-			}
-		} */
-
-
   int highestTotal = 0;
+	boolean tie = true;
 	for(Players element : users){
 			int total = TurnControl.roll(element);
 			element.setFirstRoll(total);
 		}
-
+     while(tie == true){
 		for(int possDouble=0;possDouble<users.size();possDouble++){
     	for(int otherPossDouble=1;otherPossDouble<users.size();otherPossDouble++){
     		if(otherPossDouble!=possDouble && users.get(otherPossDouble) == users.get(possDouble)){
@@ -127,6 +107,10 @@ public class SetUp{
 					users.get(otherPossDouble).setFirstRoll(aTotal);
 					int otherTotal = TurnControl.roll(users.get(possDouble));
 					users.get(possDouble).setFirstRoll(otherTotal);
+					}
+					else if (otherPossDouble!=possDouble && users.get(otherPossDouble) != users.get(possDouble)){
+						tie = false;
+					}
 				}
 			}
 		}
