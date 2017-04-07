@@ -15,8 +15,9 @@ public class Board extends JPanel
 	static BufferedImage img;
 	static int panelWidth;
 	static int panelHeight;
+	private static final int TOKEN_RADIUS = 13;
 	private static final Color[] PLAYER_COLOURS = {Color.RED,Color.BLUE,Color.YELLOW,Color.GREEN,Color.MAGENTA,Color.WHITE};
-	private static final int[][] PLAYER_OFFSET = {{0, 0}, {12, 12}, {-12,-12}, {-12, 12}, {12, -12}, {0, 12}};
+	private static final int[][] PLAYER_OFFSET = {{0, 0}, {TOKEN_RADIUS, TOKEN_RADIUS}, {-TOKEN_RADIUS,-TOKEN_RADIUS}, {-TOKEN_RADIUS, TOKEN_RADIUS}, {TOKEN_RADIUS, -TOKEN_RADIUS}, {0, TOKEN_RADIUS}};
 	static ArrayList<Players> players = SetUp.getPlayers();
 
 
@@ -25,8 +26,8 @@ public class Board extends JPanel
 		try
 		{
 			img = ImageIO.read(this.getClass().getResource("monopoly-board.jpg")); // loads in the image of the board
-			panelWidth = img.getWidth() + 15;
-			panelHeight = img.getHeight() + 40; // +15 and +40 to width and height to adjust for the title at the top of the Jpanel
+			panelWidth = img.getWidth();
+			panelHeight = img.getHeight(); 
 			setPreferredSize(new Dimension(panelWidth, panelHeight));
 
 
@@ -38,13 +39,13 @@ public class Board extends JPanel
 	public void paint(Graphics g)
 	{
 
-		g.drawImage(img, 0, 0, this); // paints the board image
+		g.drawImage(img, 0, 0, panelWidth, panelHeight, this); // paints the board image
 		for(Players player : players) { // adds player tokens to the board. Loops for however many objects are in the players arrayList
 			{
 				super.paintComponents(g);
-				g.drawOval(player.getX()+PLAYER_OFFSET[player.getId()][0], player.getY()+PLAYER_OFFSET[player.getId()][1], 12, 12); // each player position is slightly offset to ensure they arent on top of each other
+				g.drawOval(player.getX()+PLAYER_OFFSET[player.getId()][0], player.getY()+PLAYER_OFFSET[player.getId()][1], TOKEN_RADIUS, TOKEN_RADIUS); // each player position is slightly offset to ensure they arent on top of each other
 				g.setColor(PLAYER_COLOURS[player.getId()]);
-				g.fillOval(player.getX()+PLAYER_OFFSET[player.getId()][0], player.getY()+PLAYER_OFFSET[player.getId()][1], 12, 12);
+				g.fillOval(player.getX()+PLAYER_OFFSET[player.getId()][0], player.getY()+PLAYER_OFFSET[player.getId()][1], TOKEN_RADIUS, TOKEN_RADIUS);
 			}
 
 		}
@@ -66,68 +67,68 @@ public class Board extends JPanel
 				e1.printStackTrace();
 			}
 
-			if(player.getX()>455 && player.getY()>450) // bottom of board
+			if(player.getX()>595 && player.getY()>595) // bottom of board
 			{
-				if(direction==1) player.changeX(-55); // move player this many pixels on the board (55 because the corner squares are bigger)
-				else player.changeY(-55);
+				if(direction==1) player.changeX(-75); // move player this many pixels on the board (55 because the corner squares are bigger)
+				else player.changeY(-75);
 			}
-			else if(player.getX()<455 && player.getX()>111 && player.getY()>450)
+			else if(player.getX()<595 && player.getX()>145 && player.getY()>595)
 			{
-				if(player.getX()<455 && player.getX()>415 && direction==-1) player.changeX(55); // if player needs to move back onto the corner space
-				else player.changeX(-43*direction); // move player 43 pixels on the board
+				if(player.getX()<595 && player.getX()>540 && direction==-1) player.changeX(75); // if player needs to move back onto the corner space
+				else player.changeX(-55*direction); // move player 43 pixels on the board
 			}
-			else if(player.getX()<110 && player.getX()>70 && player.getY()>450)
+			else if(player.getX()<145 && player.getX()>90 && player.getY()>595)
 			{
-				if(direction==1) player.changeX(-55);
-				else player.changeX(43);
-			}
-
-			else if(player.getY()>455 && player.getX()<70) // left of board
-			{
-				if(direction==1) player.changeY(-55);
+				if(direction==1) player.changeX(-75);
 				else player.changeX(55);
 			}
-			else if(player.getY()<455 && player.getY()>110 && player.getX()<70)
-			{
-				if(player.getY()<455 && player.getY()>415 && direction==-1) player.changeY(55); // if player needs to move back onto the corner space
-				else player.changeY(-43*direction);
-			}
-			else if(player.getY()<110 && player.getY()>70 && player.getX()<70)
-			{
-				if(direction==1) player.changeY(-55);
-				else player.changeY(43);
-			}
 
-			else if(player.getX()<70 && player.getY()<70) // top of board
+			else if(player.getY()>595 && player.getX()<90) // left of board
 			{
-				if(direction==1) player.changeX(55);
+				if(direction==1) player.changeY(-75);
+				else player.changeX(75);
+			}
+			else if(player.getY()<595 && player.getY()>145 && player.getX()<90)
+			{
+				if(player.getY()<595 && player.getY()>540 && direction==-1) player.changeY(75); // if player needs to move back onto the corner space
+				else player.changeY(-55*direction);
+			}
+			else if(player.getY()<145 && player.getY()>90 && player.getX()<90)
+			{
+				if(direction==1) player.changeY(-75);
 				else player.changeY(55);
 			}
-			else if(player.getX()>70 && player.getX()<410 && player.getY()<70)
-			{
-				if(player.getX()>70 && player.getX()<110 && direction==-1) player.changeX(-55);
-				else player.changeX(43*direction);
-			}
-			else if(player.getX()>410 && player.getX()<455 && player.getY()<70)
-			{
-				if(direction==1) player.changeX(55);
-				else player.changeX(-43);
-			}
 
-			else if(player.getY()<70 && player.getX()>455) // right of board
+			else if(player.getX()<90 && player.getY()<90) // top of board
 			{
-				if(direction==1) player.changeY(55);
+				if(direction==1) player.changeX(75);
+				else player.changeY(75);
+			}
+			else if(player.getX()>90 && player.getX()<540 && player.getY()<90)
+			{
+				if(player.getX()>90 && player.getX()<145 && direction==-1) player.changeX(-75);
+				else player.changeX(55*direction);
+			}
+			else if(player.getX()>540 && player.getX()<595 && player.getY()<90)
+			{
+				if(direction==1) player.changeX(75);
 				else player.changeX(-55);
 			}
-			else if(player.getY()>70 && player.getY()<410 && player.getX()>455)
+
+			else if(player.getY()<90 && player.getX()>595) // right of board
 			{
-				if(player.getY()>70 && player.getY()<110 && direction==-1) player.changeY(-55);
-				else player.changeY(43*direction);
+				if(direction==1) player.changeY(75);
+				else player.changeX(-75);
 			}
-			else if(player.getY()>410 && player.getY()<455 && player.getX()>455)
+			else if(player.getY()>90 && player.getY()<540 && player.getX()>595)
 			{
-				if(direction==1) player.changeY(55);
-				else player.changeY(-43);
+				if(player.getY()>90 && player.getY()<145 && direction==-1) player.changeY(-75);
+				else player.changeY(55*direction);
+			}
+			else if(player.getY()>540 && player.getY()<595 && player.getX()>595)
+			{
+				if(direction==1) player.changeY(75);
+				else player.changeY(-55);
 			}
 
 			panel.repaint(); // repaints each loop to show tokens new position

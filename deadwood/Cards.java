@@ -99,22 +99,22 @@ public class Cards {
 
 		case 2 :
 			Info_Panel.UserInput("Card: Advance to St Charles Place. If you pass Go collect $200");
-			advanceToLocation(11, 26, 425, player);
+			advanceToLocation(11, 45, 560, player);
 			break;
 
 		case 3 :
 			Info_Panel.UserInput("Card: Take a trip to Pennsylvania Railroad and if you pass Go collect $200.");
-			advanceToLocation(15, 26, 253, player);
+			advanceToLocation(15, 45, 340, player);
 			break;
 
 		case 4 :
 			Info_Panel.UserInput("Card: Advance to Illinois Avenue. If you pass Go collect $200");
-			advanceToLocation(24, 210, 26, player);
+			advanceToLocation(24, 285, 45, player);
 			break;
 
 		case 5 :
 			Info_Panel.UserInput("Card: Advance to Boardwalk");
-			advanceToLocation(39, 480, 425, player);
+			advanceToLocation(39, 635, 560, player);
 			break;
 
 		case 6 :
@@ -176,8 +176,8 @@ public class Cards {
 	private static void advanceToGo(Players player) {
 		Info_Panel.UserInput("Card: Advance to Go");
 		player.setLocation(0);
-		player.setX(480);
-		player.setY(480);
+		player.setX(635);
+		player.setY(635);
 		Board.refresh();
 		player.addBalance(200);
 		Info_Panel.UserInput(player.getName() + " recieved $200 for passing Go");
@@ -187,8 +187,8 @@ public class Cards {
 	private static void backToMedAve(Players player) {
 		Info_Panel.UserInput("Card: Go back to Mediterranean Avenue");
 		player.setLocation(1);
-		player.setX(425);
-		player.setY(480);
+		player.setX(540);
+		player.setY(635);
 		Board.refresh();
 		TurnControl.squareInfo(player);
 		rentOwed = TurnControl.rentOwed(player);
@@ -198,8 +198,8 @@ public class Cards {
 	private static void goToJail(Players player) {
 		Info_Panel.UserInput("Card: Go to jail. Move directly to jail. Do not pass Go. Do not collect $200");
 		player.setLocation(10);
-		player.setX(26);
-		player.setY(480);
+		player.setX(45);
+		player.setY(635);
 		Board.refresh();
 		TurnControl.squareInfo(player);
 		//TODO implement jail

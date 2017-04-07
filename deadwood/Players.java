@@ -18,8 +18,8 @@ public class Players {
 
 	public Players() {
 		location = 0;
-		playerX = 480;
-		playerY = 480;
+		playerX = 635;
+		playerY = 635;
 		balance = 1500;
 		assets = 0;
 		playerName = "Player";

@@ -5,20 +5,19 @@ public class Services extends Locations{
 	String inputName;
 	int value;
 	int mortgageValue;
-  int[] rent = new int[6];
+	int[] rent = new int[6];
 	Players owner = null;
-  int units = 0;
 	String group;
 	Boolean isMortgaged;
 
 	public Services(String n, String iN, int loc, int v, int mV, int r, int r1, int r2, int r3, int r4, int r5, String g){
-    super(n, loc);
-    setName(n);
+		super(n, loc);
+		setName(n);
 		setInputName(iN); // input name will be used to compare with user inputs when mortgaging, etc.
 		setLocation(loc);
 		value = v;
 		mortgageValue = mV;
-    rent[0] = r;
+		rent[0] = r;
 		rent[1] = r1;
 		rent[2] = r2;
 		rent[3] = r3;
@@ -47,7 +46,6 @@ public class Services extends Locations{
 		return (int) (mortgageValue + mortgageValue*.1);
 	}
 	public int getRent(){
-
 		int rentToPay = 0;
 		if(group.equals("utilities") && TurnControl.groupCheck(owner, "utilities")){
 			rentToPay = 10 * TurnControl.getRoll();
@@ -69,13 +67,7 @@ public class Services extends Locations{
 	public void mortgage() {
 		isMortgaged = true;
 	}
-  public int getServices(){
 
-		return units;
-	}
-	public void changeUnits(int x){
-		units += x;
-	}
 	public void redeem() {
 		isMortgaged = false;
 	}
@@ -87,4 +79,4 @@ public class Services extends Locations{
 		return group;
 	}
 
-	}
+}
