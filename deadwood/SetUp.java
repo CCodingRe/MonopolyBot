@@ -89,30 +89,30 @@ public class SetUp{
 			k++;
 		}
 
-  int highestTotal = 0;
-	boolean tie = true;
-	for(Players element : users){
-			int total = TurnControl.roll(element);
-			element.setFirstRoll(total);
+  	int highestTotal = 0;
+		boolean tie = true;
+
+		 for(Players element : users){
+				int total = TurnControl.roll(element);
+				element.setFirstRoll(total);
+				if(highestTotal < element.getFirstRoll()){
+				 highestTotal = element.getFirstRoll();
+			}
 		}
-     while(tie == true){
-		for(int possDouble=0;possDouble<users.size();possDouble++){
-    	for(int otherPossDouble=1;otherPossDouble<users.size();otherPossDouble++){
-    		if(otherPossDouble!=possDouble && users.get(otherPossDouble) == users.get(possDouble)){
+			 	for(int possDouble=0;possDouble<users.size();possDouble++){
+    		for(int otherPossDouble=0;otherPossDouble<users.size();otherPossDouble++){
+    			if(otherPossDouble!=possDouble && users.get(otherPossDouble).getFirstRoll() == users.get(possDouble).getFirstRoll()&& users.get(otherPossDouble).getFirstRoll()==highestTotal){
 
- 				Info_Panel.UserInput(users.get(possDouble).getName() + "and " + users.get(otherPossDouble).getName() +" rolled the same, they must roll again!");
+ 							Info_Panel.UserInput(users.get(possDouble).getName() + "and " + users.get(otherPossDouble).getName() +" rolled the same, they must roll again!");
 
-					int aTotal = TurnControl.roll(users.get(otherPossDouble));
-					users.get(otherPossDouble).setFirstRoll(aTotal);
-					int otherTotal = TurnControl.roll(users.get(possDouble));
-					users.get(possDouble).setFirstRoll(otherTotal);
-					}
-					else if (otherPossDouble!=possDouble && users.get(otherPossDouble) != users.get(possDouble)){
-						tie = false;
+							int aTotal = users.get(otherPossDouble).getFirstRoll() + TurnControl.roll(users.get(otherPossDouble));
+							users.get(otherPossDouble).setFirstRoll(aTotal);
+
+							int otherTotal =  users.get(possDouble).getFirstRoll() + TurnControl.roll(users.get(possDouble));
+							users.get(possDouble).setFirstRoll(otherTotal);
 					}
 				}
 			}
-		}
 
 		Collections.sort(users, new Comparator<Players>(){
 			@Override public int compare(Players p1, Players p2){
