@@ -397,11 +397,12 @@ public class TurnControl {
 				break;
 
 			case "cheat2" :
-				currPlayer.deductBalance(1600);
+				//currPlayer.deductBalance(1600);
+				Cards.chance(0, currPlayer);
 				break;
 
 			case "cheat3" :
-				Cards.chance(6, currPlayer);
+				Cards.chance(5, currPlayer);
 				break;
 
 			default :

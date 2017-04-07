@@ -29,6 +29,7 @@ public class UI extends JFrame {
 
 		//default size of our window and its layout:
 		setPreferredSize(new Dimension(1080, 1020));
+		setExtendedState(JFrame.MAXIMIZED_BOTH); 
 		getContentPane().setLayout(new GridLayout());
 		getContentPane().add(mainPanel);
 		setTitle("Monopoly");
