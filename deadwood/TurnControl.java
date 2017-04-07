@@ -44,6 +44,8 @@ public class TurnControl {
 					if(currPlayer.getLocation()==30) {
 						//TODO implement go to jail
 					}
+					if(currPlayer.getLocation()==38) payTax(currPlayer, 100);
+					if(currPlayer.getLocation()==4) payTax(currPlayer, 200);
 					rentOwed = rentOwed(currPlayer);
 					if(rentOwed) payRent(currPlayer);
 					checkIfDrawCard(currPlayer);
@@ -316,6 +318,8 @@ public class TurnControl {
 				int n = Integer.parseInt(s[1]);
 				currPlayer.move(n);
 				squareInfo(currPlayer);
+				if(currPlayer.getLocation()==38) payTax(currPlayer, 100);
+				if(currPlayer.getLocation()==4) payTax(currPlayer, 200);
 				rentOwed = rentOwed(currPlayer);
 				if(rentOwed) payRent(currPlayer);
 				checkIfDrawCard(currPlayer);
@@ -539,6 +543,11 @@ public class TurnControl {
 			Info_Panel.UserInput("Take Chance Card");
 			Cards.chance(cardNum, player);
 		}
+	}
+	
+	private static void payTax(Players currPlayer, int tax) {
+		currPlayer.deductBalance(tax);
+		Info_Panel.UserInput(currPlayer.getName() + " paid $" + tax + " in taxes");
 	}
 
 }
