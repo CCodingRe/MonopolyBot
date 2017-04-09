@@ -93,7 +93,7 @@ public class SetUp{
 		boolean tie = true;
 
 		 for(Players element : users){
-				int total = TurnControl.roll(element);
+				int total = TurnControl.initialRoll(element);
 				element.setFirstRoll(total);
 				if(highestTotal < element.getFirstRoll()){
 				 highestTotal = element.getFirstRoll();
