@@ -105,10 +105,10 @@ public class SetUp{
 
  							Info_Panel.UserInput(users.get(possDouble).getName() + "and " + users.get(otherPossDouble).getName() +" rolled the same, they must roll again!");
 
-							int aTotal = users.get(otherPossDouble).getFirstRoll() + TurnControl.roll(users.get(otherPossDouble));
+							int aTotal = users.get(otherPossDouble).getFirstRoll() + TurnControl.initialRoll(users.get(otherPossDouble));
 							users.get(otherPossDouble).setFirstRoll(aTotal);
 
-							int otherTotal =  users.get(possDouble).getFirstRoll() + TurnControl.roll(users.get(possDouble));
+							int otherTotal =  users.get(possDouble).getFirstRoll() + TurnControl.initialRoll(users.get(possDouble));
 							users.get(possDouble).setFirstRoll(otherTotal);
 					}
 				}
