@@ -423,6 +423,15 @@ public class TurnControl {
 		rollNum = dice1 + dice2;
 		return rollNum;
 	}
+
+	public static int initialRoll(Players element) { //returns dice roll
+		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
+		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
+		rollNum = dice1 + dice2;
+		return rollNum;
+	}
+
 	public static int getRoll(){
 		return rollNum;
 	}
@@ -545,7 +554,7 @@ public class TurnControl {
 			Cards.chance(cardNum, player);
 		}
 	}
-	
+
 	private static void payTax(Players currPlayer, int tax) {
 		currPlayer.deductBalance(tax);
 		Info_Panel.UserInput(currPlayer.getName() + " paid $" + tax + " in taxes");
