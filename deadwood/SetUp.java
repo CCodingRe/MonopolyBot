@@ -109,7 +109,8 @@ public class SetUp{
 				highestTotal = element.getFirstRoll();
 			}
 		}
-		//public static ArrayList<Players> sameRollUsers = new ArrayList<Players>();
+
+
 
 	for(int possDuplicate=0;possDuplicate<users.size();possDuplicate++){
 		if(users.get(possDuplicate).getFirstRoll()==highestTotal){
@@ -125,7 +126,6 @@ public class SetUp{
 							for(int Duplicate=0;Duplicate<sameRollUsers.size();Duplicate++){
 									Info_Panel.UserInput(sameRollUsers.get(Duplicate).getName() + " rolled the same! ");
 								}
-
 
 								for(int newRoll=0; newRoll<sameRollUsers.size();newRoll++)
 								{
@@ -143,6 +143,7 @@ public class SetUp{
 			}
 		});
 	}
+
 
 	public static ArrayList<Players> getPlayers(){
 		return users;
