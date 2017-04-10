@@ -55,7 +55,7 @@ public class TurnControl {
 					roll = false;
 					currPlayer.move();
 					squareInfo(currPlayer);
-					if(currPlayer.getTurn() == 3){
+					if(currPlayer.getTurn() == 3 && currPlayer.getJail()){
 						Info_Panel.UserInput("You have run out of turns and must use card or pay fine to leave jail");
 						endTurn = false;
 					}
