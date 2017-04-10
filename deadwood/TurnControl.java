@@ -244,7 +244,7 @@ public class TurnControl {
 			case "pay" :
 				if(roll){
 					payfine(currPlayer);
-					roll = false;
+					roll = true;
 					endTurn = true;
 				} else {
 					Info_Panel.UserInput("You have already made your move for this turn");
