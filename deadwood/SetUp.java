@@ -10,6 +10,7 @@ public class SetUp{
 
 	private static ArrayList<Players> users = new ArrayList<Players>();
 	private static List<Locations> LocationList = new ArrayList<Locations>();
+	public static ArrayList<Players> sameRollUsers = new ArrayList<Players>();
 	Propertys p;
 
 	public SetUp(){
@@ -65,7 +66,7 @@ public class SetUp{
 		sortPlayers();
 		Board.refresh();
 	}
-	
+
 	private static void addPlayers() {
 		//set up players
 		try { // try/catch ensures an integer value is entered
@@ -88,7 +89,7 @@ public class SetUp{
 			return;
 		}
 	}
-	
+
 	private static void addPlayerNames() {
 		//get player names
 		int k = 1;
@@ -98,7 +99,7 @@ public class SetUp{
 			k++;
 		}
 	}
-	
+
 	private static void doFirstRoll() {
 		int highestTotal = 0;
 		for(Players element : users){
@@ -108,22 +109,33 @@ public class SetUp{
 				highestTotal = element.getFirstRoll();
 			}
 		}
-		for(int possDuplicate=0;possDuplicate<users.size();possDuplicate++){
-			for(int otherPossDuplicate=0;otherPossDuplicate<users.size();otherPossDuplicate++){
-				if(otherPossDuplicate!=possDuplicate && users.get(otherPossDuplicate).getFirstRoll() == users.get(possDuplicate).getFirstRoll()&& users.get(otherPossDuplicate).getFirstRoll()==highestTotal){
+		//public static ArrayList<Players> sameRollUsers = new ArrayList<Players>();
 
-					Info_Panel.UserInput(users.get(possDuplicate).getName() + " and " + users.get(otherPossDuplicate).getName() +" rolled the same, they must roll again!");
-
-					int aTotal = users.get(otherPossDuplicate).getFirstRoll() + TurnControl.initialRoll(users.get(otherPossDuplicate));
-					users.get(otherPossDuplicate).setFirstRoll(aTotal);
-
-					int otherTotal =  users.get(possDuplicate).getFirstRoll() + TurnControl.initialRoll(users.get(possDuplicate));
-					users.get(possDuplicate).setFirstRoll(otherTotal);
-				}
-			}
+	for(int possDuplicate=0;possDuplicate<users.size();possDuplicate++){
+		if(users.get(possDuplicate).getFirstRoll()==highestTotal){
+			sameRollUsers.add(users.get(possDuplicate));
+			users.remove(users.get(possDuplicate));
 		}
 	}
-	
+			if(sameRollUsers.size()<2){
+				users.add(sameRollUsers.get(0));
+					}
+					else if(sameRollUsers.size()>=2){
+						Info_Panel.UserInput("The following players rolled the same and must roll again!");
+							for(int Duplicate=0;Duplicate<sameRollUsers.size();Duplicate++){
+									Info_Panel.UserInput(sameRollUsers.get(Duplicate).getName() + " rolled the same! ");
+								}
+
+
+								for(int newRoll=0; newRoll<sameRollUsers.size();newRoll++)
+								{
+									int aTotal = sameRollUsers.get(newRoll).getFirstRoll() + TurnControl.initialRoll(users.get(newRoll));
+									sameRollUsers.get(newRoll).setFirstRoll(aTotal);
+									users.add(sameRollUsers.get(newRoll));
+								}
+							}
+	}
+
 	private static void sortPlayers() {
 		Collections.sort(users, new Comparator<Players>(){
 			@Override public int compare(Players p1, Players p2){
