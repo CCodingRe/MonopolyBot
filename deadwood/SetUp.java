@@ -129,7 +129,7 @@ public class SetUp{
 
 								for(int newRoll=0; newRoll<sameRollUsers.size();newRoll++)
 								{
-									int aTotal = sameRollUsers.get(newRoll).getFirstRoll() + TurnControl.initialRoll(users.get(newRoll));
+									int aTotal = sameRollUsers.get(newRoll).getFirstRoll() + TurnControl.initialRoll(sameRollUsers.get(newRoll));
 									sameRollUsers.get(newRoll).setFirstRoll(aTotal);
 									users.add(sameRollUsers.get(newRoll));
 								}
