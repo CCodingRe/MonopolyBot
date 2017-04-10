@@ -108,6 +108,18 @@ public class SetUp{
 				highestTotal = element.getFirstRoll();
 			}
 		}
+		checkForDuplicateRoll(highestTotal);
+	}
+	
+	private static void sortPlayers() {
+		Collections.sort(users, new Comparator<Players>(){
+			@Override public int compare(Players p1, Players p2){
+				return p2.getFirstRoll() - p1.getFirstRoll(); // Ascending
+			}
+		});
+	}
+	
+	private static void checkForDuplicateRoll(int highestTotal) {
 		for(int possDuplicate=0;possDuplicate<users.size();possDuplicate++){
 			for(int otherPossDuplicate=0;otherPossDuplicate<users.size();otherPossDuplicate++){
 				if(otherPossDuplicate!=possDuplicate && users.get(otherPossDuplicate).getFirstRoll() == users.get(possDuplicate).getFirstRoll()&& users.get(otherPossDuplicate).getFirstRoll()==highestTotal){
@@ -119,17 +131,10 @@ public class SetUp{
 
 					int otherTotal =  users.get(possDuplicate).getFirstRoll() + TurnControl.initialRoll(users.get(possDuplicate));
 					users.get(possDuplicate).setFirstRoll(otherTotal);
+					if(aTotal == otherTotal) checkForDuplicateRoll(aTotal);
 				}
 			}
 		}
-	}
-	
-	private static void sortPlayers() {
-		Collections.sort(users, new Comparator<Players>(){
-			@Override public int compare(Players p1, Players p2){
-				return p2.getFirstRoll() - p1.getFirstRoll(); // Ascending
-			}
-		});
 	}
 
 	public static ArrayList<Players> getPlayers(){
