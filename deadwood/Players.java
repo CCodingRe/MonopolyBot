@@ -14,6 +14,8 @@ public class Players {
 	private String playerName;
 	public int id;
 	private int firstRoll;
+	private int turn;
+	private boolean jail = false;
 	private static final String[] COLOUR = {"red", "blue", "yellow", "green", "magenta", "white"};
 
 	public Players() {
@@ -74,11 +76,30 @@ public class Players {
 
 	public void move() { //moves player according to roll()
 		int k = TurnControl.roll(this); // calls roll and passes current player through
-		Board.moveTokens(this, k, 1); // moves current player k spaces
+		if(!jail){ //player wont move if in jail
+			Board.moveTokens(this, k, 1); // moves current player k spaces
+		}
+
+		//sends player to jail if lands on go to jail
+		if(location == 30){
+			goToJail();
+		} else if(location == 10 && jail == true){ //players spends 3 turns in jail
+			turn++;
+	}
 	}
 
 	public void move(int k) { //moves player manually k spaces
 		Board.moveTokens(this, k, 1);
+		if(!jail){ //player wont move if in jail
+			Board.moveTokens(this, k, 1); // moves current player k spaces
+		}
+
+		//sends player to jail if lands on go to jail
+		if(location == 30){
+			goToJail();
+		} else if(location == 10 && jail == true){ //players spends 3 turns in jail
+			turn++;
+		}
 	}
 
 	public void changeLocation(int direction) {
@@ -158,6 +179,9 @@ public class Players {
 	public int getId() {
 		return id;
 	}
+	public int getTurn(){
+		return turn;
+	}
 
 	public int getNumStationsOwned(){
 		int numRailroad = 0;
@@ -177,6 +201,21 @@ public class Players {
 	}
 	public int getJailCard() {
 		return getOutOfJailCard;
+	}
+	public void goToJail(){
+		jail = true;
+		turn = 0;
+		setLocation(10);
+		setX(45);
+		setY(635);
+		Board.refresh();
+		TurnControl.endTurn();
+  }
+	public boolean getJail(){
+		return jail;
+	}
+	public void leaveJail(){
+		jail = false;
 	}
 
 }

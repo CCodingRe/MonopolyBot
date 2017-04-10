@@ -16,7 +16,8 @@ public class Cards {
 			break;
 
 		case 2 :
-			goToJail(player);
+			Info_Panel.UserInput("Card: Go to jail. Move directly to jail. Do not pass Go. Do not collect $200");
+			player.goToJail();
 			break;
 
 		case 3 :
@@ -94,7 +95,8 @@ public class Cards {
 			break;
 
 		case 1 :
-			goToJail(player);
+			Info_Panel.UserInput("Card: Go to jail. Move directly to jail. Do not pass Go. Do not collect $200");
+			player.goToJail();
 			break;
 
 		case 2 :
@@ -193,16 +195,6 @@ public class Cards {
 		TurnControl.squareInfo(player);
 		rentOwed = TurnControl.rentOwed(player);
 		if(rentOwed) TurnControl.payRent(player);
-	}
-
-	private static void goToJail(Players player) {
-		Info_Panel.UserInput("Card: Go to jail. Move directly to jail. Do not pass Go. Do not collect $200");
-		player.setLocation(10);
-		player.setX(45);
-		player.setY(635);
-		Board.refresh();
-		TurnControl.squareInfo(player);
-		//TODO implement jail
 	}
 
 	private static void payFee(int fee, Players player) {

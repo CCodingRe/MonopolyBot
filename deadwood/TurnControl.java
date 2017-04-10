@@ -11,6 +11,8 @@ public class TurnControl {
 	private static ArrayList<Locations> locations = (ArrayList<Locations>) SetUp.getLocationsList();
 	private static ArrayList<Players> players = SetUp.getPlayers();
 	private static Iterator<Players> it;
+	private static int numDoubles = 0;
+	private static boolean endTurn = true;
 
 	public static void turn() {
 		for(it = players.iterator(); it.hasNext(); ) { // iterator iterates through the players arrayList. This avoids a ConcurrentModificationException when declaring bankruptcy and removing elements
@@ -20,6 +22,17 @@ public class TurnControl {
 				roll = true;
 				cond = true;
 				rentOwed = false;
+				numDoubles = 0;
+				endTurn = true;
+				if(currPlayer.getJail()){
+					Info_Panel.UserInput("You are in jail");
+					if(currPlayer.getTurn()<2){
+						Info_Panel.UserInput("Enter card, roll, or pay to get out");
+					} else {
+						Info_Panel.UserInput("You must enter card, roll or pay to get out");
+						endTurn = false;
+					}
+				}
 				cmdCheck(currPlayer);
 			}
 		}
@@ -30,6 +43,7 @@ public class TurnControl {
 
 	private static void cmdCheck(Players currPlayer) {
 		while(cond){
+
 			Info_Panel.UserInput("Enter Command: ");
 			Locations loc;
 			String[] s = Cmd_panel.getCommand().split(" "); //input commands are split into words and stored in array
@@ -41,8 +55,9 @@ public class TurnControl {
 					roll = false;
 					currPlayer.move();
 					squareInfo(currPlayer);
-					if(currPlayer.getLocation()==30) {
-						//TODO implement go to jail
+					if(currPlayer.getTurn() == 3){
+						Info_Panel.UserInput("You have run out of turns and must use card or pay fine to leave jail");
+						endTurn = false;
 					}
 					if(currPlayer.getLocation()==38) payTax(currPlayer, 100);
 					if(currPlayer.getLocation()==4) payTax(currPlayer, 200);
@@ -50,7 +65,7 @@ public class TurnControl {
 					if(rentOwed) payRent(currPlayer);
 					checkIfDrawCard(currPlayer);
 				}
-				else if(!roll) Info_Panel.UserInput("Error: Player has already rolled");
+				else if(!roll) Info_Panel.UserInput("Error: Player cannot roll");
 				else if(currPlayer.getBalance()<0) Info_Panel.UserInput("Error: Cannot roll with a negative balance");
 
 				break;
@@ -226,7 +241,31 @@ public class TurnControl {
 				playGame = checkWinner();
 				break;
 
+			case "pay" :
+				if(!endTurn){
+					payfine(currPlayer);
+					roll = false;
+					endTurn = true;
+				} else {
+					Info_Panel.UserInput("You have already made your move for this turn");
+				}
+				break;
 
+			case "card" :
+					if(currPlayer.getJail() && !endTurn){
+						if(currPlayer.getJailCard() > 0){
+							currPlayer.leaveJail();
+							currPlayer.useJailCard();
+							endTurn = true;
+							roll = false;
+							Info_Panel.UserInput("you have used a get out of jail card");
+						} else {
+							Info_Panel.UserInput("you don't have any get out of jail cards");
+						}
+					} else {
+						Info_Panel.UserInput("You can't use this now");
+					}
+					break;
 			case "build" :
 				if(!(s.length == 3)){
 					Info_Panel.UserInput("type 'build <propertyname> <number of units>' to buy houses for property");
@@ -348,6 +387,7 @@ public class TurnControl {
 			case "done" :
 				if(roll==true)	Info_Panel.UserInput("Error: You must finish rolling");
 				else if(currPlayer.getBalance()<0)	Info_Panel.UserInput("Error: You cannot end turn with a negative balance");
+				else if(!endTurn) Info_Panel.UserInput("You must enter 'card' or 'pay' to get out of jail");
 				else	cond = false; // ends turn
 
 				playGame = checkWinner();
@@ -416,9 +456,18 @@ public class TurnControl {
 		int dice1 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		int dice2 = ThreadLocalRandom.current().nextInt(1, 6 + 1);
 		Info_Panel.UserInput(element.getName() + " rolled a " + dice1 + " and a " + dice2);
-		if(dice1 == dice2 && element.getFirstRoll() != 0) { // if double is rolled you can roll again
+		if(dice1 == dice2 && element.getFirstRoll() != 0 && numDoubles <= 1 && !element.getJail()) { // if double is rolled you can roll again
 			Info_Panel.UserInput("You Rolled a Double, Roll Again");
+			numDoubles++;
 			roll = true;
+		} else if(numDoubles == 2 && dice1 == dice2){
+			Info_Panel.UserInput("you rolled 3 consecutive doubles and are going to jail");
+			numDoubles++;
+			element.goToJail();
+		} else if(element.getJail() && dice1 == dice2){
+			element.leaveJail();
+			Info_Panel.UserInput("you rolled a double and got out of Jail");
+			numDoubles = 0;
 		}
 		rollNum = dice1 + dice2;
 		return rollNum;
@@ -558,6 +607,23 @@ public class TurnControl {
 	private static void payTax(Players currPlayer, int tax) {
 		currPlayer.deductBalance(tax);
 		Info_Panel.UserInput(currPlayer.getName() + " paid $" + tax + " in taxes");
+	}
+	public static void payfine(Players currPlayer){
+		if(currPlayer.getJail()){
+			if(currPlayer.getBalance()>=50){
+				currPlayer.deductBalance(50);
+				currPlayer.leaveJail();
+				endTurn = true;
+				Info_Panel.UserInput("you have payed the $50 fine to get out of jail");
+			} else {
+				Info_Panel.UserInput("not enough to pay fine");
+			}
+		} else {
+			Info_Panel.UserInput("There's nothing to pay");
+		}
+	}
+	public static void endTurn(){
+		cond = false;
 	}
 
 }
