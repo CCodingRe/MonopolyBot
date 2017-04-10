@@ -242,7 +242,7 @@ public class TurnControl {
 				break;
 
 			case "pay" :
-				if(!endTurn){
+				if(roll){
 					payfine(currPlayer);
 					roll = false;
 					endTurn = true;
