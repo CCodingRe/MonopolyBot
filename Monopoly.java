@@ -10,19 +10,19 @@ public class Monopoly {
 	private static final int JAIL_FINE = 50;
 
 	private Players players = new Players();
-	private static Player currPlayer;
-	private static Dice dice = new Dice();
-	private static Board board = new Board(dice);
+	private Player currPlayer;
+	private Dice dice = new Dice();
+	private Board board = new Board(dice);
 	private UI ui;
 	private ChanceDeck chanceDeck = new ChanceDeck();
 	private CommunityChestDeck communityChestDeck = new CommunityChestDeck();
 	private boolean gameOver = false;
 	private boolean onlyOneNotBankrupt = false;
 	private boolean turnFinished;
-	private static boolean rollDone;
+	private boolean rollDone;
 	private int doubleCount;
 	private Bot[] bots = new Bot[NUM_PLAYERS];
-	private static final String[] BOT_NAMES = {"DeadWood"};
+	private static final String[] BOT_NAMES = {"YourTeamName"};
 
 	Monopoly (String[] args) {
 		setupBots(args);
@@ -34,8 +34,8 @@ public class Monopoly {
 	private void setupBots (String[] args) {
 		String[] botNames = new String [NUM_PLAYERS];
 		if (args.length<NUM_PLAYERS) {
-			botNames[0] = "DeadWood";
-			botNames[1] = "DeadWood";
+			botNames[0] = "YourTeamName";
+			botNames[1] = "YourTeamName";
 		} else {
 			for (int i=0; i<NUM_PLAYERS; i++) {
 				boolean found = false;
@@ -555,16 +555,5 @@ public class Monopoly {
 
 	public boolean isGameOver () {
 		return gameOver;
-	}
-
-	public static boolean isRollDone() {
-		return rollDone;
-	}
-	public static boolean isOnUnownedProperty() {
-		Square square = board.getSquare(currPlayer.getPosition());
-		if (square instanceof Property && !((Property) square).isOwned() ) {
-			return true;
-		}
-		return false;
 	}
 }
