@@ -22,7 +22,7 @@ public class Monopoly {
 	private boolean rollDone;
 	private int doubleCount;
 	private Bot[] bots = new Bot[NUM_PLAYERS];
-	private static final String[] BOT_NAMES = {"YourTeamName"};
+	private static final String[] BOT_NAMES = {"DeadWood"};
 
 	Monopoly (String[] args) {
 		setupBots(args);
@@ -34,8 +34,8 @@ public class Monopoly {
 	private void setupBots (String[] args) {
 		String[] botNames = new String [NUM_PLAYERS];
 		if (args.length<NUM_PLAYERS) {
-			botNames[0] = "YourTeamName";
-			botNames[1] = "YourTeamName";
+			botNames[0] = "DeadWood";
+			botNames[1] = "DeadWood";
 		} else {
 			for (int i=0; i<NUM_PLAYERS; i++) {
 				boolean found = false;
