@@ -55,7 +55,7 @@ public class Monopoly {
 			players.add(new Player(botNames[i],BoardPanel.TOKEN_NAME[i],i));
 			try {
 				Class<?> botClass = Class.forName(botNames[i]);
-				Constructor<?> botCons = botClass.getDeclaredConstructor(BoardAPI.class, PlayerAPI.class, DiceAPI.class);
+				Constructor<?> botCons = botClass.getDeclaredConstructor(BoardAPI.class, PlayerAPI.class, DiceAPI.class); // TODO constructor here
 				bots[i] = (Bot) botCons.newInstance(board,players.get(i),dice);
 			} catch (IllegalAccessException ex) {
 				System.out.println("Error: Bot instantiation fail (IAE)");
@@ -468,6 +468,12 @@ public class Monopoly {
 		rollDone = false;
 		doubleCount = 0;
 		do {
+			try {
+				Thread.sleep(2000); // TODO For testing. Remove when done
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			
 			ui.inputCommand(currPlayer);
 			switch (ui.getCommandId()) {
 			case UI.CMD_ROLL :
