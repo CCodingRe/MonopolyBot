@@ -11,13 +11,9 @@ public class DeadWood implements Bot {
 	private Property prop;
 	//private Square square;
 	private ArrayList<Property> ownedProperty;
-<<<<<<< HEAD
+
 	BoardAPI boardBot;
 	PlayerAPI playerBot;
-=======
-	BoardAPI boardBot; 
-	PlayerAPI playerBot; 
->>>>>>> 5d5f6a1d0414bcbb7b19aa95f35e1a548274480d
 	DiceAPI diceBot;
 
 	DeadWood (BoardAPI board, PlayerAPI player, DiceAPI dice) {
@@ -40,11 +36,7 @@ public class DeadWood implements Bot {
 		if(command=="done") command = tryToRedeem();
 		if(command=="done") command = checkForNegativeBal();
 		if(command=="done") command = tryToRoll();
-<<<<<<< HEAD
 
-=======
-		
->>>>>>> 5d5f6a1d0414bcbb7b19aa95f35e1a548274480d
 		if(command=="done") rollDone = false;
 		return command;
 	}
@@ -149,7 +141,7 @@ public class DeadWood implements Bot {
 		}
 		return "done";
 	}
-	
+
 	private String tryToRedeem() {
 		if(playerBot.getBalance() > 600) {
 			return redeemMostExpensiveProperty();
