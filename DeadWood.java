@@ -10,7 +10,7 @@ public class DeadWood implements Bot {
 	private boolean rollDone = false;
 	private Property prop;
 	//private Square square;
-	private ArrayList<Property> ownedProperty;
+	//private ArrayList<Property> ownedProperty;
 	BoardAPI boardBot; 
 	PlayerAPI playerBot; 
 	DiceAPI diceBot;
@@ -27,43 +27,23 @@ public class DeadWood implements Bot {
 	}
 
 	public String getCommand() {
+		String command = "done";
+		
 		isReroll();
+		command = tryToBuyProperty();
+		if(command=="done") command = checkForJail();
+		if(command=="done") command = tryToRoll();
+		if(command=="done") command = checkForNegativeBal();
 		
-		//square = board.getSquare(player.getPosition());
-		if(boardBot.isProperty(playerBot.getPosition())) {
-			prop = boardBot.getProperty(playerBot.getPosition());
-		}
-		if(prop!=null) {
-			if(prop.getOwner()==null) {
-				if(playerBot.getBalance() < prop.getPrice()) {
-					return mortgageCheapestProperty();
-				}
-				return "buy";
-			}
-		}
-		
-		if(playerBot.isInJail()) {
-			rollDone = true;
-			return getDecision();
-		}
-		
-		if(!rollDone) {
-			rollDone = true;
-			return "roll";
-		}
-		
-		if(playerBot.getBalance() < 0) {
-			return mortgageCheapestProperty();
-		}
-		
-		rollDone = false;
-		return "done";
+		if(command=="done") rollDone = false;
+		return command;
 	}
 
 	public String getDecision() {
 		// Add your code here
 		return "pay";
 	}
+	
 	
 	private void isReroll() {
 		if(diceBot.isDouble()) {
@@ -72,15 +52,64 @@ public class DeadWood implements Bot {
 		}
 	}
 	
+	private String tryToBuyProperty() {
+		//square = board.getSquare(player.getPosition());
+		if(boardBot.isProperty(playerBot.getPosition())) {
+			prop = boardBot.getProperty(playerBot.getPosition());
+		}
+		if(prop!=null && prop.getOwner()==null) {
+				if(playerBot.getBalance() < prop.getPrice()) {
+					return mortgageCheapestProperty();
+				}
+				return "buy";
+		}
+		return "done";
+	}
+	
+	private String checkForJail() {
+		if(playerBot.isInJail()) {
+			rollDone = true;
+			return getDecision();
+		}
+		return "done";
+	}
+	
+	private String tryToRoll() {
+		if(!rollDone) {
+			rollDone = true;
+			return "roll";
+		}
+		return "done";
+	}
+	
+	private String checkForNegativeBal() {
+		if(playerBot.getBalance() < 0) {
+			return mortgageCheapestProperty();
+		}
+		return "done";
+	}
+	
 	private String mortgageCheapestProperty() {
-		ownedProperty = playerBot.getProperties();
-		Property cheapestProp = ownedProperty.get(0);
-		for(Property currProp : ownedProperty) {
-			if(cheapestProp.getPrice() > currProp.getPrice()) {
-				cheapestProp = currProp;
+		ArrayList<Property> ownedProperty = playerBot.getProperties();
+		if(ownedProperty != null) {
+			Property cheapestProp = null;
+			int i=0;
+			while(cheapestProp==null && i<ownedProperty.size()) {
+				if(!ownedProperty.get(i).isMortgaged()) {
+					cheapestProp = ownedProperty.get(i);
+				}
+				i++;
+			}
+			if(cheapestProp!=null) {
+				for(Property currProp : ownedProperty) {
+					if(cheapestProp.getPrice() > currProp.getPrice() && !currProp.isMortgaged()) {
+						cheapestProp = currProp;
+					}
+				}
+				return "mortgage " + cheapestProp.getShortName();
 			}
 		}
-		return "mortgage " + cheapestProp.getShortName();
+		return "done";
 	}
 
 }
