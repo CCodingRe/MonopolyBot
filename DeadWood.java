@@ -10,7 +10,7 @@ public class DeadWood implements Bot {
 	private boolean rollDone = false;
 	private Property prop;
 	//private Square square;
-	//private ArrayList<Property> ownedProperty;
+	private ArrayList<Property> ownedProperty;
 	BoardAPI boardBot; 
 	PlayerAPI playerBot; 
 	DiceAPI diceBot;
@@ -30,10 +30,11 @@ public class DeadWood implements Bot {
 		String command = "done";
 		
 		isReroll();
-		command = tryToBuyProperty();
 		if(command=="done") command = checkForJail();
-		if(command=="done") command = tryToRoll();
+		if(command=="done") command = tryToBuyProperty();
+		if(command=="done") command = tryToRedeem();
 		if(command=="done") command = checkForNegativeBal();
+		if(command=="done") command = tryToRoll();
 		
 		if(command=="done") rollDone = false;
 		return command;
@@ -63,6 +64,7 @@ public class DeadWood implements Bot {
 				}
 				return "buy";
 		}
+		prop=null;
 		return "done";
 	}
 	
@@ -90,7 +92,7 @@ public class DeadWood implements Bot {
 	}
 	
 	private String mortgageCheapestProperty() {
-		ArrayList<Property> ownedProperty = playerBot.getProperties();
+		ownedProperty = playerBot.getProperties();
 		if(ownedProperty != null) {
 			Property cheapestProp = null;
 			int i=0;
@@ -107,6 +109,36 @@ public class DeadWood implements Bot {
 					}
 				}
 				return "mortgage " + cheapestProp.getShortName();
+			}
+		}
+		return "done";
+	}
+	
+	private String tryToRedeem() {
+		if(playerBot.getBalance() > 600) {
+			return redeemMostExpensiveProperty();
+		}
+		return "done";
+	}
+
+	private String redeemMostExpensiveProperty() {
+		ownedProperty = playerBot.getProperties();
+		if(ownedProperty != null) {
+			Property expensiveProp = null;
+			int i=0;
+			while(expensiveProp==null && i<ownedProperty.size()) {
+				if(ownedProperty.get(i).isMortgaged()) {
+					expensiveProp = ownedProperty.get(i);
+				}
+				i++;
+			}
+			if(expensiveProp!=null) {
+				for(Property currProp : ownedProperty) {
+					if(expensiveProp.getPrice() < currProp.getPrice() && currProp.isMortgaged()) {
+						expensiveProp = currProp;
+					}
+				}
+				return "redeem " + expensiveProp.getShortName();
 			}
 		}
 		return "done";
