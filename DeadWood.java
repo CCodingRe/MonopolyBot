@@ -9,7 +9,7 @@ public class DeadWood implements Bot {
 
 	private boolean rollDone = false;
 	private boolean wasInJail = false;
-	//private Square square;
+	private int turnsInJail = 0;
 	private ArrayList<Property> ownedProperty;
 
 	BoardAPI boardBot;
@@ -71,32 +71,41 @@ public class DeadWood implements Bot {
 
 	private String checkForJail() {
 		if(playerBot.isInJail()) {
-			rollDone = true;
 			int ownedProp = 0;
 
-			for(int checkProperties = 0; checkProperties<40; checkProperties++)
-			{
-				if(boardBot.isProperty(checkProperties))
+			if(turnsInJail > 0) {
+				for(int checkProperties = 0; checkProperties<40; checkProperties++)
 				{
-					if(boardBot.getProperty(checkProperties).getOwner() != null)
+					if(boardBot.isProperty(checkProperties))
 					{
-						ownedProp +=1;
+						if(boardBot.getProperty(checkProperties).getOwner() != null)
+						{
+							ownedProp += 1;
+						}
 					}
 				}
-			}
 
-			if(ownedProp>=24)
-			{
-				wasInJail = true;
-				return "roll";
-			} else if(ownedProp<24 && playerBot.hasGetOutOfJailCard ()==true) {
-				wasInJail = true;
-				return "card";
-			}else{
-				wasInJail = true;
-				return "pay";
+				if(ownedProp>=24 && !rollDone)
+				{
+					wasInJail = true;
+					rollDone = true;
+					return "roll";
+				} else if(ownedProp<24 && playerBot.hasGetOutOfJailCard ()==true) {
+					wasInJail = true;
+					return "card";
+				}else{
+					if(playerBot.getBalance() > 50) {
+						wasInJail = true;
+						return "pay";
+					}
+					else return mortgageCheapestProperty();
+				}
 			}
+			else rollDone = true;
+			turnsInJail += 1;
 		}
+		else turnsInJail=0;
+		
 		return "done";
 	}
 
