@@ -85,7 +85,7 @@ public class DeadWood implements Bot {
 				if(ownedProp>=24 && !rollDone)
 				{
 					wasInJail = true;
-					if(playerBot.hasGetOutOfJailCard () && turnsInJail==2) return "card";
+					if(playerBot.hasGetOutOfJailCard () && turnsInJail==3) return "card";
 					else {
 						rollDone = true;
 						return "roll";
@@ -160,10 +160,10 @@ public class DeadWood implements Bot {
 						cheapestProp = currProp;
 					}
 				}
-				if(((Site) cheapestProp).getNumHouses()>0){
+				if(((Site) cheapestProp).getNumHouses()>0) {
 					return "demolish" + cheapestProp.getShortName() + " 1";//TODO check building is ready
 				}
-				else	return "mortgage " + cheapestProp.getShortName();
+				else return "mortgage " + cheapestProp.getShortName();
 			}
 		}
 		return "done";
