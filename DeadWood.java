@@ -172,34 +172,4 @@ public class DeadWood implements Bot {
 		return "done";
 	}
 
-	private String tryToRedeem() {
-		if(playerBot.getBalance() > 600) {
-			return redeemMostExpensiveProperty();
-		}
-		return "done";
-	}
-
-	private String redeemMostExpensiveProperty() {
-		ownedProperty = playerBot.getProperties();
-		if(ownedProperty != null) {
-			Property expensiveProp = null;
-			int i=0;
-			while(expensiveProp==null && i<ownedProperty.size()) {
-				if(ownedProperty.get(i).isMortgaged()) {
-					expensiveProp = ownedProperty.get(i);
-				}
-				i++;
-			}
-			if(expensiveProp!=null) {
-				for(Property currProp : ownedProperty) {
-					if(expensiveProp.getPrice() < currProp.getPrice() && currProp.isMortgaged()) {
-						expensiveProp = currProp;
-					}
-				}
-				return "redeem " + expensiveProp.getShortName();
-			}
-		}
-		return "done";
-	}
-
 }
