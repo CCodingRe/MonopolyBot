@@ -161,6 +161,9 @@ public class DeadWood implements Bot {
 	private String tryToRedeem() {
 
 		if(playerBot.getBalance() > 600) {
+			if(isGroupOwner){
+				return "done";
+			}
 
 			return redeemMostExpensiveProperty();
 		}
