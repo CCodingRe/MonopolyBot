@@ -73,7 +73,7 @@ public class DeadWood implements Bot {
 		if(playerBot.isInJail()) {
 			int ownedProp = 0;
 
-			if(turnsInJail > 0) {
+			if(turnsInJail > 0 && !rollDone) {
 				for(int checkProperties = 0; checkProperties<40; checkProperties++)
 				{
 					if(boardBot.isProperty(checkProperties))
