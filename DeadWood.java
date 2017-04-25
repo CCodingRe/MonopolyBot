@@ -33,8 +33,7 @@ public class DeadWood implements Bot {
 		if(!wasInJail) isReroll();
 		if(command=="done") command = checkForJail();
 		if(command=="done") command = tryToBuyProperty();
-		if(command=="done") command = tryToRedeem();
-		if(command=="done") command = checkForNegativeBal();
+		if(command=="done") command = checkBalance();
 		if(command=="done") command = tryToRoll();
 
 		if(command=="done") rollDone = false;
@@ -121,13 +120,17 @@ public class DeadWood implements Bot {
 		return "done";
 	}
 
-	private String checkForNegativeBal() {
+	private String checkBalance() {
 		String command;
 		if(playerBot.getBalance() < 0) {
 			command = mortgageCheapestProperty();
 			if(command=="done") command = "bankrupt";
 			return command;
 		}
+		else if(playerBot.getBalance() > 600) {
+			return redeemMostExpensiveProperty();
+		}
+		
 		return "done";
 	}
 
@@ -150,13 +153,6 @@ public class DeadWood implements Bot {
 				}
 				return "mortgage " + cheapestProp.getShortName();
 			}
-		}
-		return "done";
-	}
-
-	private String tryToRedeem() {
-		if(playerBot.getBalance() > 600) {
-			return redeemMostExpensiveProperty();
 		}
 		return "done";
 	}
