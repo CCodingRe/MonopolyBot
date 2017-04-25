@@ -130,8 +130,10 @@ public class DeadWood implements Bot {
 		}
 		else if(playerBot.getBalance() > 600) {
 			for(Property currProp : ownedProperty){
-				if(playerBot.isGroupOwner((Site) currProp)) {
-					return "done";//TODO add build houses thing
+				if(currProp instanceof Site) {
+					if(playerBot.isGroupOwner((Site) currProp)) {
+						return "done";//TODO add build houses thing
+					}
 				}
 			}
 			return redeemMostExpensiveProperty();
