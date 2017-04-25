@@ -87,9 +87,12 @@ public class DeadWood implements Bot {
 				if(ownedProp>=24 && !rollDone)
 				{
 					wasInJail = true;
-					rollDone = true;
-					return "roll";
-				} else if(ownedProp<24 && playerBot.hasGetOutOfJailCard ()==true) {
+					if(playerBot.hasGetOutOfJailCard () && turnsInJail==2) return "card";
+					else {
+						rollDone = true;
+						return "roll";
+					}
+				} else if(ownedProp<24 && playerBot.hasGetOutOfJailCard ()) {
 					wasInJail = true;
 					return "card";
 				}else{
