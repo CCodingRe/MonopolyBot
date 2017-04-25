@@ -104,7 +104,10 @@ public class DeadWood implements Bot {
 			else rollDone = true;
 			turnsInJail += 1;
 		}
-		else turnsInJail=0;
+		else {
+			turnsInJail=0;
+			wasInJail=false;
+		}
 		
 		return "done";
 	}
