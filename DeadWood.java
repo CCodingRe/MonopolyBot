@@ -121,6 +121,7 @@ public class DeadWood implements Bot {
 	}
 
 	private String checkBalance() {
+		ownedProperty = playerBot.getProperties();
 		String command;
 		if(playerBot.getBalance() < 0) {
 			command = mortgageCheapestProperty();
@@ -128,8 +129,13 @@ public class DeadWood implements Bot {
 			return command;
 		}
 		else if(playerBot.getBalance() > 600) {
-			if(isGroupOwner){
-				return "done"://TODO add build houses thing
+			for(Property currProp : ownedProperty){
+				if(playerBot.isGroupOwner(currProp){
+					return "done";//TODO add build houses thing
+				}
+			}
+
+
 			}
 			return redeemMostExpensiveProperty();
 		}
@@ -154,7 +160,7 @@ public class DeadWood implements Bot {
 						cheapestProp = currProp;
 					}
 				}
-				if(cheapestProp.getNumBuildings()>0){
+				if(((Site) cheapestProp).getNumHouses()>0){
 					return "demolish" + cheapestProp.getShortName() + " 1";//TODO check building is ready
 				}
 				else	return "mortgage " + cheapestProp.getShortName();
