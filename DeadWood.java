@@ -108,7 +108,7 @@ public class DeadWood implements Bot {
 			turnsInJail=0;
 			wasInJail=false;
 		}
-		
+
 		return "done";
 	}
 
@@ -155,7 +155,9 @@ public class DeadWood implements Bot {
 	}
 
 	private String tryToRedeem() {
+
 		if(playerBot.getBalance() > 600) {
+			
 			return redeemMostExpensiveProperty();
 		}
 		return "done";
