@@ -41,8 +41,8 @@ public class DeadWood implements Bot {
 	}
 
 	public String getDecision() {
-		// Add your code here
-		return "pay";
+		if(playerBot.getBalance() > 50) return "pay";
+		else return "card";
 	}
 
 
@@ -71,7 +71,6 @@ public class DeadWood implements Bot {
 	private String checkForJail() {
 		if(playerBot.isInJail()) {
 			int ownedProp = 0;
-
 			if(turnsInJail > 0 && !rollDone) {
 				for(int checkProperties = 0; checkProperties<40; checkProperties++)
 				{
@@ -83,7 +82,6 @@ public class DeadWood implements Bot {
 						}
 					}
 				}
-
 				if(ownedProp>=24 && !rollDone)
 				{
 					wasInJail = true;
@@ -113,7 +111,6 @@ public class DeadWood implements Bot {
 
 		return "done";
 	}
-
 
 	private String tryToRoll() {
 		if(!rollDone) {
