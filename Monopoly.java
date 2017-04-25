@@ -469,7 +469,7 @@ public class Monopoly {
 		doubleCount = 0;
 		do {
 			try {
-				Thread.sleep(2000); // TODO For testing. Remove when done
+				Thread.sleep(1500); // TODO For testing. Remove when done
 			} catch (InterruptedException e1) {
 				e1.printStackTrace();
 			}

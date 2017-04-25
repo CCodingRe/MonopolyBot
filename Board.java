@@ -52,7 +52,7 @@ public class Board implements BoardAPI {
 			squares[24] = new Site("Trafalgar Sq", "trafalgar", 240, 120, new int[] {20,100,300,750,925,1100}, red, 150);
 			squares[25] = new Station("Fenchurch St Station", "fenchurch", 200, 100, new int[] {25,50,100,200});
 			squares[26] = new Site("Leicester Sq", "leicester", 260, 150, new int[] {22,110,330,800,975,1150}, yellow, 150);
-			squares[27] = new Site("Coventry St", "coverntry", 260, 150, new int[] {22,110,330,800,975,1150}, yellow, 150);
+			squares[27] = new Site("Coventry St", "coventry", 260, 150, new int[] {22,110,330,800,975,1150}, yellow, 150);
 			squares[28] = new Utility("Water Works", "water", 150, 75, new int[] {4,10}, dice);
 			squares[29] = new Site("Piccadilly", "piccadilly", 280, 150, new int[] {22,120,360,850,1025,1200}, yellow, 150);
 			squares[30] = new GoToJail();

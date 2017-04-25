@@ -8,7 +8,6 @@ public class DeadWood implements Bot {
 	// It may only inspect the state of the board and the player objects
 
 	private boolean rollDone = false;
-	private Property prop;
 	//private Square square;
 	private ArrayList<Property> ownedProperty;
 
@@ -55,27 +54,19 @@ public class DeadWood implements Bot {
 	}
 
 	private String tryToBuyProperty() {
+		Property prop = null;
 		//square = board.getSquare(player.getPosition());
 		if(boardBot.isProperty(playerBot.getPosition())) {
 			prop = boardBot.getProperty(playerBot.getPosition());
 		}
-		if(prop!=null && prop.getOwner()==null) {
+		if(prop!=null && prop.getOwner()==null && prop!=boardBot.getProperty(12) && prop!=boardBot.getProperty(28) ) {
 			if(playerBot.getBalance() < prop.getPrice()) {
 				return mortgageCheapestProperty();
 			}
 			return "buy";
 		}
-		prop=null;
 		return "done";
 	}
-
-	/*	private String checkForJail() {
-		if(playerBot.isInJail()) {
-			rollDone = true;
-			return getDecision();
-		}
-		return "done";
-	}*/
 
 	private String checkForJail() {
 		if(playerBot.isInJail()) {
@@ -113,8 +104,11 @@ public class DeadWood implements Bot {
 	}
 
 	private String checkForNegativeBal() {
+		String command;
 		if(playerBot.getBalance() < 0) {
-			return mortgageCheapestProperty();
+			command = mortgageCheapestProperty();
+			if(command=="done") command = "bankrupt";
+			return command;
 		}
 		return "done";
 	}
