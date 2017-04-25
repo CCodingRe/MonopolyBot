@@ -8,6 +8,7 @@ public class DeadWood implements Bot {
 	// It may only inspect the state of the board and the player objects
 
 	private boolean rollDone = false;
+	private boolean wasInJail = false;
 	//private Square square;
 	private ArrayList<Property> ownedProperty;
 
@@ -29,7 +30,7 @@ public class DeadWood implements Bot {
 	public String getCommand() {
 		String command = "done";
 
-		isReroll();
+		if(!wasInJail) isReroll();
 		if(command=="done") command = checkForJail();
 		if(command=="done") command = tryToBuyProperty();
 		if(command=="done") command = tryToRedeem();
@@ -86,9 +87,14 @@ public class DeadWood implements Bot {
 
 			if(ownedProp>=24)
 			{
+				wasInJail = true;
 				return "roll";
+			} else if(ownedProp<24 && playerBot.hasGetOutOfJailCard ()==true) {
+				wasInJail = true;
+				return "card";
 			}else{
-				return getDecision();
+				wasInJail = true;
+				return "pay";
 			}
 		}
 		return "done";
