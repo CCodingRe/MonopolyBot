@@ -37,7 +37,10 @@ public class DeadWood implements Bot {
 		if(command=="done") command = checkBalance();
 		if(command=="done") command = tryToRoll();
 
-		if(command=="done") rollDone = false;
+		if(command=="done") {
+			rollDone = false;
+			wasInJail=false;
+		}
 		return command;
 	}
 
@@ -97,7 +100,7 @@ public class DeadWood implements Bot {
 	private String checkForJail() {
 		if(playerBot.isInJail()) {
 			int ownedProp = 0;
-			if(turnsInJail > 0 && !rollDone) {
+			if(turnsInJail > 0) {
 				for(int checkProperties = 0; checkProperties<40; checkProperties++)
 				{
 					if(boardBot.isProperty(checkProperties))
@@ -132,7 +135,6 @@ public class DeadWood implements Bot {
 		}
 		else {
 			turnsInJail=0;
-			wasInJail=false;
 		}
 
 		return "done";
