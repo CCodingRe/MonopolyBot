@@ -33,6 +33,7 @@ public class DeadWood implements Bot {
 		if(!wasInJail) isReroll();
 		if(command=="done") command = checkForJail();
 		if(command=="done") command = tryToBuyProperty();
+		if(command=="done") command = buildUp();
 		if(command=="done") command = checkBalance();
 		if(command=="done") command = tryToRoll();
 
@@ -42,7 +43,7 @@ public class DeadWood implements Bot {
 
 	public String getDecision() {
 		if(playerBot.getBalance() > 50) return "pay";
-		else return "card";
+		else return "chance";
 	}
 
 
@@ -65,6 +66,31 @@ public class DeadWood implements Bot {
 			}
 			return "buy";
 		}
+		return "done";
+	}
+	private String buildUp(){
+	    if(ownedProperty==null){
+	        return "done";
+        } else {
+            for (Property currProp : ownedProperty) {
+                if (currProp instanceof Site) {
+                    if (playerBot.isGroupOwner((Site) currProp)) {
+                        if(currProp.isMortgaged()){
+                            if(playerBot.getBalance()>currProp.getMortgageRemptionPrice()){
+                                return "redeem " + currProp.getShortName();
+                            }
+                        } else {
+                            for (int i = 5; i > 0; i--) {
+                                if (((Site) currProp).canBuild(i) && playerBot.getBalance() > ((Site) currProp).getBuildingPrice() * i) {
+                                    return "build " + currProp.getShortName() + " " + i;
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }
+        }
 		return "done";
 	}
 
@@ -160,10 +186,15 @@ public class DeadWood implements Bot {
 						cheapestProp = currProp;
 					}
 				}
-				if(((Site) cheapestProp).getNumHouses()>0) {
-					return "demolish" + cheapestProp.getShortName() + " 1";//TODO check building is ready
-				}
-				else return "mortgage " + cheapestProp.getShortName();
+				if(cheapestProp instanceof  Site){
+                    if(((Site) cheapestProp).getNumHouses()>0) {
+                        return "demolish " + cheapestProp.getShortName() + " 1";//TODO check building is ready
+                    }
+                    else return "mortgage " + cheapestProp.getShortName();
+                } else {
+                    return "mortgage " + cheapestProp.getShortName();
+                }
+
 			}
 		}
 		return "done";
