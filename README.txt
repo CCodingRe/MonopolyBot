@@ -3,7 +3,7 @@
 We created the Deadwood.java file, the rest is the Lecturers code.
 Aim of this project was to create a bot that plays monopoly. this bot would then go up against other bots in our class.
 
-#Test run, will when actual results are out.
+#Test run, will update when actual results are out.
 
 S = games started
 W = games won
