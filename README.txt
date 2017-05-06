@@ -3,7 +3,7 @@
 We created the Deadwood.java file, the rest is the Lecturers code.
 Aim of this project was to create a bot that plays monopoly. this bot would then go up against other bots in our class.
 
-#Test run
+
 W = games won
 D = games dawn
 L = games lost
@@ -17,7 +17,7 @@ Crashes could be due to either Bot crashing
 Time Outs could be due to either Bot hanging
 TuO result in the game finishing and the player with the most assets is declared winner
 
-
+#Test Run
 BOT NAME                         S    W    D    L    I  |  Err  TuO  Cra  TiO  
 Bankrupt                        28   13    0    8    7  |    8    0    7    0  
 BigMoney                        28    8    0   10   10  |    6    0   10    0  
@@ -145,7 +145,7 @@ CessnaSkyhawk	                  40	  15	 0	  25	 0	     0	  8	   0	  0
 TheBankrupts	                  40	  13	 0	  27	 0	     0	  11	 0	  0
 
 #Final Round
-BOT	                             S	   W	 D	  L	   I	|   Err	 TuO	Cra	 TiO
-DeadWood	                      400	  237	 0	 163	 0	     0	  78	 0	  0
-IPassTheButter	                400	  182	 0	 218	 0	     16  	75   0  	0
-SudoAptGetRekt	                400	  181	 0	 219	 0	     0	  77	 0	  0
+BOT                              S     W   D    L    I  |   Err  TuO  Cra  TiO
+DeadWood                        400   237  0   163   0       0    78   0    0
+IPassTheButter                  400   182  0   218   0       16   75   0    0
+SudoAptGetRekt                  400   181  0   219   0       0    77   0    0
